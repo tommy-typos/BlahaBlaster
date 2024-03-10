@@ -7,13 +7,15 @@ class Screen_MainMenu extends JPanel {
     CustomButton btn_gameInfo;
     CustomButton btn_exit;
 
+    CustomButton btn_customControls;
+
     public Screen_MainMenu(){
         super();
         this.setLayout(new GridLayout(1, 2, 25, 25));
         this.setBackground(Slate._950);
 
         JPanel mainMenuSidebar = new JPanel();
-        mainMenuSidebar.setLayout(new GridLayout(4, 1, 25, 25));
+        mainMenuSidebar.setLayout(new GridLayout(5, 1, 25, 25));
         mainMenuSidebar.setBackground(Slate._950);
         mainMenuSidebar.setBorder(BorderFactory.createLineBorder(Slate._950, 25));
 
@@ -23,6 +25,9 @@ class Screen_MainMenu extends JPanel {
         btn_mapsSettings = new CustomButton("Maps Settings");
         btn_mapsSettings.setPreferredSize(new Dimension(100, 100));
 
+        btn_customControls = new CustomButton("Customize Controls");
+        btn_customControls.setPreferredSize(new Dimension(100, 100));
+
         btn_gameInfo = new CustomButton("Game Info");
         btn_gameInfo.setPreferredSize(new Dimension(100, 100));
 
@@ -31,6 +36,7 @@ class Screen_MainMenu extends JPanel {
 
         mainMenuSidebar.add(btn_newGame);
         mainMenuSidebar.add(btn_mapsSettings);
+        mainMenuSidebar.add(btn_customControls);
         mainMenuSidebar.add(btn_gameInfo);
         mainMenuSidebar.add(btn_exit);
 

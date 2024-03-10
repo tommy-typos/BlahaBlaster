@@ -84,3 +84,10 @@ public class Main {
     }
 
 }
+
+class Screen_CustomControls extends JPanel {
+    public Screen_CustomControls(ScreenNavigator navigator) {
+        super();
+        this.setBackground(Color.ORANGE);
+    }
+}

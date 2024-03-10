@@ -20,6 +20,9 @@ public class ScreenNavigator {
         screen_mainMenu.btn_mapsSettings.addActionListener(e -> {
             goto_screen_mapsMenu();
         });
+        screen_mainMenu.btn_customControls.addActionListener(e -> {
+            goto_screen_customControls();
+        });
         screen_mainMenu.btn_gameInfo.addActionListener(e -> {
             goto_screen_gameInfo();
         });
@@ -66,6 +69,18 @@ public class ScreenNavigator {
         Screen_MapEditor screen_mapEditor = new Screen_MapEditor(this, selectedMapIndex);
 
         mainPanel.add(screen_mapEditor, BorderLayout.CENTER);
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+    public void goto_screen_customControls(){
+        mainPanel.removeAll();
+        frame.headerPanel.changeHeaderText("Map Editor");
+
+        Screen_CustomControls screen_customControls = new Screen_CustomControls(this);
+
+        mainPanel.add(screen_customControls, BorderLayout.CENTER);
 
         mainPanel.revalidate();
         mainPanel.repaint();
