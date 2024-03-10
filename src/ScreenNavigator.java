@@ -58,4 +58,18 @@ public class ScreenNavigator {
         mainPanel.revalidate();
         mainPanel.repaint();
     }
+
+    public void goto_screen_mapEditor(int selectedMapIndex){
+        mainPanel.removeAll();
+        frame.headerPanel.changeHeaderText("Map Editor");
+
+        Screen_MapEditor screen_mapEditor = new Screen_MapEditor(this, selectedMapIndex);
+
+        mainPanel.add(screen_mapEditor, BorderLayout.CENTER);
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+
 }
