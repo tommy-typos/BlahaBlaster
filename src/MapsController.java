@@ -9,7 +9,7 @@ class GameMap {
     public String description;
     public String difficulty; // Easy, Medium, Hard
     public int[] mapDimensions;
-    public String[][] mapCells; // "___" for grass, "box", "WALL"
+    public String[][] mapCells; // grass, box, wall
 
     public GameMap(String id, String name, String description, String difficulty,
                    int[] mapDimensions, String[][] mapCells) {

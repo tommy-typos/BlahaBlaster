@@ -6,16 +6,16 @@
     "difficulty": "Medium",
     "mapDimensions": [10, 10],
     "mapCells": [
-      ["___", "___", "box", "___", "WALL", "___", "box", "___", "___", "WALL"],
-      ["___", "box", "WALL", "___", "___", "WALL", "box", "___", "box", "___"],
-      ["___", "___", "___", "WALL", "___", "box", "___", "box", "___", "___"],
-      ["___", "___", "WALL", "___", "___", "___", "___", "box", "___", "___"],
-      ["___", "box", "___", "box", "WALL", "___", "box", "___", "___", "WALL"],
-      ["box", "___", "___", "___", "___", "box", "___", "___", "WALL", "___"],
-      ["___", "___", "___", "___", "WALL", "___", "box", "___", "box", "___"],
-      ["___", "WALL", "box", "___", "___", "WALL", "box", "___", "___", "box"],
-      ["box", "___", "___", "WALL", "___", "___", "___", "box", "___", "___"],
-      ["___", "box", "WALL", "___", "___", "box", "___", "___", "WALL", "box"]
+      ["grass", "grass", "box", "grass", "wall", "grass", "box", "grass", "grass", "wall"],
+      ["grass", "box", "wall", "grass", "grass", "wall", "box", "grass", "box", "grass"],
+      ["grass", "grass", "grass", "wall", "grass", "box", "grass", "box", "grass", "grass"],
+      ["grass", "grass", "wall", "grass", "grass", "grass", "grass", "box", "grass", "grass"],
+      ["grass", "box", "grass", "box", "wall", "grass", "box", "grass", "grass", "wall"],
+      ["box", "grass", "grass", "grass", "grass", "box", "grass", "grass", "wall", "grass"],
+      ["grass", "grass", "grass", "grass", "wall", "grass", "box", "grass", "box", "grass"],
+      ["grass", "wall", "box", "grass", "grass", "wall", "box", "grass", "grass", "box"],
+      ["box", "grass", "grass", "wall", "grass", "grass", "grass", "box", "grass", "grass"],
+      ["grass", "box", "wall", "grass", "grass", "box", "grass", "grass", "wall", "box"]
     ]
   },
   {
@@ -25,16 +25,16 @@
     "difficulty": "Hard",
     "mapDimensions": [10, 10],
     "mapCells": [
-      ["___", "WALL", "box", "___", "___", "box", "WALL", "___", "box", "___"],
-      ["box", "___", "___", "box", "___", "___", "WALL", "___", "___", "box"],
-      ["___", "box", "___", "box", "___", "box", "___", "WALL", "___", "___"],
-      ["___", "___", "box", "___", "box", "WALL", "___", "box", "___", "___"],
-      ["WALL", "___", "___", "box", "___", "___", "box", "___", "WALL", "___"],
-      ["___", "box", "___", "___", "___", "___", "___", "box", "___", "box"],
-      ["___", "___", "___", "box", "WALL", "___", "box", "___", "___", "___"],
-      ["box", "___", "box", "___", "___", "WALL", "box", "___", "___", "___"],
-      ["___", "___", "WALL", "___", "___", "box", "___", "___", "box", "___"],
-      ["___", "___", "___", "___", "WALL", "box", "___", "box", "___", "___"]
+      ["grass", "wall", "box", "grass", "grass", "box", "wall", "grass", "box", "grass"],
+      ["box", "grass", "grass", "box", "grass", "grass", "wall", "grass", "grass", "box"],
+      ["grass", "box", "grass", "box", "grass", "box", "grass", "wall", "grass", "grass"],
+      ["grass", "grass", "box", "grass", "box", "wall", "grass", "box", "grass", "grass"],
+      ["wall", "grass", "grass", "box", "grass", "grass", "box", "grass", "wall", "grass"],
+      ["grass", "box", "grass", "grass", "grass", "grass", "grass", "box", "grass", "box"],
+      ["grass", "grass", "grass", "box", "wall", "grass", "box", "grass", "grass", "grass"],
+      ["box", "grass", "box", "grass", "grass", "wall", "box", "grass", "grass", "grass"],
+      ["grass", "grass", "wall", "grass", "grass", "box", "grass", "grass", "box", "grass"],
+      ["grass", "grass", "grass", "grass", "wall", "box", "grass", "box", "grass", "grass"]
     ]
   }
 ]

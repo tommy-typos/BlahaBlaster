@@ -33,12 +33,12 @@ class MapPreview extends JPanel{
 
                 String value = gameMap.mapCells[i][j];
                 switch (value) {
-                    case "___" -> tempbtn.setBackground(new Color(5, 46, 22));
+                    case "grass" -> tempbtn.setBackground(new Color(5, 46, 22));
                     case "box" -> {
                         tempbtn.setBackground(new Color(120, 53, 15));
                         tempbtn.setText("box");
                     }
-                    case "WALL" -> {
+                    case "wall" -> {
                         tempbtn.setBackground(new Color(41, 37, 36));
                         tempbtn.setText("wall");
                     }
