@@ -18,11 +18,9 @@ public class ScreenNavigator {
             // TODO: handle new game screen
         });
         screen_mainMenu.btn_mapsSettings.addActionListener(e -> {
-            frame.headerPanel.changeHeaderText("Maps Settings");
             goto_screen_mapsMenu();
         });
         screen_mainMenu.btn_gameInfo.addActionListener(e -> {
-            frame.headerPanel.changeHeaderText("Game Info");
             goto_screen_gameInfo();
         });
         screen_mainMenu.btn_exit.addActionListener(e -> frame.dispose());
@@ -35,6 +33,7 @@ public class ScreenNavigator {
 
     public void goto_screen_gameInfo(){
         mainPanel.removeAll();
+        frame.headerPanel.changeHeaderText("Game Info");
 
         Screen_GameInfo screen_gameInfo = new Screen_GameInfo();
         screen_gameInfo.btn_newGoBack.addActionListener(e -> {
@@ -50,6 +49,7 @@ public class ScreenNavigator {
 
     public void goto_screen_mapsMenu(){
         mainPanel.removeAll();
+        frame.headerPanel.changeHeaderText("Maps Settings");
 
         Screen_MapsMenu screen_mapsMenu = new Screen_MapsMenu(this);
 

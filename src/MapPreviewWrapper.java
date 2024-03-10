@@ -24,7 +24,7 @@ class MapPreview extends JPanel{
         for (int i = 0; i < 10; i++){
             for (int j = 0; j < 10; j++) {
                 JLabel tempbtn = new JLabel();
-                tempbtn.setForeground(Color.WHITE);
+                tempbtn.setForeground(Slate._400);
                 tempbtn.setVerticalAlignment(SwingConstants.CENTER);
                 tempbtn.setHorizontalAlignment(SwingConstants.CENTER);
                 tempbtn.setOpaque(true);
@@ -33,7 +33,7 @@ class MapPreview extends JPanel{
 
                 String value = gameMap.mapCells[i][j];
                 switch (value) {
-                    case "___" -> tempbtn.setBackground(new Color(240, 253, 244));
+                    case "___" -> tempbtn.setBackground(new Color(5, 46, 22));
                     case "box" -> {
                         tempbtn.setBackground(new Color(120, 53, 15));
                         tempbtn.setText("box");
