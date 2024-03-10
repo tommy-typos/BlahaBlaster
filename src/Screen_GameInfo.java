@@ -43,8 +43,8 @@ class Screen_GameInfo extends JPanel {
         }
 
         String description = "Lorem ipsum dolor sit amet consectetur. Tempor urna ut at scelerisque adipiscing elementum leo feugiat.\n" +
-                "1. Condimentum nunc urna enim risus tortor a lobortis vestibulum. Eget odio mollis volutpat ipsum. Amet tincidunt vel facilisi leo fusce interdum convallis faucibus massa. \n" +
-                "2. Habitant lorem ac nulla est vestibulum nulla. Sed viverra velit a id augue malesuada ut ac. Malesuada et in placerat egestas eu vitae. \n";
+                "1. Condimentum nunc urna enim risus tortor a lobortis vestibulum. Eget odio mollis volutpat ipsum. Amet tincidunt vel facilisi. \n" +
+                "2. Habitant lorem ac nulla est vestibulum nulla. Sed viverra velit a id ut ac. Malesuada et in placerat egestas eu vitae. \n";
 
         GameInfoText txt_rules = new GameInfoText("Rules", "header");
         txt_rules.setFont(new Font("Arial", Font.PLAIN, 40));
