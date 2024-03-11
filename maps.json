@@ -1,6 +1,6 @@
 [
   {
-    "id": " dlakjfldsa324k23jl432",
+    "id": "blaha_map_unique_id",
     "name": "Blaha",
     "description": "Zombies everywhere, get in a tram and leave immediately",
     "difficulty": "Medium",
@@ -19,7 +19,7 @@
     ]
   },
   {
-    "id": "34jl32432l432k4n324l32j42",
+    "id": "astoria_map_unique_id",
     "name": "Astoria",
     "description": "Watch Out! Don't get killed!",
     "difficulty": "Hard",

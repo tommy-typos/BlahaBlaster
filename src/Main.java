@@ -60,14 +60,14 @@ public class Main {
         MainJFrame frame = new MainJFrame();
 
         MainJPanel mainPanel = new MainJPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS)); // TODO: keep this
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS)); // keep this
         frame.add(mainPanel, BorderLayout.CENTER);
 
         // ---- Screen Navigator ----
         ScreenNavigator navigator = new ScreenNavigator(frame, mainPanel);
 
         // ********************* Main Menu Screen *************************
-        navigator.goto_screen_mainMenu();
+//        navigator.goto_screen_mainMenu();
 
         // *********************** Game Info Screen **********************
 //        navigator.goto_screen_gameInfo();
@@ -77,6 +77,13 @@ public class Main {
 
         // *********************** Map Editor Screen **********************
 //        navigator.goto_screen_mapEditor(0);
+
+        // *********************** IN GAME SCREEN *************************
+        /**
+         * NOTE: map with given id should exists in maps.json file
+         * */
+        navigator.goto_screen_ACTUAL_GAME("player1 name", "player2 name",
+                "blaha_map_unique_id",true, true, true);
 
 
 
