@@ -1,58 +1,9 @@
-import javax.imageio.ImageIO;
+import gui.MainJFrame;
+import gui.MainJPanel;
+import gui.ScreenNavigator;
+
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Random;
-
-class HeaderPanel extends JPanel {
-    JLabel headerText;
-    public HeaderPanel() {
-        super();
-        this.setBackground(Slate._900);
-        this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        this.setPreferredSize(new Dimension(0, 40));
-        headerText = new JLabel("Main Menu");
-        headerText.setForeground(Slate._300);
-        headerText.setPreferredSize(new Dimension(300, 40));
-        headerText.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(headerText);
-    }
-
-    public void changeHeaderText(String text) {
-        headerText.setText(text);
-    }
-}
-
-class MainJFrame extends JFrame {
-    HeaderPanel headerPanel;
-    public MainJFrame() {
-        super();
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Blaha Blaster");
-        this.setResizable(false);
-        this.setSize(1000, 700);
-        this.setLocationRelativeTo(null);
-        this.setLayout(new BorderLayout());
-        this.getContentPane().setBackground(Slate._950);
-
-        headerPanel = new HeaderPanel();
-        this.add(headerPanel, BorderLayout.NORTH);
-    }
-}
-
-class MainJPanel extends JPanel{
-    public MainJPanel() {
-        super();
-        this.setBackground(Slate._950);
-        this.setBorder(BorderFactory.createLineBorder(Slate._950, 25));
-    }
-}
 
 
 public class Main {
@@ -67,7 +18,7 @@ public class Main {
         ScreenNavigator navigator = new ScreenNavigator(frame, mainPanel);
 
         // ********************* Main Menu Screen *************************
-//        navigator.goto_screen_mainMenu();
+        navigator.goto_screen_mainMenu();
 
         // *********************** Game Info Screen **********************
 //        navigator.goto_screen_gameInfo();
@@ -82,8 +33,8 @@ public class Main {
         /**
          * NOTE: map with given id should exists in maps.json file
          * */
-        navigator.goto_screen_ACTUAL_GAME("player1 name", "player2 name",
-                "blaha_map_unique_id",true, true, true);
+//        navigator.goto_screen_ACTUAL_GAME("player1 name", "player2 name",
+//                "blaha_map_unique_id",true, true, true);
 
 
 
@@ -92,9 +43,3 @@ public class Main {
 
 }
 
-class Screen_CustomControls extends JPanel {
-    public Screen_CustomControls(ScreenNavigator navigator) {
-        super();
-        this.setBackground(Color.ORANGE);
-    }
-}

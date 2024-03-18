@@ -1,3 +1,9 @@
+package gui;
+
+import custom.CustomButton;
+import custom.CustomLabel;
+import custom.Slate;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -6,7 +12,7 @@ import java.awt.event.MouseEvent;
 import java.util.Arrays;
 import java.util.Random;
 
-class Screen_MapEditor extends JPanel {
+class MapEditor extends JPanel {
     GameMap gameMap;
     GameMap[] allMaps;
 
@@ -24,7 +30,7 @@ class Screen_MapEditor extends JPanel {
         }
         return new GameMap(map_id, map_name, "", "Easy", map_dimensions, map_cells);
     }
-    public Screen_MapEditor(ScreenNavigator navigator, int selectedMapIndex) {
+    public MapEditor(ScreenNavigator navigator, int selectedMapIndex) {
         /***
          * selectedMapIndex
          * if -1 ::: create new map
@@ -84,7 +90,7 @@ class Screen_MapEditor extends JPanel {
         JPanel rightSideGrid = new JPanel();
         rightSideGrid.setLayout(new GridLayout(11, 1, 0, 0));
         rightSideGrid.setBackground(Slate._950);
-//        rightSideGrid.setBorder(BorderFactory.createLineBorder(Slate._950, 4));
+//        rightSideGrid.setBorder(BorderFactory.createLineBorder(custom.Slate._950, 4));
 
         JPanel mt_labelwrapper = new JPanel();
         mt_labelwrapper.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -237,9 +243,3 @@ class Screen_MapEditor extends JPanel {
     }
 }
 
-class CustomLabel extends JLabel{
-    public CustomLabel(String text) {
-        super(text);
-        this.setForeground(Slate._300);
-    }
-}

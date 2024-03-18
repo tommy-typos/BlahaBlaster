@@ -1,9 +1,11 @@
+package custom;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-class CustomButton extends JButton {
+public class CustomButton extends JButton {
     String btnType = "";
     public void setBtnType(String btnType){
         this.btnType = btnType;

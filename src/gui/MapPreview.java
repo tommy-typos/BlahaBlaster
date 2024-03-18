@@ -1,27 +1,17 @@
+package gui;
+
+import custom.Slate;
+
 import javax.swing.*;
 import java.awt.*;
 
-class MapPreviewWrapper extends JPanel {
-    public MapPreviewWrapper() {
-        super();
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    }
-
-    public void setMapPreview(MapPreview mapPreview){
-        this.removeAll();
-        this.add(mapPreview);
-        this.revalidate();
-        this.repaint();
-    }
-}
-
-class MapPreview extends JPanel{
-    public MapPreview(GameMap gameMap){
+class MapPreview extends JPanel {
+    public MapPreview(GameMap gameMap) {
         super();
         this.setLayout(new GridLayout(10, 10, 1, 1));
         this.setBackground(Slate._950);
         this.setBorder(BorderFactory.createLineBorder(Slate._950, 1));
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 JLabel tempbtn = new JLabel();
                 tempbtn.setForeground(Slate._400);
@@ -29,7 +19,7 @@ class MapPreview extends JPanel{
                 tempbtn.setHorizontalAlignment(SwingConstants.CENTER);
                 tempbtn.setOpaque(true);
                 tempbtn.setSize(new Dimension(10, 10));
-//                tempbtn.setBorder(BorderFactory.createLineBorder(Slate._950, 1));
+//                tempbtn.setBorder(BorderFactory.createLineBorder(custom.Slate._950, 1));
 
                 String value = gameMap.mapCells[i][j];
                 switch (value) {
