@@ -1,7 +1,12 @@
+package gui;
+
+import custom.CustomButton;
+import custom.Slate;
+
 import javax.swing.*;
 import java.awt.*;
 
-class Screen_MainMenu extends JPanel {
+class MainMenu extends JPanel {
     CustomButton btn_newGame;
     CustomButton btn_mapsSettings;
     CustomButton btn_gameInfo;
@@ -9,7 +14,7 @@ class Screen_MainMenu extends JPanel {
 
     CustomButton btn_customControls;
 
-    public Screen_MainMenu(){
+    public MainMenu(){
         super();
         this.setLayout(new GridLayout(1, 2, 25, 25));
         this.setBackground(Slate._950);

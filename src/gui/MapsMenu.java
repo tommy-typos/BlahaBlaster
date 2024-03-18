@@ -1,7 +1,12 @@
+package gui;
+
+import custom.CustomButton;
+import custom.Slate;
+
 import javax.swing.*;
 import java.awt.*;
 
-class Screen_MapsMenu extends JPanel {
+class MapsMenu extends JPanel {
 
     private static GameMap[] removeMapAtIndexAndReturnNewMap(GameMap[] gameMaps, int indexToRemove){
         GameMap[] newArray = new GameMap[gameMaps.length - 1];
@@ -14,7 +19,7 @@ class Screen_MapsMenu extends JPanel {
         return newArray;
     }
 
-    public Screen_MapsMenu(ScreenNavigator navigator){
+    public MapsMenu(ScreenNavigator navigator){
         super();
         this.setBackground(Slate._950);
         GameMap[] gameMaps = MapsController.readGameMapsFromJson();
@@ -138,7 +143,7 @@ class Screen_MapsMenu extends JPanel {
 
         // right grid Map Preview Panel
         MapPreviewWrapper previewWrapper = new MapPreviewWrapper();
-//        previewWrapper.setBorder(BorderFactory.createLineBorder(Slate._950, 25));
+//        previewWrapper.setBorder(BorderFactory.createLineBorder(custom.Slate._950, 25));
         previewWrapper.setPreferredSize(new Dimension(450, 450));
         previewWrapper.setMapPreview(new MapPreview(gameMaps[combobox.getSelectedIndex()]));
 

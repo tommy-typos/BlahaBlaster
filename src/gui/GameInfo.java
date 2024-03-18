@@ -1,10 +1,15 @@
+package gui;
+
+import custom.CustomButton;
+import custom.Slate;
+
 import javax.swing.*;
 import java.awt.*;
 
-class Screen_GameInfo extends JPanel {
+class GameInfo extends JPanel {
     CustomButton btn_newGoBack;
 
-    public Screen_GameInfo(){
+    public GameInfo(){
         super();
         this.setBackground(Slate._950);
 
