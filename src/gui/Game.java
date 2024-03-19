@@ -1,5 +1,7 @@
 package gui;
 
+import entity.Player;
+import entity.Point;
 import handler.KeyHandler;
 
 import javax.swing.*;
@@ -15,7 +17,7 @@ public class Game extends JPanel implements Runnable{
     final int originalTileSize = 16;
     final int scale = 3;
 
-    final int tileSize = originalTileSize * scale;
+    public final int tileSize = originalTileSize * scale;
     final int maxScreenCol = 20;
     final int maxScreenRow = 15;
     final int screenWidth = maxScreenCol * tileSize;
@@ -23,16 +25,10 @@ public class Game extends JPanel implements Runnable{
 
     Thread gameThread;
     KeyHandler keyHandler = new KeyHandler();
+    Player player1 = new Player(this, keyHandler, new Point(100, 100), 4);
+//    Player player2 = new Player(this, keyHandler, new Point(200, 200), 4);
 
     int FPS = 60;
-
-    int player1X = 0;
-    int player1Y = 0;
-
-    int player2X = 50;
-    int player2Y = 50;
-
-    int playerSpeed = 4;
 
     public Game(ScreenNavigator screenNavigator, String player1, String player2, String mapID, boolean p1AI, boolean p2AI, boolean p1Turn) {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -71,33 +67,7 @@ public class Game extends JPanel implements Runnable{
     }
 
     public void update(){
-        // player 1 movement
-        if(keyHandler.w){
-            player1Y -= playerSpeed;
-        }
-        if(keyHandler.a){
-            player1X -= playerSpeed;
-        }
-        if(keyHandler.s){
-            player1Y += playerSpeed;
-        }
-        if(keyHandler.d){
-            player1X += playerSpeed;
-        }
-
-        // player 2 movement
-        if(keyHandler.up){
-            player2Y -= playerSpeed;
-        }
-        if(keyHandler.left){
-            player2X -= playerSpeed;
-        }
-        if(keyHandler.down){
-            player2Y += playerSpeed;
-        }
-        if(keyHandler.right){
-            player2X += playerSpeed;
-        }
+        player1.update();
     }
 
     public void paintComponent(Graphics g){
@@ -106,12 +76,8 @@ public class Game extends JPanel implements Runnable{
         Graphics2D g2d = (Graphics2D) g;
 
         // player 1
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(player1X, player1Y, tileSize, tileSize);
+        player1.draw(g2d);
 
-        // player 2
-        g2d.setColor(Color.RED);
-        g2d.fillRect(player2X, player2Y, tileSize, tileSize);
         g2d.dispose();
     }
 }
