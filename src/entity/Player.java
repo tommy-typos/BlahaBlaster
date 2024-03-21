@@ -15,6 +15,9 @@ public class Player extends Entity{
     public Player(Game gp, KeyHandler keyHandler, Point position, int speed) {
         this.gp = gp;
         this.keyHandler = keyHandler;
+
+        solidArea = new Rectangle(8, 16, 32, 32);
+
         this.position = position;
         this.speed = speed;
         this.direction = "down";
@@ -40,21 +43,36 @@ public class Player extends Entity{
         if(keyHandler.w || keyHandler.a || keyHandler.s || keyHandler.d){
             if(keyHandler.w){
                 direction = "up";
-                position.setY(position.getY() - speed);
             }
             if(keyHandler.s){
                 direction = "down";
-                position.setY(position.getY() + speed);
             }
             if(keyHandler.a){
                 direction = "left";
-                position.setX(position.getX() - speed);
             }
             if(keyHandler.d){
                 direction = "right";
-                position.setX(position.getX() + speed);
             }
 
+            collisionOn = false;
+            gp.collisionChecker.checkTile(this);
+
+            if(!collisionOn){
+                switch(direction){
+                    case "up":
+                        position.setY(position.getY() - speed);
+                        break;
+                    case "down":
+                        position.setY(position.getY() + speed);
+                        break;
+                    case "left":
+                        position.setX(position.getX() - speed);
+                        break;
+                    case "right":
+                        position.setX(position.getX() + speed);
+                        break;
+                }
+            }
             updateSpriteImage();
         }
 
