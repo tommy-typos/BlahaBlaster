@@ -28,8 +28,6 @@ public class TileManager {
             tile.put("wall", new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png")), true));
 
             tile.put("brick", new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/brick.png")), true));
-
-            tile.put("box", new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/box.png")), true));
         }catch (IOException e){
             e.printStackTrace();
         }
