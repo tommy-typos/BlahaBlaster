@@ -7,13 +7,13 @@
     "mapDimensions": [10, 10],
     "mapCells": [
       ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-      ["wall", "box", "wall", "grass", "grass", "wall", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "wall", "grass", "grass", "wall", "grass", "grass", "grass", "wall"],
       ["wall", "grass", "grass", "wall", "grass", "grass", "grass", "grass", "grass", "wall"],
-      ["wall", "grass", "wall", "grass", "grass", "grass", "grass", "box", "grass", "wall"],
+      ["wall", "grass", "wall", "grass", "grass", "grass", "grass", "grass", "grass", "wall"],
       ["wall", "grass", "grass", "grass", "wall", "grass", "grass", "grass", "grass", "wall"],
-      ["wall", "grass", "grass", "grass", "grass", "box", "grass", "grass", "wall", "wall"],
-      ["wall", "grass", "grass", "grass", "wall", "grass", "box", "grass", "grass", "wall"],
-      ["wall", "wall", "grass", "grass", "grass", "wall", "box", "grass", "grass", "wall"],
+      ["wall", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "wall", "wall"],
+      ["wall", "grass", "grass", "grass", "wall", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "wall", "grass", "grass", "grass", "wall", "grass", "grass", "grass", "wall"],
       ["wall", "grass", "grass", "wall", "grass", "grass", "grass", "grass", "grass", "wall"],
       ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
     ]
