@@ -2,6 +2,8 @@ package gui;
 
 import entity.*;
 import entity.Point;
+import entity.objects.ObjectSetter;
+import entity.objects.SuperObject;
 import handler.KeyHandler;
 
 import javax.swing.*;
@@ -26,7 +28,9 @@ public class Game extends JPanel implements Runnable{
     public GameMap gameMap;
     public TileManager tileManager;
     KeyHandler keyHandler = new KeyHandler();
-    Player player1 = new Player(this, keyHandler, new Point(tileSize*1, tileSize*3), 4);
+    ObjectSetter objectSetter = new ObjectSetter(this);
+    public SuperObject obj[] = new SuperObject[15];
+    Player player1 = new Player(this, keyHandler, new Point(tileSize*1, tileSize*3), 3);
 //    Player player2 = new Player(this, keyHandler, new Point(200, 200), 4);
 
     int FPS = 60;
@@ -41,6 +45,10 @@ public class Game extends JPanel implements Runnable{
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
 
+    }
+
+    public void setUpGame(){
+        objectSetter.setObjects();
     }
 
     public void startGameThread(){
@@ -80,6 +88,13 @@ public class Game extends JPanel implements Runnable{
         Graphics2D g2d = (Graphics2D) g;
 
         tileManager.draw(g2d);
+
+        for(int i = 0; i < obj.length; i++){
+            if(obj[i] != null){
+                obj[i].draw(g2d);
+            }
+        }
+
         player1.draw(g2d);
 
         g2d.dispose();

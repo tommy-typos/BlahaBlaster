@@ -16,7 +16,7 @@ public class Player extends Entity{
         this.gp = gp;
         this.keyHandler = keyHandler;
 
-        solidArea = new Rectangle(8, 16, 32, 32);
+        solidArea = new Rectangle(8, 16, 32, 30);
 
         this.position = position;
         this.speed = speed;
