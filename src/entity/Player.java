@@ -15,11 +15,14 @@ public class Player extends Entity{
     public int bombsNum = 1;
     public int speed = 3;
     String name;
+    int playerNumber;
 
-    public Player(Game gp, KeyHandler keyHandler, Point position, String name) {
+
+    public Player(Game gp, KeyHandler keyHandler, Point position, String name, int playerNumber) {
         this.gp = gp;
         this.keyHandler = keyHandler;
         this.name = name;
+        this.playerNumber = playerNumber;
 
         solidArea = new Rectangle(8, 16, 32, 32);
 
@@ -29,36 +32,51 @@ public class Player extends Entity{
     }
 
     public void getPlayerImage(){
+        String basePath = "/player" + playerNumber + "/player_";
         try{
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player1/player_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player1/player_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player1/player_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player1/player_down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player1/player_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player1/player_left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player1/player_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player1/player_right_2.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_2.png"));
         }catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void update(){
-        if(keyHandler.e){
-            plantBomb();
-            keyHandler.e = false;
+    public void update() {
+        if (name.equals("player1")) {
+            if(keyHandler.e) {
+                plantBomb();
+                keyHandler.e = false;
+            }
+            movePlayer(keyHandler.w, keyHandler.s, keyHandler.a, keyHandler.d);
         }
-        if(keyHandler.w || keyHandler.a || keyHandler.s || keyHandler.d){
-            if(keyHandler.w){
+
+        else if (name.equals("player2")) {
+            if(keyHandler.plant) {
+                plantBomb();
+                keyHandler.plant = false;
+            }
+            movePlayer(keyHandler.up, keyHandler.down, keyHandler.left, keyHandler.right);
+        }
+    }
+
+    private void movePlayer(boolean up, boolean down, boolean left, boolean right) {
+        if(up || down || left || right){
+            if(up){
                 direction = "up";
             }
-            if(keyHandler.s){
+            if(down){
                 direction = "down";
             }
-            if(keyHandler.a){
+            if(left){
                 direction = "left";
             }
-            if(keyHandler.d){
+            if(right){
                 direction = "right";
             }
 
@@ -83,7 +101,6 @@ public class Player extends Entity{
             }
             updateSpriteImage();
         }
-
     }
 
     private void plantBomb(){

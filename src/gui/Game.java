@@ -31,9 +31,9 @@ public class Game extends JPanel implements Runnable{
     public TileManager tileManager;
     KeyHandler keyHandler = new KeyHandler();
     public ArrayList<SuperObject> obj = new ArrayList<>();
-    Player player1 = new Player(this, keyHandler, new Point(tileSize*1, tileSize*3), "player1");
-//    Player player2 = new Player(this, keyHandler, new Point(tileSize*4, tileSize*5), "player2");
-//    Player player2 = new Player(this, keyHandler, new Point(200, 200), 4);
+    Player player1 = new Player(this, keyHandler, new Point(tileSize*1, tileSize*3), "player1", 1);
+    Player player2 = new Player(this, keyHandler, new Point(tileSize*4, tileSize*5), "player2", 2);
+//    Player player2 = new Player(this, keyHandler, new Point(200, 2ы00), 4);
 
     int FPS = 60;
 
@@ -87,7 +87,7 @@ public class Game extends JPanel implements Runnable{
 
     public void update(){
         player1.update();
-//        player2.update();
+        player2.update();
     }
 
     public void paintComponent(Graphics g){
@@ -103,7 +103,7 @@ public class Game extends JPanel implements Runnable{
         }
 
         player1.draw(g2d);
-//        player2.draw(g2d);
+        player2.draw(g2d);
 
         g2d.dispose();
     }
