@@ -1,5 +1,6 @@
 package entity;
 
+import entity.objects.BombObject;
 import gui.Game;
 import handler.KeyHandler;
 
@@ -11,15 +12,18 @@ import java.io.IOException;
 public class Player extends Entity{
     Game gp;
     KeyHandler keyHandler;
+    public int bombsNum = 1;
+    public int speed = 3;
+    String name;
 
-    public Player(Game gp, KeyHandler keyHandler, Point position, int speed) {
+    public Player(Game gp, KeyHandler keyHandler, Point position, String name) {
         this.gp = gp;
         this.keyHandler = keyHandler;
+        this.name = name;
 
-        solidArea = new Rectangle(8, 16, 32, 30);
+        solidArea = new Rectangle(8, 16, 32, 32);
 
         this.position = position;
-        this.speed = speed;
         this.direction = "down";
         getPlayerImage();
     }
@@ -40,6 +44,10 @@ public class Player extends Entity{
     }
 
     public void update(){
+        if(keyHandler.e){
+            plantBomb();
+            keyHandler.e = false;
+        }
         if(keyHandler.w || keyHandler.a || keyHandler.s || keyHandler.d){
             if(keyHandler.w){
                 direction = "up";
@@ -76,6 +84,20 @@ public class Player extends Entity{
             updateSpriteImage();
         }
 
+    }
+
+    private void plantBomb(){
+        int posX = (position.getX() + solidArea.x)/ gp.tileSize;
+        int posY = (position.getY() + solidArea.y)/ gp.tileSize;
+
+        int coordX = posX * gp.tileSize;
+        int coordY = posY * gp.tileSize;
+        // check if there is already a bomb in the same position
+        if(gp.positionOccupied(coordX, coordY)){
+           return;
+        }
+
+        gp.obj.add(new BombObject(new Point(coordX, coordY), gp));
     }
 
     private void updateSpriteImage(){

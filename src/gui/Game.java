@@ -2,12 +2,14 @@ package gui;
 
 import entity.*;
 import entity.Point;
-import entity.objects.ObjectSetter;
+import entity.objects.BombObject;
+import entity.objects.ChestObject;
 import entity.objects.SuperObject;
 import handler.KeyHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Game extends JPanel implements Runnable{
 
@@ -28,9 +30,9 @@ public class Game extends JPanel implements Runnable{
     public GameMap gameMap;
     public TileManager tileManager;
     KeyHandler keyHandler = new KeyHandler();
-    ObjectSetter objectSetter = new ObjectSetter(this);
-    public SuperObject obj[] = new SuperObject[15];
-    Player player1 = new Player(this, keyHandler, new Point(tileSize*1, tileSize*3), 3);
+    public ArrayList<SuperObject> obj = new ArrayList<>();
+    Player player1 = new Player(this, keyHandler, new Point(tileSize*1, tileSize*3), "player1");
+//    Player player2 = new Player(this, keyHandler, new Point(tileSize*4, tileSize*5), "player2");
 //    Player player2 = new Player(this, keyHandler, new Point(200, 200), 4);
 
     int FPS = 60;
@@ -48,7 +50,11 @@ public class Game extends JPanel implements Runnable{
     }
 
     public void setUpGame(){
-        objectSetter.setObjects();
+        obj.add(new ChestObject(new Point(2*tileSize, 2*tileSize), this));
+
+        obj.add(new ChestObject(new Point(3*tileSize, 3*tileSize), this));
+
+        obj.add(new BombObject(new Point(5*tileSize, 4*tileSize), this));
     }
 
     public void startGameThread(){
@@ -81,6 +87,7 @@ public class Game extends JPanel implements Runnable{
 
     public void update(){
         player1.update();
+//        player2.update();
     }
 
     public void paintComponent(Graphics g){
@@ -89,14 +96,29 @@ public class Game extends JPanel implements Runnable{
 
         tileManager.draw(g2d);
 
-        for(int i = 0; i < obj.length; i++){
-            if(obj[i] != null){
-                obj[i].draw(g2d);
+        for (SuperObject superObject : obj) {
+            if (superObject != null) {
+                superObject.draw(g2d);
             }
         }
 
         player1.draw(g2d);
+//        player2.draw(g2d);
 
         g2d.dispose();
+    }
+
+    public boolean positionOccupied(int posX, int posY) {
+        for (SuperObject superObject : obj) {
+            if (!isPlantable(posX, posY) || superObject.position.getX() == posX && superObject.position.getY() == posY) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isPlantable(int posX, int posY) {
+
+        return gameMap.mapCells[posY / tileSize][posX / tileSize].equals("grass");
     }
 }
