@@ -1,5 +1,26 @@
 [
   {
+    "id": "default_map_unique_id",
+    "name": "Default",
+    "description": "Zombies everywhere, get in a tram and leave immediately",
+    "difficulty": "Medium",
+    "mapDimensions": [12, 13],
+    "mapCells": [
+      ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+      ["wall", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall"],
+      ["wall", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall"],
+      ["wall", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall"],
+      ["wall", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall"],
+      ["wall", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall"],
+      ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+    ]
+  },
+  {
     "id": "blaha_map_unique_id",
     "name": "Blaha",
     "description": "Zombies everywhere, get in a tram and leave immediately",
