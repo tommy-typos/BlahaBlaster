@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 // Superclass for player and monster
 public class Entity {
     Point position;
-    int speed;
+    public int speed;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     public String direction;
     public int spriteCounter = 0;

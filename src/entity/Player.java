@@ -13,18 +13,18 @@ public class Player extends Entity{
     Game gp;
     KeyHandler keyHandler;
     public int bombsNum = 1;
-    public int speed = 3;
     String name;
     int playerNumber;
 
 
     public Player(Game gp, KeyHandler keyHandler, Point position, String name, int playerNumber) {
         this.gp = gp;
+        this.speed = 3;
         this.keyHandler = keyHandler;
         this.name = name;
         this.playerNumber = playerNumber;
 
-        solidArea = new Rectangle(8, 16, 32, 32);
+        solidArea = new Rectangle(10, 15, 28, 32);
 
         this.position = position;
         this.direction = "down";
@@ -157,5 +157,6 @@ public class Player extends Entity{
                 break;
         }
         g2d.drawImage(img, getX(), getY(), gp.tileSize, gp.tileSize, null);
+        g2d.drawRect(solidArea.x + getX(), solidArea.y + getY(), solidArea.width, solidArea.height);
     }
 }
