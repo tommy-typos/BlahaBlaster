@@ -100,7 +100,6 @@ public class ScreenNavigator {
         mainPanel.revalidate();
         mainPanel.repaint();
 
-        game.setUpGame();
         game.startGameThread();
     }
 

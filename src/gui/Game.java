@@ -46,7 +46,7 @@ public class Game extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
-
+        this.setUpGame();
     }
 
     public void setUpGame(){
