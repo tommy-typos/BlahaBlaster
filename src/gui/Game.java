@@ -83,8 +83,21 @@ public class Game extends JPanel implements Runnable{
     }
 
     public void update(){
+        blowUpBombs();
         player1.update();
         player2.update();
+    }
+
+    private void blowUpBombs() {
+        for(int i = 0; i < obj.size(); i++){
+            SuperObject superObject = obj.get(i);
+            if(superObject instanceof BombObject){
+                BombObject bomb = (BombObject) superObject;
+                if(bomb.blowTime < System.currentTimeMillis()){
+                    obj.remove(i);
+                }
+            }
+        }
     }
 
     public void paintComponent(Graphics g){
