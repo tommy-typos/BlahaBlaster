@@ -13,7 +13,7 @@ public class Player extends Entity{
     Game gp;
     KeyHandler keyHandler;
     public int bombsNum = 1;
-    String name;
+    public String name;
     int playerNumber;
 
 
