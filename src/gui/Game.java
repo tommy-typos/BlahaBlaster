@@ -49,7 +49,7 @@ public class Game extends JPanel implements Runnable{
     }
 
     public void setUpGame(){
-        obj.add(new ChestObject(new Point(2*tileSize, 2*tileSize), this));
+        obj.add(new ChestObject(new Point(tileSize, tileSize), this));
 
         obj.add(new ChestObject(new Point(3*tileSize, 3*tileSize), this));
 
