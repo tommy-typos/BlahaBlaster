@@ -1,6 +1,7 @@
 package entity;
 
 import entity.objects.BombObject;
+import entity.objects.SuperObject;
 import gui.Game;
 import handler.KeyHandler;
 
@@ -104,17 +105,32 @@ public class Player extends Entity{
     }
 
     private void plantBomb(){
+        // check if user can plant more bombs
+        int bombsPlanted = 0;
+        for (SuperObject superObject : gp.obj) {
+            if (superObject instanceof BombObject) {
+                if (((BombObject) superObject).owner.equals(name)) {
+                    bombsPlanted++;
+                }
+            }
+        }
+
+        if(bombsPlanted >= bombsNum){
+            return;
+        }
+        // TODO: here is the part of the code for the detonator subtask
+
+        // check if there is already a bomb in the same position
         int posX = (position.getX() + solidArea.x)/ gp.tileSize;
         int posY = (position.getY() + solidArea.y)/ gp.tileSize;
 
         int coordX = posX * gp.tileSize;
         int coordY = posY * gp.tileSize;
-        // check if there is already a bomb in the same position
         if(gp.positionOccupied(coordX, coordY)){
            return;
         }
 
-        gp.obj.add(new BombObject(new Point(coordX, coordY), gp));
+        gp.obj.add(new BombObject(new Point(coordX, coordY), gp, name));
     }
 
     private void updateSpriteImage(){
