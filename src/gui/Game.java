@@ -52,8 +52,6 @@ public class Game extends JPanel implements Runnable{
         obj.add(new ChestObject(new Point(tileSize, tileSize), this));
 
         obj.add(new ChestObject(new Point(3*tileSize, 3*tileSize), this));
-
-        obj.add(new BombObject(new Point(5*tileSize, 4*tileSize), this));
     }
 
     public void startGameThread(){
