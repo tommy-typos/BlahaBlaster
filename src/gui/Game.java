@@ -33,7 +33,6 @@ public class Game extends JPanel implements Runnable{
     public ArrayList<SuperObject> obj = new ArrayList<>();
     Player player1 = new Player(this, keyHandler, new Point(tileSize*1, tileSize*3), "player1", 1);
     Player player2 = new Player(this, keyHandler, new Point(tileSize*4, tileSize*5), "player2", 2);
-//    Player player2 = new Player(this, keyHandler, new Point(200, 2ы00), 4);
 
     int FPS = 60;
 
