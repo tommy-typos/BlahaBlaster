@@ -81,6 +81,9 @@ public class Player extends Entity{
             collisionOn = false;
             gp.collisionChecker.checkTile(this);
 
+            int npcIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
+            interactWithMonster(npcIndex);
+
             if(!collisionOn){
                 switch(direction){
                     case "up":
@@ -98,6 +101,13 @@ public class Player extends Entity{
                 }
             }
             updateSpriteImage();
+        }
+    }
+
+    private void interactWithMonster(int npcIndex) {
+        if(npcIndex != 999){
+            // TODO: remove the second player doesn't work
+            gp.players.remove(this);
         }
     }
 

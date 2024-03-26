@@ -2,6 +2,7 @@ package gui;
 
 import entity.*;
 import entity.Point;
+import entity.monsters.Monster;
 import entity.objects.BombObject;
 import entity.objects.ChestObject;
 import entity.objects.SuperObject;
@@ -31,12 +32,18 @@ public class Game extends JPanel implements Runnable{
     public TileManager tileManager;
     KeyHandler keyHandler = new KeyHandler();
     public ArrayList<SuperObject> obj = new ArrayList<>();
-    Player player1 = new Player(this, keyHandler, new Point(tileSize*1, tileSize*3), "player1", 1);
-    Player player2 = new Player(this, keyHandler, new Point(tileSize*4, tileSize*5), "player2", 2);
+    public ArrayList<Monster> monsters = new ArrayList<>();
+
+    public ArrayList<Player> players = new ArrayList<>();
 
     int FPS = 60;
 
-    public Game(ScreenNavigator screenNavigator, String player1, String player2, String mapID, boolean p1AI, boolean p2AI, boolean p1Turn) {
+
+    public Game(ScreenNavigator screenNavigator, String player_name1, String player_name2, String mapID, boolean p1AI, boolean p2AI, boolean p1Turn) {
+        Player player1 = new Player(this, keyHandler, new Point(tileSize*1, tileSize*3), player_name1, 1);
+        Player player2 = new Player(this, keyHandler, new Point(tileSize*4, tileSize*5), player_name2, 2);
+        players.add(player1);
+        players.add(player2);
         this.gameMap = MapsController.getMapById(mapID);
         this.screenWidth = gameMap.mapDimensions[1] * tileSize;
         this.screenHeight = gameMap.mapDimensions[0] * tileSize;
@@ -52,6 +59,8 @@ public class Game extends JPanel implements Runnable{
         obj.add(new ChestObject(new Point(tileSize, tileSize), this));
 
         obj.add(new ChestObject(new Point(3*tileSize, 3*tileSize), this));
+
+        monsters.add(new Monster(this));
     }
 
     public void startGameThread(){
@@ -84,8 +93,12 @@ public class Game extends JPanel implements Runnable{
 
     public void update(){
         blowUpBombs();
-        player1.update();
-        player2.update();
+        for(Player player : players){
+            player.update();
+        }
+        for(Monster monster : monsters){
+            monster.update();
+        }
     }
 
     private void blowUpBombs() {
@@ -112,8 +125,13 @@ public class Game extends JPanel implements Runnable{
             }
         }
 
-        player1.draw(g2d);
-        player2.draw(g2d);
+        for (Monster monster : monsters) {
+            monster.draw(g2d);
+        }
+
+        for(Player player : players){
+            player.draw(g2d);
+        }
 
         g2d.dispose();
     }
