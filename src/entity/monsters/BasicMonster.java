@@ -11,7 +11,6 @@ public class BasicMonster extends Monster{
     public BasicMonster(Game gp) {
         super(gp);
         position = new Point(5 * gp.tileSize, 6 * gp.tileSize);
-        direction = "down";
         speed = 2;
     }
 
@@ -70,33 +69,4 @@ public class BasicMonster extends Monster{
         updateSpriteImage();
     }
 
-    private void move() {
-        switch (direction) {
-            case "up":
-                position.setY(position.getY() - speed);
-                break;
-            case "down":
-                position.setY(position.getY() + speed);
-                break;
-            case "left":
-                position.setX(position.getX() - speed);
-                break;
-            case "right":
-                position.setX(position.getX() + speed);
-                break;
-        }
-    }
-
-    @Override
-    protected void updateSpriteImage() {
-        spriteCounter++;
-        if (spriteCounter > 12) {
-            if (spriteNum == 1) {
-                spriteNum = 2;
-            } else {
-                spriteNum = 1;
-            }
-            spriteCounter = 0;
-        }
-    }
 }

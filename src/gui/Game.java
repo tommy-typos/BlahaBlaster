@@ -3,6 +3,7 @@ package gui;
 import entity.*;
 import entity.Point;
 import entity.monsters.BasicMonster;
+import entity.monsters.GhostMonster;
 import entity.monsters.Monster;
 import entity.objects.BombObject;
 import entity.objects.ChestObject;
@@ -24,8 +25,8 @@ public class Game extends JPanel implements Runnable{
     final int scale = 3;
 
     public final int tileSize = originalTileSize * scale;
-    int screenWidth;
-    int screenHeight;
+    public int screenWidth;
+    public int screenHeight;
 
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     Thread gameThread;
@@ -62,7 +63,9 @@ public class Game extends JPanel implements Runnable{
         obj.add(new ChestObject(new Point(3*tileSize, 3*tileSize), this));
 
         monsters.add(new BasicMonster(this));
+        monsters.add(new GhostMonster(this));
     }
+
 
     public void startGameThread(){
         gameThread = new Thread(this);

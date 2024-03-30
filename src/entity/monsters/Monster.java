@@ -6,10 +6,10 @@ import gui.Game;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 
 public abstract class Monster extends Entity {
-    // Images for different states
     protected BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     protected int actionLockCounter;
     protected int spriteCounter;
@@ -17,6 +17,7 @@ public abstract class Monster extends Entity {
 
     public Monster(Game gp) {
         super(gp);
+        direction = "down";
         getMonsterImage();
     }
 
@@ -55,13 +56,28 @@ public abstract class Monster extends Entity {
 
     public abstract void getMonsterImage();
 
-    public abstract void update();
-
-    public void setAction() {
-        // Implementation can vary for different monsters.
+    protected void move() {
+        switch (direction) {
+            case "up":
+                position.setY(position.getY() - speed);
+                break;
+            case "down":
+                position.setY(position.getY() + speed);
+                break;
+            case "left":
+                position.setX(position.getX() - speed);
+                break;
+            case "right":
+                position.setX(position.getX() + speed);
+                break;
+        }
     }
 
     protected void updateSpriteImage() {
-        // Common sprite updating logic here.
+        spriteCounter++;
+        if (spriteCounter > 12) {
+            spriteNum = (spriteNum == 1) ? 2 : 1;
+            spriteCounter = 0;
+        }
     }
 }
