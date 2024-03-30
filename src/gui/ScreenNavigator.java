@@ -111,6 +111,8 @@ public class ScreenNavigator {
 
         mainPanel.revalidate();
         mainPanel.repaint();
+        
+        mainPanel.transferFocus();
 
         game.startGameThread();
     }
