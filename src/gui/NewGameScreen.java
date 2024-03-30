@@ -2,6 +2,7 @@ package gui;
 
 import custom.CustomButton;
 import custom.Slate;
+import entity.GameMap;
 
 import javax.swing.*;
 import java.awt.*;

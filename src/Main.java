@@ -35,8 +35,8 @@ public class Main {
         /**
          * NOTE: map with given id should exists in maps.json file
          * */
-        navigator.goto_screen_ACTUAL_GAME("player1", "player2",
-                "default_map_unique_id",true, true, true);
+//        navigator.goto_screen_ACTUAL_GAME("player1", "player2",
+//                "default_map_unique_id",true, true, true);
 
 
 
