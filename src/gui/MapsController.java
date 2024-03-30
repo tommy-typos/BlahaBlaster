@@ -2,6 +2,7 @@ package gui;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import entity.GameMap;
 
 import java.io.*;
 
@@ -19,6 +20,16 @@ class MapsController {
             e.printStackTrace();
         }
         return gameMaps;
+    }
+
+    public static GameMap getMapById(String mapId) {
+        GameMap[] gameMaps = readGameMapsFromJson();
+        for (GameMap gameMap : gameMaps) {
+            if (gameMap.id.equals(mapId)) {
+                return gameMap;
+            }
+        }
+        return null;
     }
 
     public static void saveGameMapsToJson(GameMap[] gameMaps) {

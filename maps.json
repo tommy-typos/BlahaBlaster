@@ -1,21 +1,42 @@
 [
   {
+    "id": "default_map_unique_id",
+    "name": "Default",
+    "description": "Zombies everywhere, get in a tram and leave immediately",
+    "difficulty": "Medium",
+    "mapDimensions": [12, 13],
+    "mapCells": [
+      ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+      ["wall", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall"],
+      ["wall", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall"],
+      ["wall", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall"],
+      ["wall", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall"],
+      ["wall", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall", "grass", "wall"],
+      ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+    ]
+  },
+  {
     "id": "blaha_map_unique_id",
     "name": "Blaha",
     "description": "Zombies everywhere, get in a tram and leave immediately",
     "difficulty": "Medium",
     "mapDimensions": [10, 10],
     "mapCells": [
-      ["grass", "grass", "box", "grass", "wall", "grass", "box", "grass", "grass", "wall"],
-      ["grass", "box", "wall", "grass", "grass", "wall", "box", "grass", "box", "grass"],
-      ["grass", "grass", "grass", "wall", "grass", "box", "grass", "box", "grass", "grass"],
-      ["grass", "grass", "wall", "grass", "grass", "grass", "grass", "box", "grass", "grass"],
-      ["grass", "box", "grass", "box", "wall", "grass", "box", "grass", "grass", "wall"],
-      ["box", "grass", "grass", "grass", "grass", "box", "grass", "grass", "wall", "grass"],
-      ["grass", "grass", "grass", "grass", "wall", "grass", "box", "grass", "box", "grass"],
-      ["grass", "wall", "box", "grass", "grass", "wall", "box", "grass", "grass", "box"],
-      ["box", "grass", "grass", "wall", "grass", "grass", "grass", "box", "grass", "grass"],
-      ["grass", "box", "wall", "grass", "grass", "box", "grass", "grass", "wall", "box"]
+      ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+      ["wall", "grass", "wall", "grass", "grass", "wall", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "grass", "wall", "grass", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "wall", "grass", "grass", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "grass", "grass", "wall", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "wall", "wall"],
+      ["wall", "grass", "grass", "grass", "wall", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "wall", "grass", "grass", "grass", "wall", "grass", "grass", "grass", "wall"],
+      ["wall", "grass", "grass", "wall", "grass", "grass", "grass", "grass", "grass", "wall"],
+      ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
     ]
   },
   {

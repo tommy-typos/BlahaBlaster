@@ -1,6 +1,6 @@
-package gui;
+package entity;
 
-class GameMap {
+public class GameMap {
     public String id;
     public String name;
     public String description;
