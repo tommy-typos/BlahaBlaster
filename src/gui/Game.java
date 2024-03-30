@@ -2,6 +2,7 @@ package gui;
 
 import entity.*;
 import entity.Point;
+import entity.monsters.BasicMonster;
 import entity.monsters.Monster;
 import entity.objects.BombObject;
 import entity.objects.ChestObject;
@@ -60,7 +61,7 @@ public class Game extends JPanel implements Runnable{
 
         obj.add(new ChestObject(new Point(3*tileSize, 3*tileSize), this));
 
-        monsters.add(new Monster(this));
+        monsters.add(new BasicMonster(this));
     }
 
     public void startGameThread(){

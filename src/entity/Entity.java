@@ -42,7 +42,6 @@ public class Entity {
     }
 
 
-
     public void draw(Graphics2D g2d) {
         BufferedImage img = null;
         switch (direction){
