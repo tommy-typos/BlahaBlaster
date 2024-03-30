@@ -17,7 +17,7 @@ public class ScreenNavigator {
         MainMenu _mainMenu = new MainMenu();
         _mainMenu.btn_newGame.addActionListener(e -> {
             frame.headerPanel.changeHeaderText("New Game");
-            // TODO: handle new game screen
+            goto_screen_new_game_screen();
         });
         _mainMenu.btn_mapsSettings.addActionListener(e -> {
             goto_screen_mapsMenu();
@@ -83,6 +83,18 @@ public class ScreenNavigator {
         CustomControls _customControls = new CustomControls(this);
 
         mainPanel.add(_customControls, BorderLayout.CENTER);
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+    public void goto_screen_new_game_screen(){
+        mainPanel.removeAll();
+        frame.headerPanel.changeHeaderText("New Game");
+
+        NewGameScreen newGameScreen = new NewGameScreen(this);
+
+        mainPanel.add(newGameScreen, BorderLayout.CENTER);
 
         mainPanel.revalidate();
         mainPanel.repaint();
