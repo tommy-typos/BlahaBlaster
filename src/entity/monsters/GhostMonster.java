@@ -70,21 +70,23 @@ public class GhostMonster extends Monster{
     private void adjustDirectionAtMapEdges() {
         int mapWidth = game.screenWidth;
         int mapHeight = game.screenHeight;
+        int tileSize = game.tileSize;
+
 
         // Right edge
-        if (position.getX() >= mapWidth - gp.tileSize && direction.equals("right")) {
+        if (position.getX() >= mapWidth - 2 * tileSize && direction.equals("right")) {
             direction = "left";
         }
         // Left edge
-        else if (position.getX() <= 0 && direction.equals("left")) {
+        else if (position.getX() <= tileSize && direction.equals("left")) {
             direction = "right";
         }
         // Bottom edge
-        if (position.getY() >= mapHeight - gp.tileSize && direction.equals("down")) {
+        if (position.getY() >= mapHeight - 2 * tileSize && direction.equals("down")) {
             direction = "up";
         }
         // Top edge
-        else if (position.getY() <= 0 && direction.equals("up")) {
+        else if (position.getY() <= tileSize && direction.equals("up")) {
             direction = "down";
         }
     }
