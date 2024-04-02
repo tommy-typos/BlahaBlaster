@@ -15,6 +15,7 @@ public class Player extends Entity{
     public int bombsNum = 1;
     public String name;
     int playerNumber;
+    private boolean shouldBeRemoved = false;
 
 
     public Player(Game gp, KeyHandler keyHandler, Point position, String name, int playerNumber) {
@@ -105,10 +106,13 @@ public class Player extends Entity{
     }
 
     private void interactWithMonster(int npcIndex) {
-        if(npcIndex != 999){
-            // TODO: remove the second player doesn't work
-            gp.players.remove(this);
+        if (npcIndex != 999) {
+            shouldBeRemoved = true;
         }
+    }
+
+    public boolean shouldBeRemoved() {
+        return shouldBeRemoved;
     }
 
     private void plantBomb(){

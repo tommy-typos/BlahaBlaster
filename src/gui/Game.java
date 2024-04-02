@@ -14,6 +14,7 @@ import handler.KeyHandler;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Game extends JPanel implements Runnable{
 
@@ -99,9 +100,16 @@ public class Game extends JPanel implements Runnable{
 
     public void update(){
         blowUpBombs();
-        for(Player player : players){
+        Iterator<Player> playerIterator = players.iterator();
+        while (playerIterator.hasNext()) {
+            Player player = playerIterator.next();
             player.update();
+
+            if (player.shouldBeRemoved()) {
+                playerIterator.remove();
+            }
         }
+
         for(Monster monster : monsters){
             monster.update();
         }
