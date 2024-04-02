@@ -1,4 +1,15 @@
 package entity.effects.PowerUps;
 
-public class BombSlotIncreasePowerUp {
+import entity.effects.Effect;
+
+public class BombSlotIncreasePowerUp extends Effect {
+
+    @Override
+    public boolean isBombSlotIncreasePowerUp() {
+        return true;
+    }
+
+    protected BombSlotIncreasePowerUp() {
+        super();
+    }
 }

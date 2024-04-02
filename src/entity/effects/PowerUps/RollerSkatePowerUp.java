@@ -5,7 +5,7 @@ import entity.effects.Effect;
 public class RollerSkatePowerUp extends Effect {
 
     @Override
-    public boolean isRoolerSkatePowerUp() {
+    public boolean isRollerSkatePowerUp() {
         return true;
     }
 

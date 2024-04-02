@@ -1,4 +1,15 @@
 package entity.effects.PowerUps;
 
-public class ObstaclePowerUp {
+import entity.effects.Effect;
+
+public class ObstaclePowerUp extends Effect {
+
+    @Override
+    public boolean isObstaclePowerUp() {
+        return true;
+    }
+
+    protected ObstaclePowerUp() {
+        super();
+    }
 }

@@ -1,4 +1,7 @@
 package entity.effects.Curses;
 
-public class BombFreezeCurse {
+import entity.effects.Effect;
+
+public class BombFreezeCurse  extends Effect {
+
 }

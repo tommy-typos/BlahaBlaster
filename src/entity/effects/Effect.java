@@ -23,9 +23,19 @@ public abstract class Effect {
     }
 
     public boolean isGhostPowerUp() { return false; }
-    public boolean isRoolerSkatePowerUp() { return false; }
+    public boolean isRollerSkatePowerUp() { return false; }
     public boolean isInvincibilityPowerUp() { return false; }
+    public boolean isBlastRangePowerUp() { return false; }
+    public boolean isDetonatorPowerUp() { return false; }
+    public boolean isObstaclePowerUp() { return false; }
+    public boolean isBombSlotIncreasePowerUp() { return false; }
+
     public boolean isShortBlastCurse() { return false; }
     public boolean isSlowerCurse() { return false; }
+
+    public boolean isBombFreezeCurse() { return false; }
+
+    public boolean isBombPlacementTimeLimitCurse() { return false; }
+
 
 }

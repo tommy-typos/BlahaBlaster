@@ -1,4 +1,6 @@
 package entity.effects.Curses;
 
-public class BombPlacementTimeLimitCurse {
+import entity.effects.Effect;
+
+public class BombPlacementTimeLimitCurse extends Effect  {
 }
