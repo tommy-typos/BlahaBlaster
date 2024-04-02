@@ -12,9 +12,14 @@ public abstract class Effect {
     protected boolean hasDetonator = false;
 
 
-    protected Effect(int speedChange, int blastRangeChange) {
+    protected Effect() {
         this.speedChange = speedChange;
         this.blastRangeChange = blastRangeChange;
+    }
+
+    protected void applyEffect() {
+        // Apply the effect to the player
+        // Virtual method to be overwritten in other sub classes
     }
 
     public boolean isGhostPowerUp() { return false; }

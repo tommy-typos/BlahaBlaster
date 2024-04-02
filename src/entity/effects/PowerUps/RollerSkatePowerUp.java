@@ -9,7 +9,7 @@ public class RollerSkatePowerUp extends Effect {
         return true;
     }
 
-    protected RollerSkatePowerUp(int speedChange, int blastRangeChange) {
-        super(speedChange, blastRangeChange);
+    protected RollerSkatePowerUp() {
+        super();
     }
 }

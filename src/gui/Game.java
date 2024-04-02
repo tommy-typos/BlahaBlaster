@@ -2,11 +2,14 @@ package gui;
 
 import entity.*;
 import entity.Point;
+import entity.effects.Effect;
 import entity.monsters.Monster;
 import entity.objects.BombObject;
 import entity.objects.ChestObject;
 import entity.objects.SuperObject;
 import handler.KeyHandler;
+
+import entity.effects.PowerUps.GhostPowerUp;
 
 import javax.swing.*;
 import java.awt.*;
@@ -149,4 +152,35 @@ public class Game extends JPanel implements Runnable{
 
         return gameMap.mapCells[posY / tileSize][posX / tileSize].equals("grass");
     }
+
+
+    // Manage the Effects show up
+    // Method to replace a ChestObject with an Effect (PowerUp or Curse)
+    public void replaceObjectWithEffect(Point position, Effect effect) {
+        // First, find and remove the ChestObject at the given position
+        for (int i = 0; i < obj.size(); i++) {
+            SuperObject superObject = obj.get(i);
+            if (superObject instanceof ChestObject && superObject.position.equals(position)) {
+                obj.remove(i); // Remove the chest
+                break; // Assuming only one chest can exist at a position, we break the loop after finding it
+            }
+        }
+
+        // Assuming Effect is a subclass of SuperObject, or you have an EffectWrapper that extends SuperObject
+        // Next, add the new effect object at the same position
+        // This assumes you have a way to convert Effect instances into SuperObject instances.
+        // You might need an adapter or modify your inheritance structure for this.
+//        if (effect != null) {
+//            SuperObject effectObject = convertEffectToSuperObject(effect, position);
+//            if (effectObject != null) {
+//                obj.add(effectObject);
+//            }
+//        }
+    }
+
+    // Utility method to convert an Effect into a SuperObject.
+// You'll need to implement this based on your game's structure.
+// This could mean having your Effect classes extend SuperObject directly, or creating a new wrapper class.
+
+
 }

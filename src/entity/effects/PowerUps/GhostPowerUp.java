@@ -10,7 +10,7 @@ public class GhostPowerUp extends Effect {
         return true;
     }
 
-    protected GhostPowerUp(int speedChange, int blastRangeChange) {
-        super(speedChange, blastRangeChange);
+    public GhostPowerUp() {
+        super();
     }
 }

@@ -9,7 +9,7 @@ public class ShortBlastCurse extends Effect {
         return true;
     }
 
-    protected ShortBlastCurse(int speedChange, int blastRangeChange) {
-        super(speedChange, blastRangeChange);
+    public ShortBlastCurse() {
+        super();
     }
 }

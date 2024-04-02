@@ -9,7 +9,7 @@ public class SlowerCurse extends Effect {
         return true;
     }
 
-    protected SlowerCurse(int speedChange, int blastRangeChange) {
-        super(speedChange, blastRangeChange);
+    protected SlowerCurse() {
+        super();
     }
 }

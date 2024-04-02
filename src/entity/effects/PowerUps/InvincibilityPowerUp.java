@@ -9,7 +9,7 @@ public class InvincibilityPowerUp extends Effect {
         return true;
     }
 
-    protected InvincibilityPowerUp(int speedChange, int blastRangeChange) {
-        super(speedChange, blastRangeChange);
+    protected InvincibilityPowerUp() {
+        super();
     }
 }
