@@ -1,10 +1,8 @@
 package entity.monsters;
 
 import entity.Point;
-import entity.Tile;
 import gui.Game;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.Random;
 import javax.imageio.ImageIO;

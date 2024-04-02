@@ -3,6 +3,7 @@ package gui;
 import entity.*;
 import entity.Point;
 import entity.monsters.BasicMonster;
+import entity.monsters.ChasingMonster;
 import entity.monsters.GhostMonster;
 import entity.monsters.Monster;
 import entity.objects.BombObject;
@@ -54,16 +55,17 @@ public class Game extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
-        this.setUpGame();
+        this.setUpGame(players);
     }
 
-    public void setUpGame(){
+    public void setUpGame(ArrayList<Player> players){
         obj.add(new ChestObject(new Point(tileSize, tileSize), this));
 
         obj.add(new ChestObject(new Point(3*tileSize, 3*tileSize), this));
 
         monsters.add(new BasicMonster(this));
         monsters.add(new GhostMonster(this));
+        monsters.add(new ChasingMonster(this, players));
     }
 
 
@@ -153,4 +155,6 @@ public class Game extends JPanel implements Runnable{
 
         return gameMap.mapCells[posY / tileSize][posX / tileSize].equals("grass");
     }
+
+
 }
