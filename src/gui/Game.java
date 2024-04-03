@@ -70,6 +70,11 @@ public class Game extends JPanel implements Runnable{
         monsters.add(new BasicMonster(this));
         monsters.add(new GhostMonster(this));
         monsters.add(new ChasingMonster(this, players));
+
+        // Development: call the ghost powerUp
+        for (Player player : players) {
+            player.activateGhostPowerUp(player.ghostDuration);
+        }
     }
 
 

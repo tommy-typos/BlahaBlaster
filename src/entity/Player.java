@@ -20,7 +20,11 @@ public class Player extends Entity{
 
     // PowerUp and Curse related variables
     public boolean hasDetonator = false;
-    public int ghostDuration = 0;
+    public int ghostDuration = 10;
+    private long ghostEffectStartTime = 0;
+    private boolean canPassThroughWallOnce = false;
+
+
     public int blastRange = 1;
     public int speedBoost = 0;
     public int bombFreezeTime = 0;
@@ -75,6 +79,16 @@ public class Player extends Entity{
             }
             movePlayer(keyHandler.up, keyHandler.down, keyHandler.left, keyHandler.right);
         }
+
+        if (ghostDuration > 0) {
+            long currentTime = System.currentTimeMillis();
+            long elapsedTimeInSeconds = (currentTime - ghostEffectStartTime) / 1000;
+
+            if (elapsedTimeInSeconds >= ghostDuration) {
+                ghostDuration = 0; // Reset ghostDuration after ghostDuration ends
+                canPassThroughWallOnce = true; // Allow passing through wall once after effect ends
+            }
+        }
     }
 
     private void movePlayer(boolean up, boolean down, boolean left, boolean right) {
@@ -92,14 +106,22 @@ public class Player extends Entity{
                 direction = "right";
             }
 
-            collisionOn = false;
-            gp.collisionChecker.checkTile(this);
+            boolean passedThroughWallThisMove = false;
 
-            int npcIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
-            interactWithMonster(npcIndex);
+            if (ghostDuration <= 0 && !canPassThroughWallOnce) {
+                collisionOn = false;
+                gp.collisionChecker.checkTile(this);
+
+                int npcIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
+                interactWithMonster(npcIndex);
+            } else if (canPassThroughWallOnce) {
+                passedThroughWallThisMove = true;
+            }
+
+            adjustMovementAtMapEdges();
 
             // if the player has a Detona
-            if(!collisionOn){
+            if(!collisionOn || ghostDuration > 0) { // || ghostDuration > 0  -->  if the player is a ghost, they can move through obstacles
                 switch(direction){
                     case "up":
                         position.setY(position.getY() - speed);
@@ -115,9 +137,38 @@ public class Player extends Entity{
                         break;
                 }
             }
+
+            if (passedThroughWallThisMove) {
+                canPassThroughWallOnce = false;
+            }
             updateSpriteImage();
         }
     }
+
+
+    private void adjustMovementAtMapEdges() {
+        int mapWidth = gp.screenWidth;
+        int mapHeight = gp.screenHeight;
+        int tileSize = gp.tileSize;
+
+        // Right edge
+        if (position.getX() >= mapWidth - 2 * tileSize && direction.equals("right")) {
+            position.setX(mapWidth - 2 * tileSize);
+        }
+        // Left edge
+        else if (position.getX() <= tileSize && direction.equals("left")) {
+            position.setX(tileSize);
+        }
+        // Bottom edge
+        if (position.getY() >= mapHeight - 2 * tileSize && direction.equals("down")) {
+            position.setY(mapHeight - 2 * tileSize);
+        }
+        // Top edge
+        else if (position.getY() <= tileSize && direction.equals("up")) {
+            position.setY(tileSize);
+        }
+    }
+
 
     private void interactWithMonster(int npcIndex) {
         if (npcIndex != 999) {
@@ -200,4 +251,16 @@ public class Player extends Entity{
         g2d.drawImage(img, getX(), getY(), gp.tileSize, gp.tileSize, null);
         g2d.drawRect(solidArea.x + getX(), solidArea.y + getY(), solidArea.width, solidArea.height);
     }
+
+
+
+    // PowerUp and Curse related methods
+
+    public void activateGhostPowerUp(int duration) {
+        this.ghostDuration = duration;
+        this.ghostEffectStartTime = System.currentTimeMillis(); // Set start time
+    }
+
+
+
 }
