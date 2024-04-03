@@ -2,10 +2,7 @@ package gui;
 
 import entity.*;
 import entity.Point;
-import entity.monsters.BasicMonster;
-import entity.monsters.ChasingMonster;
-import entity.monsters.GhostMonster;
-import entity.monsters.Monster;
+import entity.monsters.*;
 import entity.objects.BombObject;
 import entity.objects.ChestObject;
 import entity.objects.SuperObject;
@@ -67,6 +64,7 @@ public class Game extends JPanel implements Runnable{
         monsters.add(new BasicMonster(this));
         monsters.add(new GhostMonster(this));
         monsters.add(new ChasingMonster(this, players));
+        monsters.add(new TipsyMonster(this, players));
     }
 
 
@@ -96,7 +94,7 @@ public class Game extends JPanel implements Runnable{
                 e.printStackTrace();
             }
         }
-    }
+    }   
 
     public void update(){
         blowUpBombs();
