@@ -15,6 +15,20 @@ public class Player extends Entity{
     public int bombsNum = 1;
     public String name;
     int playerNumber;
+    private boolean shouldBeRemoved = false;
+
+
+    // PowerUp and Curse related variables
+    public boolean hasDetonator = false;
+    public int ghostDuration = 0;
+    public int blastRange = 1;
+    public int speedBoost = 0;
+    public int bombFreezeTime = 0;
+    public int nextBombCanBePlaced = 0;
+    public int bombPlacmentDelay = 0;
+    public int invincibilityDuration = 0;
+    public int maxObstacles = 0;
+
 
 
     public Player(Game gp, KeyHandler keyHandler, Point position, String name, int playerNumber) {
@@ -84,6 +98,7 @@ public class Player extends Entity{
             int npcIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
             interactWithMonster(npcIndex);
 
+            // if the player has a Detona
             if(!collisionOn){
                 switch(direction){
                     case "up":
@@ -105,10 +120,13 @@ public class Player extends Entity{
     }
 
     private void interactWithMonster(int npcIndex) {
-        if(npcIndex != 999){
-            // TODO: remove the second player doesn't work
-            gp.players.remove(this);
+        if (npcIndex != 999) {
+            shouldBeRemoved = true;
         }
+    }
+
+    public boolean shouldBeRemoved() {
+        return shouldBeRemoved;
     }
 
     private void plantBomb(){

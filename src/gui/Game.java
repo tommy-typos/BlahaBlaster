@@ -3,6 +3,9 @@ package gui;
 import entity.*;
 import entity.Point;
 import entity.effects.Effect;
+import entity.monsters.BasicMonster;
+import entity.monsters.ChasingMonster;
+import entity.monsters.GhostMonster;
 import entity.monsters.Monster;
 import entity.objects.BombObject;
 import entity.objects.ChestObject;
@@ -14,6 +17,7 @@ import entity.effects.PowerUps.GhostPowerUp;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Game extends JPanel implements Runnable{
 
@@ -26,8 +30,8 @@ public class Game extends JPanel implements Runnable{
     final int scale = 3;
 
     public final int tileSize = originalTileSize * scale;
-    int screenWidth;
-    int screenHeight;
+    public int screenWidth;
+    public int screenHeight;
 
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     Thread gameThread;
@@ -55,16 +59,19 @@ public class Game extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
-        this.setUpGame();
+        this.setUpGame(players);
     }
 
-    public void setUpGame(){
+    public void setUpGame(ArrayList<Player> players){
         obj.add(new ChestObject(new Point(tileSize, tileSize), this));
 
         obj.add(new ChestObject(new Point(3*tileSize, 3*tileSize), this));
 
-        monsters.add(new Monster(this));
+        monsters.add(new BasicMonster(this));
+        monsters.add(new GhostMonster(this));
+        monsters.add(new ChasingMonster(this, players));
     }
+
 
     public void startGameThread(){
         gameThread = new Thread(this);
@@ -96,9 +103,16 @@ public class Game extends JPanel implements Runnable{
 
     public void update(){
         blowUpBombs();
-        for(Player player : players){
+        Iterator<Player> playerIterator = players.iterator();
+        while (playerIterator.hasNext()) {
+            Player player = playerIterator.next();
             player.update();
+
+            if (player.shouldBeRemoved()) {
+                playerIterator.remove();
+            }
         }
+
         for(Monster monster : monsters){
             monster.update();
         }
