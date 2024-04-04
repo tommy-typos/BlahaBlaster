@@ -1,6 +1,8 @@
 package entity;
 
 import entity.monsters.Monster;
+import entity.objects.BombObject;
+import entity.objects.SuperObject;
 import gui.Game;
 
 import java.util.ArrayList;
@@ -49,6 +51,69 @@ public class CollisionChecker {
                 break;
         }
         checkCollision(tile1, tile2, entity);
+    }
+
+    public int checkObject(Entity entity){
+        int index = 999;
+
+        for(SuperObject obj: game.obj){
+
+            if(obj != null){
+                if(entity instanceof Player && obj instanceof BombObject){
+                    Player player = (Player) entity;
+                    BombObject bomb = (BombObject) obj;
+                    long leaveTime = bomb.timeToLeave - System.currentTimeMillis();
+                    if(leaveTime > 0 && bomb.owner.equals(player.name)){
+                        continue;
+                    }
+                }
+                entity.solidArea.x = entity.getX() + entity.solidArea.x;
+                entity.solidArea.y = entity.getY() + entity.solidArea.y;
+
+                obj.solidArea.x = obj.getX() + obj.solidArea.x;
+                obj.solidArea.y = obj.getY() + obj.solidArea.y;
+
+                switch (entity.direction){
+                    case "up":
+                        entity.solidArea.y -= entity.speed;
+                        if(entity.solidArea.intersects(obj.solidArea)){
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }
+                        break;
+
+                    case "down":
+                        entity.solidArea.y += entity.speed;
+                        if(entity.solidArea.intersects(obj.solidArea)){
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }
+                        break;
+
+                    case "left":
+                        entity.solidArea.x -= entity.speed;
+                        if(entity.solidArea.intersects(obj.solidArea)){
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }
+                        break;
+
+                    case "right":
+                        entity.solidArea.x += entity.speed;
+                        if(entity.solidArea.intersects(obj.solidArea)){
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }
+                        break;
+                }
+                entity.solidArea.x = entity.solidAreaDefaultX;
+                entity.solidArea.y = entity.solidAreaDefaultY;
+                obj.solidArea.x = obj.solidAreaDefaultX;
+                obj.solidArea.y = obj.solidAreaDefaultY;
+            }
+        }
+
+        return index;
     }
 
     private void checkCollision(String tile1, String tile2, Entity entity){

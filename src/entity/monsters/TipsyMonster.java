@@ -65,6 +65,7 @@ public class TipsyMonster extends Monster{
                 adjustDirectionBasedOnNextMove(nextMove);
                 collisionOn = false;
                 gp.collisionChecker.checkTile(this);
+                gp.collisionChecker.checkObject(this);
 
                 if (!collisionOn) {
                     movedTowardsPlayer = true;
@@ -78,6 +79,8 @@ public class TipsyMonster extends Monster{
         }
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
+
+        gp.collisionChecker.checkObject(this);
 
         if (!collisionOn) {
             move();
