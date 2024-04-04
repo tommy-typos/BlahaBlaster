@@ -17,7 +17,7 @@ public class Main {
         ScreenNavigator navigator = new ScreenNavigator(frame, mainPanel);
 
         // ********************* Main Menu Screen *************************
-        navigator.goto_screen_mainMenu();
+//        navigator.goto_screen_mainMenu();
 
         // *********************** Game Info Screen **********************
 //        navigator.goto_screen_gameInfo();
@@ -29,13 +29,13 @@ public class Main {
 //        navigator.goto_screen_mapEditor(0);
 
         // *********************** New Game Screen **********************
-//        navigator.goto_screen_new_game_screen();
+        navigator.goto_screen_new_game_screen();
 
         // *********************** IN GAME SCREEN *************************
         /**
          * NOTE: map with given id should exists in maps.json file
          * */
-//        navigator.goto_screen_ACTUAL_GAME("player1", "player2",
+//        navigator.goto_screen_ACTUAL_GAME("player1", "player2", false, "",
 //                "default_map_unique_id",true, true, true);
 
 

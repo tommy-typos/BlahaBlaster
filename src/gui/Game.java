@@ -41,10 +41,12 @@ public class Game extends JPanel implements Runnable{
     int FPS = 60;
 
 
-    public Game(ScreenNavigator screenNavigator, String player_name1, String player_name2, String mapID, boolean p1AI, boolean p2AI, boolean p1Turn) {
+    public Game(ScreenNavigator screenNavigator, String player_name1, String player_name2, boolean threePlayers, String player_name3, String mapID, boolean p1AI, boolean p2AI, boolean p1Turn) {
         players.add(new Player(this, keyHandler, new Point(tileSize*1, tileSize*3), player_name1, 1));
         players.add(new Player(this, keyHandler, new Point(tileSize*4, tileSize*5), player_name2, 2));
-        players.add(new Player(this, keyHandler, new Point(tileSize*1, tileSize*5), "player3", 3));
+        if(threePlayers){
+            players.add(new Player(this, keyHandler, new Point(tileSize*1, tileSize*5), player_name3, 3));
+        }
 
         this.gameMap = MapsController.getMapById(mapID);
         this.screenWidth = gameMap.mapDimensions[1] * tileSize;
