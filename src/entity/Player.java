@@ -126,8 +126,11 @@ public class Player extends Entity{
                 collisionOn = false;
                 gp.collisionChecker.checkTile(this);
 
-                int npcIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
-                interactWithMonster(npcIndex);
+                if (invincibilityDuration <= 0) {
+                    int npcIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
+                    interactWithMonster(npcIndex);
+                }
+
 //                canPassThroughWallOnce = true;
             } else if (canPassThroughWallOnce ) {
                 System.out.println("Player can pass through wall once");
