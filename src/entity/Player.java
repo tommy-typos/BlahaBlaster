@@ -86,6 +86,7 @@ public class Player extends Entity{
 
             collisionOn = false;
             gp.collisionChecker.checkTile(this);
+            int objIndex = gp.collisionChecker.checkObject(this);
 
             int npcIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
             interactWithMonster(npcIndex);
