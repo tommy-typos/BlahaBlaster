@@ -94,6 +94,8 @@ public class NewGameScreen extends JPanel {
 
         JCheckBox intelligentmonster_checkbox = new JCheckBox("Intelligent Monsters");
         intelligentmonster_checkbox.setForeground(Slate._300);
+        intelligentmonster_checkbox.setOpaque(true);
+        intelligentmonster_checkbox.setBackground(Slate._950);
 
         intelligent_flow.add(intelligentmonster_checkbox);
 
@@ -108,6 +110,8 @@ public class NewGameScreen extends JPanel {
 
         JCheckBox advancedpowerups_checkbox = new JCheckBox("Advanced Powerups");
         advancedpowerups_checkbox.setForeground(Slate._300);
+        advancedpowerups_checkbox.setOpaque(true);
+        advancedpowerups_checkbox.setBackground(Slate._950);
 
         advanced_flow.add(advancedpowerups_checkbox);
 
@@ -122,6 +126,8 @@ public class NewGameScreen extends JPanel {
 
         JCheckBox hinderingcurse_checkbox = new JCheckBox("Hindering Curses");
         hinderingcurse_checkbox.setForeground(Slate._300);
+        hinderingcurse_checkbox.setOpaque(true);
+        hinderingcurse_checkbox.setBackground(Slate._950);
 
         hindering_flow.add(hinderingcurse_checkbox);
 
