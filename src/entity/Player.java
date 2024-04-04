@@ -16,7 +16,6 @@ public class Player extends Entity{
     public String name;
     int playerNumber;
 
-
     public Player(Game gp, KeyHandler keyHandler, Point position, String name, int playerNumber) {
         super(gp);
         this.speed = 3;
@@ -46,20 +45,27 @@ public class Player extends Entity{
     }
 
     public void update() {
-        if (name.equals("player1")) {
+        if (playerNumber == 1) {
             if(keyHandler.e) {
                 plantBomb();
                 keyHandler.e = false;
             }
             movePlayer(keyHandler.w, keyHandler.s, keyHandler.a, keyHandler.d);
         }
-
-        else if (name.equals("player2")) {
+        if (playerNumber == 2) {
             if(keyHandler.plant) {
                 plantBomb();
                 keyHandler.plant = false;
             }
             movePlayer(keyHandler.up, keyHandler.down, keyHandler.left, keyHandler.right);
+        }
+
+        if (playerNumber == 3) {
+            if(keyHandler.num_plant) {
+                plantBomb();
+                keyHandler.num_plant = false;
+            }
+            movePlayer(keyHandler.num_up, keyHandler.num_down, keyHandler.num_left, keyHandler.num_right);
         }
     }
 
@@ -105,9 +111,8 @@ public class Player extends Entity{
     }
 
     private void interactWithMonster(int npcIndex) {
-        if(npcIndex != 999){
-            // TODO: remove the second player doesn't work
-            gp.players.remove(this);
+        if (npcIndex != 999) {
+            shouldBeRemoved = true;
         }
     }
 

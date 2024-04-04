@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 public class Entity {
 
     protected Game gp;
-    protected Point position;
+    public Point position;
     public int speed;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     public String direction;
@@ -20,6 +20,7 @@ public class Entity {
     public int actionLockCounter = 0;
     public int solidAreaDefaultX = 10;
     public int solidAreaDefaultY = 15;
+    public boolean shouldBeRemoved = false;
 
     public int getX() {
         return position.getX();
@@ -37,11 +38,7 @@ public class Entity {
 
     public void update(){
         setAction();
-
-
     }
-
-
 
     public void draw(Graphics2D g2d) {
         BufferedImage img = null;
