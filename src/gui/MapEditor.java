@@ -3,6 +3,7 @@ package gui;
 import custom.CustomButton;
 import custom.CustomLabel;
 import custom.Slate;
+import entity.GameMap;
 
 import javax.swing.*;
 import javax.swing.border.Border;
