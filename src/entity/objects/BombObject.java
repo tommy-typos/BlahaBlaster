@@ -10,6 +10,7 @@ public class BombObject extends SuperObject{
 
     public String owner;
     public Long blowTime = System.currentTimeMillis() + 3000;
+    public Long timeToLeave = System.currentTimeMillis() + 1000;
 
     public int blowRadius = 2;
 
