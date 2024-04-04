@@ -6,6 +6,7 @@ import entity.GameMap;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public class NewGameScreen extends JPanel {
     public NewGameScreen(ScreenNavigator navigator) {
@@ -36,6 +37,31 @@ public class NewGameScreen extends JPanel {
 
         map_labelcombo.add(map_label);
         map_labelcombo.add(map_combobox);
+
+        /** PLAYER COUNT SELECTION */
+
+        JPanel playercount_labelcombo = new JPanel();
+        playercount_labelcombo.setLayout(new FlowLayout(FlowLayout.LEFT, 25, 0));
+        playercount_labelcombo.setOpaque(true);
+        playercount_labelcombo.setAlignmentY(CENTER_ALIGNMENT);
+        playercount_labelcombo.setBackground(Slate._950);
+
+        JLabel playercount_label = new JLabel("Select Player Count");
+        playercount_label.setForeground(Slate._300);
+
+        int[] intArray = {3, 2 };
+
+        // Convert int array to Integer array using Java 8 Stream API
+        Integer[] integerArray = Arrays.stream(intArray)
+                .boxed()
+                .toArray(Integer[]::new);
+
+        // Create JintegerArrayComboBox
+        JComboBox<Integer> playercount_combobox = new JComboBox<>(integerArray);
+        map_combobox.setEditable(false);
+
+        playercount_labelcombo.add(playercount_label);
+        playercount_labelcombo.add(playercount_combobox);
 
 
 
@@ -83,6 +109,28 @@ public class NewGameScreen extends JPanel {
 
         p2_labelinput.add(p2_label);
         p2_labelinput.add(p2_input);
+
+        /** PLAYER 3 */
+
+        JPanel p3_labelinput = new JPanel();
+        p3_labelinput.setLayout(new FlowLayout(FlowLayout.LEFT, 25, 0));
+        p3_labelinput.setOpaque(true);
+        p3_labelinput.setAlignmentY(CENTER_ALIGNMENT);
+        p3_labelinput.setBackground(Slate._950);
+
+        JLabel p3_label = new JLabel("Player 3 Name:");
+        p3_label.setForeground(Slate._300);
+
+        JTextField p3_input = new JTextField();
+        p3_input.setText("player3");
+        p3_input.setForeground(Slate._300);
+        p3_input.setOpaque(true);
+        p3_input.setBackground(Slate._800);
+        p3_input.setCaretColor(Slate._300);
+        p3_input.setPreferredSize(new Dimension(100, 35));
+
+        p3_labelinput.add(p3_label);
+        p3_labelinput.add(p3_input);
 
 
         /*** INTELLIGENT MONSTERS */
@@ -149,6 +197,7 @@ public class NewGameScreen extends JPanel {
         startgame_btn.addActionListener(e -> {
             String p1_name = p1_input.getText();
             String p2_name = p2_input.getText();
+            String p3_name = p3_input.getText();
             String selected_map_id = gameMaps[map_combobox.getSelectedIndex()].id;
             boolean intelligent_monsters = intelligentmonster_checkbox.isSelected();
             boolean advanced_powerups = advancedpowerups_checkbox.isSelected();
@@ -157,7 +206,12 @@ public class NewGameScreen extends JPanel {
             if(p1_name.length() < 1 || p2_name.length() < 1){
                 JOptionPane.showMessageDialog(this, "Player names cannot be empty");
             }else {
-                navigator.goto_screen_ACTUAL_GAME(p1_name, p2_name, selected_map_id, intelligent_monsters, advanced_powerups, hindering_curses);
+                if(playercount_combobox.getSelectedItem().toString().equals("3")){
+                    navigator.goto_screen_ACTUAL_GAME(p1_name, p2_name, true, p3_name, selected_map_id, intelligent_monsters, advanced_powerups, hindering_curses);
+                }else {
+                    navigator.goto_screen_ACTUAL_GAME(p1_name, p2_name, false, "", selected_map_id, intelligent_monsters, advanced_powerups, hindering_curses);
+                }
+
             }
 
         });
@@ -166,11 +220,23 @@ public class NewGameScreen extends JPanel {
         buttons_flow.add(startgame_btn);
 
 
+        playercount_combobox.addActionListener(e -> {
+            if(!playercount_combobox.getSelectedItem().toString().equals("3")){
+                p3_input.setEnabled(false);
+                p3_label.setForeground(Slate._900);
+            }else {
+                p3_input.setEnabled(true);
+                p3_label.setForeground(Slate._300);
+            }
+        });
 
 
 
+
+        grid.add(playercount_labelcombo);
         grid.add(p1_labelinput);
         grid.add(p2_labelinput);
+        grid.add(p3_labelinput);
         grid.add(map_labelcombo);
         grid.add(intelligent_flow);
         grid.add(advanced_flow);
