@@ -15,8 +15,6 @@ public class Player extends Entity{
     public int bombsNum = 1;
     public String name;
     int playerNumber;
-    private boolean shouldBeRemoved = false;
-
 
     // PowerUp and Curse related variables
     public boolean hasDetonator = false;
@@ -69,20 +67,27 @@ public class Player extends Entity{
     }
 
     public void update() {
-        if (name.equals("player1")) {
+        if (playerNumber == 1) {
             if(keyHandler.e) {
                 plantBomb();
                 keyHandler.e = false;
             }
             movePlayer(keyHandler.w, keyHandler.s, keyHandler.a, keyHandler.d);
         }
-
-        else if (name.equals("player2")) {
+        if (playerNumber == 2) {
             if(keyHandler.plant) {
                 plantBomb();
                 keyHandler.plant = false;
             }
             movePlayer(keyHandler.up, keyHandler.down, keyHandler.left, keyHandler.right);
+        }
+
+        if (playerNumber == 3) {
+            if(keyHandler.num_plant) {
+                plantBomb();
+                keyHandler.num_plant = false;
+            }
+            movePlayer(keyHandler.num_up, keyHandler.num_down, keyHandler.num_left, keyHandler.num_right);
         }
 
         if (ghostDuration > 0) {
@@ -202,10 +207,6 @@ public class Player extends Entity{
         if (npcIndex != 999) {
             shouldBeRemoved = true;
         }
-    }
-
-    public boolean shouldBeRemoved() {
-        return shouldBeRemoved;
     }
 
     private void plantBomb(){

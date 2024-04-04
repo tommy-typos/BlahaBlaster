@@ -17,7 +17,7 @@ public class ScreenNavigator {
         MainMenu _mainMenu = new MainMenu();
         _mainMenu.btn_newGame.addActionListener(e -> {
             frame.headerPanel.changeHeaderText("New Game");
-            // TODO: handle new game screen
+            goto_screen_new_game_screen();
         });
         _mainMenu.btn_mapsSettings.addActionListener(e -> {
             goto_screen_mapsMenu();
@@ -88,17 +88,31 @@ public class ScreenNavigator {
         mainPanel.repaint();
     }
 
-    public void goto_screen_ACTUAL_GAME(String player1_name, String player2_name, String selected_map_id,
+    public void goto_screen_new_game_screen(){
+        mainPanel.removeAll();
+        frame.headerPanel.changeHeaderText("New Game");
+
+        NewGameScreen newGameScreen = new NewGameScreen(this);
+
+        mainPanel.add(newGameScreen, BorderLayout.CENTER);
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+    public void goto_screen_ACTUAL_GAME(String player1_name, String player2_name, boolean threePlayers, String player_name3, String selected_map_id,
                                         boolean intelligent_monsters, boolean advanced_powerups, boolean hindering_curses){
         mainPanel.removeAll();
         frame.headerPanel.changeHeaderText("In Game Screen");
 
-        Game game = new Game(this, player1_name, player2_name, selected_map_id, intelligent_monsters, advanced_powerups, hindering_curses);
+        Game game = new Game(this, player1_name, player2_name, threePlayers, player_name3, selected_map_id, intelligent_monsters, advanced_powerups, hindering_curses);
 
         mainPanel.add(game, BorderLayout.CENTER);
 
         mainPanel.revalidate();
         mainPanel.repaint();
+        
+        mainPanel.transferFocus();
 
         game.startGameThread();
     }

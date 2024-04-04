@@ -11,7 +11,7 @@ public class BombObject extends SuperObject{
     public String owner;
     public Long blowTime = System.currentTimeMillis() + 3000;
 
-    public int blowRadius = 1;
+    public int blowRadius = 2;
 
     public BombObject(Point position, Game game, String owner) {
         super(position, game);

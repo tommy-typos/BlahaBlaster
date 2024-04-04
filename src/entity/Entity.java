@@ -20,6 +20,7 @@ public class Entity {
     public int actionLockCounter = 0;
     public int solidAreaDefaultX = 10;
     public int solidAreaDefaultY = 15;
+    public boolean shouldBeRemoved = false;
 
     public int getX() {
         return position.getX();

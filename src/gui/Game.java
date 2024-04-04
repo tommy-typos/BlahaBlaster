@@ -3,10 +3,7 @@ package gui;
 import entity.*;
 import entity.Point;
 import entity.effects.Effect;
-import entity.monsters.BasicMonster;
-import entity.monsters.ChasingMonster;
-import entity.monsters.GhostMonster;
-import entity.monsters.Monster;
+import entity.monsters.*;
 import entity.objects.BombObject;
 import entity.objects.ChestObject;
 import entity.objects.SuperObject;
@@ -17,6 +14,7 @@ import entity.effects.PowerUps.GhostPowerUp;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class Game extends JPanel implements Runnable{
@@ -46,11 +44,13 @@ public class Game extends JPanel implements Runnable{
     int FPS = 60;
 
 
-    public Game(ScreenNavigator screenNavigator, String player_name1, String player_name2, String mapID, boolean p1AI, boolean p2AI, boolean p1Turn) {
-        Player player1 = new Player(this, keyHandler, new Point(tileSize*1, tileSize*3), player_name1, 1);
-        Player player2 = new Player(this, keyHandler, new Point(tileSize*4, tileSize*5), player_name2, 2);
-        players.add(player1);
-        players.add(player2);
+    public Game(ScreenNavigator screenNavigator, String player_name1, String player_name2, boolean threePlayers, String player_name3, String mapID, boolean p1AI, boolean p2AI, boolean p1Turn) {
+        players.add(new Player(this, keyHandler, new Point(tileSize*1, tileSize*3), player_name1, 1));
+        players.add(new Player(this, keyHandler, new Point(tileSize*4, tileSize*5), player_name2, 2));
+        if(threePlayers){
+            players.add(new Player(this, keyHandler, new Point(tileSize*1, tileSize*5), player_name3, 3));
+        }
+
         this.gameMap = MapsController.getMapById(mapID);
         this.screenWidth = gameMap.mapDimensions[1] * tileSize;
         this.screenHeight = gameMap.mapDimensions[0] * tileSize;
@@ -70,6 +70,7 @@ public class Game extends JPanel implements Runnable{
         monsters.add(new BasicMonster(this));
         monsters.add(new GhostMonster(this));
         monsters.add(new ChasingMonster(this, players));
+        monsters.add(new TipsyMonster(this, players));
 
         // Development: call the ghost powerUp
         for (Player player : players) {
@@ -117,13 +118,19 @@ public class Game extends JPanel implements Runnable{
             Player player = playerIterator.next();
             player.update();
 
-            if (player.shouldBeRemoved()) {
+            if (player.shouldBeRemoved) {
                 playerIterator.remove();
             }
         }
 
-        for(Monster monster : monsters){
+        Iterator<Monster> monsterIterator = monsters.iterator();
+        while(monsterIterator.hasNext()){
+            Monster monster = monsterIterator.next();
             monster.update();
+
+            if(monster.shouldBeRemoved){
+                monsterIterator.remove();
+            }
         }
     }
 
@@ -133,10 +140,78 @@ public class Game extends JPanel implements Runnable{
             if(superObject instanceof BombObject){
                 BombObject bomb = (BombObject) superObject;
                 if(bomb.blowTime < System.currentTimeMillis()){
+                    blowEntities(bomb);
                     obj.remove(i);
                 }
             }
         }
+    }
+
+    private void blowEntities(BombObject bomb){
+        HashMap<Integer, ArrayList<Rectangle>> tilesToBlow = new HashMap<>();
+
+        Point bombPosition = new Point(bomb.position.getX()/tileSize, bomb.position.getY()/tileSize);
+
+        // add the tile where the bomb is placed
+        tilesToBlow.put(0, new ArrayList<>());
+        tilesToBlow.get(0).add(new Rectangle(bombPosition.getX()*tileSize, bombPosition.getY()*tileSize, tileSize, tileSize));
+
+        int posX, posY;
+        for (int i = 1; i <= bomb.blowRadius; i++){
+            tilesToBlow.put(i, new ArrayList<>());
+
+            posX = bombPosition.getX() + i;
+            posY = bombPosition.getY();
+            if(!isOutOfBound(posX, posY) && !checkMaterial(posX, posY, "wall")){
+                tilesToBlow.get(i).add(new Rectangle(posX*tileSize, posY*tileSize, tileSize, tileSize));
+            }
+
+            posX = bombPosition.getX() - i;
+            posY = bombPosition.getY();
+            if(!isOutOfBound(posX, posY) && !checkMaterial(posX, posY, "wall")){
+                tilesToBlow.get(i).add(new Rectangle(posX*tileSize, posY*tileSize, tileSize, tileSize));
+            }
+
+            posX = bombPosition.getX();
+            posY = bombPosition.getY() + i;
+            if(!isOutOfBound(posX, posY) && !checkMaterial(posX, posY, "wall")){
+                tilesToBlow.get(i).add(new Rectangle(posX*tileSize, posY*tileSize, tileSize, tileSize));
+            }
+
+            posX = bombPosition.getX();
+            posY = bombPosition.getY() - i;
+            if(!isOutOfBound(posX, posY) && !checkMaterial(posX, posY, "wall")){
+                tilesToBlow.get(i).add(new Rectangle(posX*tileSize, posY*tileSize, tileSize, tileSize));
+            }
+        }
+
+        for(int i=0; i<= bomb.blowRadius; i++){
+            for(Rectangle tile : tilesToBlow.get(i)){
+                for(Player player : players){
+
+                    Rectangle playerSolidArea = new Rectangle(player.position.getX() + player.solidArea.x, player.position.getY() + player.solidArea.y, player.solidArea.width, player.solidArea.height);
+                    if(tile.intersects(playerSolidArea)){
+                        player.shouldBeRemoved = true;
+                    }
+                }
+
+                for(Monster monster : monsters){
+                    Rectangle monsterSolidArea = new Rectangle(monster.position.getX() + monster.solidArea.x, monster.position.getY() + monster.solidArea.y, monster.solidArea.width, monster.solidArea.height);
+                    if(tile.intersects(monsterSolidArea)){
+                        monster.shouldBeRemoved = true;
+                    }
+                }
+            }
+        }
+
+    }
+
+    private boolean isOutOfBound(int i, int y) {
+        return i < 0 || i >= gameMap.mapDimensions[0] || y < 0 || y >= gameMap.mapDimensions[1];
+    }
+
+    private boolean checkMaterial(Integer x, Integer y, String material){
+        return gameMap.mapCells[x][y].equals(material);
     }
 
     public void paintComponent(Graphics g){
