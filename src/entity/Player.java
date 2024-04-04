@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Player extends Entity{
+public class Player extends Entity {
     KeyHandler keyHandler;
     public int bombsNum = 1;
     public String name;
@@ -20,7 +20,7 @@ public class Player extends Entity{
     public boolean hasDetonator = false;
 
     private boolean ghostModeActive = false;
-    public int ghostDuration = 10;
+    public int ghostDuration = 5;
     private long ghostEffectStartTime = 0;
     private boolean canPassThroughWallOnce = false;
 
@@ -31,8 +31,8 @@ public class Player extends Entity{
     public int nextBombCanBePlaced = 0;
     public int bombPlacmentDelay = 0;
 
-    public int invincibilityDuration = 0;
-    private long invincibilityEffectStartTime = 10;
+    public int invincibilityDuration = 15;
+    private long invincibilityEffectStartTime = 0;
 
     public int maxObstacles = 0;
 
@@ -106,6 +106,7 @@ public class Player extends Entity{
 
             if (elapsedTimeInSeconds >= invincibilityDuration) {
                 invincibilityDuration = 0; // Reset invincibilityDuration after it ends
+                System.out.println("Player " + name + " is no longer invincible");
             }
         }
     }

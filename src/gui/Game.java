@@ -79,6 +79,7 @@ public class Game extends JPanel implements Runnable{
 
         for (Player player : players) {
             player.activateInvincibilityPowerUp(player.invincibilityDuration);
+            System.out.println("Player " + player.name + " is invincible for " + player.invincibilityDuration + " seconds");
         }
     }
 
@@ -190,7 +191,7 @@ public class Game extends JPanel implements Runnable{
                 for(Player player : players){
 
                     Rectangle playerSolidArea = new Rectangle(player.position.getX() + player.solidArea.x, player.position.getY() + player.solidArea.y, player.solidArea.width, player.solidArea.height);
-                    if(tile.intersects(playerSolidArea)){
+                    if(tile.intersects(playerSolidArea) && player.invincibilityDuration <= 0){ // if the player is invincible, the bomb won't affect him
                         player.shouldBeRemoved = true;
                     }
                 }
@@ -201,6 +202,8 @@ public class Game extends JPanel implements Runnable{
                         monster.shouldBeRemoved = true;
                     }
                 }
+
+
             }
         }
 
