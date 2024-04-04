@@ -20,6 +20,8 @@ public class Player extends Entity{
 
     // PowerUp and Curse related variables
     public boolean hasDetonator = false;
+
+    private boolean ghostModeActive = false;
     public int ghostDuration = 10;
     private long ghostEffectStartTime = 0;
     private boolean canPassThroughWallOnce = false;
@@ -30,7 +32,10 @@ public class Player extends Entity{
     public int bombFreezeTime = 0;
     public int nextBombCanBePlaced = 0;
     public int bombPlacmentDelay = 0;
+
     public int invincibilityDuration = 0;
+    private long invincibilityEffectStartTime = 10;
+
     public int maxObstacles = 0;
 
 
@@ -89,6 +94,15 @@ public class Player extends Entity{
                 canPassThroughWallOnce = true; // Allow passing through wall once after effect ends
             }
         }
+
+        if (invincibilityDuration > 0) {
+            long currentTime = System.currentTimeMillis();
+            long elapsedTimeInSeconds = (currentTime - invincibilityEffectStartTime) / 1000;
+
+            if (elapsedTimeInSeconds >= invincibilityDuration) {
+                invincibilityDuration = 0; // Reset invincibilityDuration after it ends
+            }
+        }
     }
 
     private void movePlayer(boolean up, boolean down, boolean left, boolean right) {
@@ -114,7 +128,9 @@ public class Player extends Entity{
 
                 int npcIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
                 interactWithMonster(npcIndex);
-            } else if (canPassThroughWallOnce) {
+//                canPassThroughWallOnce = true;
+            } else if (canPassThroughWallOnce ) {
+                System.out.println("Player can pass through wall once");
                 passedThroughWallThisMove = true;
             }
 
@@ -141,6 +157,15 @@ public class Player extends Entity{
             if (passedThroughWallThisMove) {
                 canPassThroughWallOnce = false;
             }
+
+////             After moving, check if on a grass tile to possibly update canPassThroughWallOnce
+//            int tileX = position.getX() / gp.tileSize;
+//            int tileY = position.getY() / gp.tileSize;
+//            if (gp.isPlantable(tileX, tileY)) {
+//                canPassThroughWallOnce = false; // Disable wall pass-through after moving onto a grass tile
+//            }
+
+
             updateSpriteImage();
         }
     }
@@ -262,5 +287,9 @@ public class Player extends Entity{
     }
 
 
+    public void activateInvincibilityPowerUp(int duration) {
+        this.invincibilityDuration = duration;
+        this.invincibilityEffectStartTime = System.currentTimeMillis(); // Set start time
+    }
 
 }
