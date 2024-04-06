@@ -14,7 +14,7 @@ public class Player extends Entity{
     KeyHandler keyHandler;
     public int bombsNum = 1;
     public String name;
-    int playerNumber;
+    public int playerNumber;
 
     public Player(Game gp, KeyHandler keyHandler, Point position, String name, int playerNumber) {
         super(gp);
@@ -86,9 +86,10 @@ public class Player extends Entity{
 
             collisionOn = false;
             gp.collisionChecker.checkTile(this);
+            gp.collisionChecker.checkPlayerToPlayer(this);
             int objIndex = gp.collisionChecker.checkObject(this);
 
-            int npcIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
+            int npcIndex = gp.collisionChecker.checkEntityToMonsters(this, gp.monsters);
             interactWithMonster(npcIndex);
 
             if(!collisionOn){
