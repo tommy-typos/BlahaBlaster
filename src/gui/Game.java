@@ -64,10 +64,10 @@ public class Game extends JPanel implements Runnable{
 
         obj.add(new ChestObject(new Point(3*tileSize, 3*tileSize), this));
 
-        monsters.add(new BasicMonster(this));
-        monsters.add(new GhostMonster(this));
-        monsters.add(new ChasingMonster(this, players));
-        monsters.add(new TipsyMonster(this, players));
+        monsters.add(new BasicMonster(this, 1, new Point(11 * tileSize, tileSize)));
+        monsters.add(new GhostMonster(this, 2, new Point(7 * tileSize, 8 * tileSize)));
+        monsters.add(new ChasingMonster(this, players, 3, new Point(8 * tileSize, 9 * tileSize)));
+        monsters.add(new TipsyMonster(this, players, 4, new Point(tileSize, 10 * tileSize)));
     }
 
 
