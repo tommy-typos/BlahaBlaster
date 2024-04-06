@@ -59,6 +59,7 @@ public class GhostMonster extends Monster{
             }
         }
 
+        gp.collisionChecker.checkMonsterToPlayer(this);
         adjustDirectionAtMapEdges();
         move();
         updateSpriteImage();

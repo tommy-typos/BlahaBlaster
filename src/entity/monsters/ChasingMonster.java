@@ -59,6 +59,7 @@ public class ChasingMonster extends Monster{
                 gp.collisionChecker.checkTile(this);
                 gp.collisionChecker.checkObject(this);
                 gp.collisionChecker.checkMonsterToMonster(this);
+                gp.collisionChecker.checkMonsterToPlayer(this);
 
                 if (!collisionOn) {
                     movedTowardsPlayer = true;
@@ -89,6 +90,7 @@ public class ChasingMonster extends Monster{
         gp.collisionChecker.checkTile(this);
         gp.collisionChecker.checkObject(this);
         gp.collisionChecker.checkMonsterToMonster(this);
+        gp.collisionChecker.checkMonsterToPlayer(this);
 
         if (!collisionOn) {
             move();
