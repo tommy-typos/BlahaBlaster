@@ -1,5 +1,6 @@
 package entity;
 
+import entity.monsters.GhostMonster;
 import entity.monsters.Monster;
 import entity.objects.BombObject;
 import entity.objects.SuperObject;
@@ -222,6 +223,52 @@ public class CollisionChecker {
                 p.solidArea.x = p.solidAreaDefaultX;
                 p.solidArea.y = p.solidAreaDefaultY;
             }
+        }
+    }
+
+    public void checkMonsterToMonster(Monster monster) {
+        for (Monster m : game.monsters) {
+            if (monster.id == m.id || m instanceof GhostMonster) continue;
+
+            monster.solidArea.x = monster.getX() + monster.solidArea.x;
+            monster.solidArea.y = monster.getY() + monster.solidArea.y;
+
+            // Get target's position on the map
+            m.solidArea.x = m.getX() + m.solidArea.x;
+            m.solidArea.y = m.getY() + m.solidArea.y;
+
+            switch (monster.direction) {
+                case "up":
+                    monster.solidArea.y -= monster.speed;
+                    if (monster.solidArea.intersects(m.solidArea)) {
+                        monster.collisionOn = true;
+                    }
+                    break;
+                case "down":
+                    monster.solidArea.y += monster.speed;
+                    if (monster.solidArea.intersects(m.solidArea)) {
+                        monster.collisionOn = true;
+                    }
+                    break;
+                case "left":
+                    monster.solidArea.x -= monster.speed;
+                    if (monster.solidArea.intersects(m.solidArea)) {
+                        monster.collisionOn = true;
+                    }
+                    break;
+                case "right":
+                    monster.solidArea.x += monster.speed;
+                    if (monster.solidArea.intersects(m.solidArea)) {
+                        monster.collisionOn = true;
+                    }
+                    break;
+            }
+
+            monster.solidArea.x = monster.solidAreaDefaultX;
+            monster.solidArea.y = monster.solidAreaDefaultY;
+            m.solidArea.x = m.solidAreaDefaultX;
+            m.solidArea.y = m.solidAreaDefaultY;
+
         }
     }
 }
