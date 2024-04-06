@@ -10,10 +10,9 @@ import javax.imageio.ImageIO;
 
 public class GhostMonster extends Monster{
     private final Game game;
-    public GhostMonster(Game gp) {
-        super(gp);
+    public GhostMonster(Game gp, int id, Point position) {
+        super(gp, id, position);
         this.game = gp;
-        position = new Point(7 * gp.tileSize, 8 * gp.tileSize);
         speed = 1;
     }
 

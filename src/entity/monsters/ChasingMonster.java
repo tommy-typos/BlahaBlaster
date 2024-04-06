@@ -15,11 +15,10 @@ public class ChasingMonster extends Monster{
     private final Game game;
     private final List<Player> players;
 
-    public ChasingMonster(Game gp, List<Player> players) {
-        super(gp);
+    public ChasingMonster(Game gp, List<Player> players, int id, Point position) {
+        super(gp, id, position);
         this.game = gp;
         this.players = players;
-        position = new Point(8 * gp.tileSize, 9 * gp.tileSize);
         speed = 3;
     }
 
