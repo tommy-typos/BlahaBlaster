@@ -14,7 +14,7 @@ public class Player extends Entity{
     KeyHandler keyHandler;
     public int bombsNum = 1;
     public String name;
-    int playerNumber;
+    public int playerNumber;
 
     public Player(Game gp, KeyHandler keyHandler, Point position, String name, int playerNumber) {
         super(gp);
