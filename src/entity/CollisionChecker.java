@@ -120,7 +120,7 @@ public class CollisionChecker {
         entity.collisionOn = game.tileManager.isTileCollision(tile1) || game.tileManager.isTileCollision(tile2);
     }
 
-    public int checkEntity(Entity entity, ArrayList<Monster> target){
+    public int checkEntityToMonsters(Entity entity, ArrayList<Monster> target){
         int i = 999;
 
         for(Entity e : target){
