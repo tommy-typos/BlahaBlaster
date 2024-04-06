@@ -62,6 +62,7 @@ public class BasicMonster extends Monster{
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
         gp.collisionChecker.checkObject(this);
+        gp.collisionChecker.checkMonsterToMonster(this);
 
         if (!collisionOn) {
             move();
