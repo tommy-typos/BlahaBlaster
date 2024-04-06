@@ -174,4 +174,54 @@ public class CollisionChecker {
         }
         return i;
     }
+
+    public void checkPlayerToPlayer(Player player){
+        for(Player p: game.players){
+            if(p.playerNumber != player.playerNumber){
+                // Get entity's position on the map
+                player.solidArea.x = player.getX() + player.solidArea.x;
+                player.solidArea.y = player.getY() + player.solidArea.y;
+
+                // Get target's position on the map
+                p.solidArea.x = p.getX() + p.solidArea.x;
+                p.solidArea.y = p.getY() + p.solidArea.y;
+
+                // Check if the two entities collide
+                switch (player.direction){
+                    case "up":
+                        player.solidArea.y -= player.speed;
+                        if(player.solidArea.intersects(p.solidArea)){
+                            player.collisionOn = true;
+                        }
+                        break;
+
+                    case "down":
+                        player.solidArea.y += player.speed;
+                        if(player.solidArea.intersects(p.solidArea)){
+                            player.collisionOn = true;
+                        }
+                        break;
+
+                    case "left":
+                        player.solidArea.x -= player.speed;
+                        if(player.solidArea.intersects(p.solidArea)){
+                            player.collisionOn = true;
+                        }
+                        break;
+
+                    case "right":
+                        player.solidArea.x += player.speed;
+                        if(player.solidArea.intersects(p.solidArea)){
+                            player.collisionOn = true;
+                        }
+                        break;
+
+                }
+                player.solidArea.x = player.solidAreaDefaultX;
+                player.solidArea.y = player.solidAreaDefaultY;
+                p.solidArea.x = p.solidAreaDefaultX;
+                p.solidArea.y = p.solidAreaDefaultY;
+            }
+        }
+    }
 }
