@@ -145,31 +145,70 @@ public class Game extends JPanel implements Runnable{
         tilesToBlow.get(0).add(new Rectangle(bombPosition.getX()*tileSize, bombPosition.getY()*tileSize, tileSize, tileSize));
 
         int posX, posY;
+        boolean leftStop, rightStop, upStop, downStop;
+        leftStop = rightStop = upStop = downStop = false;
         for (int i = 1; i <= bomb.blowRadius; i++){
             tilesToBlow.put(i, new ArrayList<>());
 
-            posX = bombPosition.getX() + i;
-            posY = bombPosition.getY();
-            if(!isOutOfBound(posX, posY) && !checkMaterial(posX, posY, "wall")){
-                tilesToBlow.get(i).add(new Rectangle(posX*tileSize, posY*tileSize, tileSize, tileSize));
+            if(!leftStop){
+                posX = bombPosition.getX() - i;
+                posY = bombPosition.getY();
+                if(isOutOfBound(posX, posY) || checkMaterial(posX, posY, "wall")){
+                    leftStop = true;
+                }else{
+                    if(checkMaterial(posX, posY, "brick")){
+                        gameMap.mapCells[posY][posX] = "grass";
+                        leftStop = true;
+                    }else{
+                        tilesToBlow.get(i).add(new Rectangle(posX*tileSize, posY*tileSize, tileSize, tileSize));
+                    }
+
+                }
             }
 
-            posX = bombPosition.getX() - i;
-            posY = bombPosition.getY();
-            if(!isOutOfBound(posX, posY) && !checkMaterial(posX, posY, "wall")){
-                tilesToBlow.get(i).add(new Rectangle(posX*tileSize, posY*tileSize, tileSize, tileSize));
+            if(!rightStop){
+                posX = bombPosition.getX() + i;
+                posY = bombPosition.getY();
+                if(isOutOfBound(posX, posY) || checkMaterial(posX, posY, "wall")){
+                    rightStop = true;
+                }else{
+                    if(checkMaterial(posX, posY, "brick")){
+                        gameMap.mapCells[posY][posX] = "grass";
+                        rightStop = true;
+                    }else {
+                        tilesToBlow.get(i).add(new Rectangle(posX * tileSize, posY * tileSize, tileSize, tileSize));
+                    }
+                }
             }
 
-            posX = bombPosition.getX();
-            posY = bombPosition.getY() + i;
-            if(!isOutOfBound(posX, posY) && !checkMaterial(posX, posY, "wall")){
-                tilesToBlow.get(i).add(new Rectangle(posX*tileSize, posY*tileSize, tileSize, tileSize));
+            if(!upStop){
+                posX = bombPosition.getX();
+                posY = bombPosition.getY() - i;
+                if(isOutOfBound(posX, posY) || checkMaterial(posX, posY, "wall")){
+                    upStop = true;
+                }else{
+                    if (checkMaterial(posX, posY, "brick")) {
+                        gameMap.mapCells[posY][posX] = "grass";
+                        upStop = true;
+                    } else {
+                        tilesToBlow.get(i).add(new Rectangle(posX * tileSize, posY * tileSize, tileSize, tileSize));
+                    }
+                }
             }
 
-            posX = bombPosition.getX();
-            posY = bombPosition.getY() - i;
-            if(!isOutOfBound(posX, posY) && !checkMaterial(posX, posY, "wall")){
-                tilesToBlow.get(i).add(new Rectangle(posX*tileSize, posY*tileSize, tileSize, tileSize));
+            if(!downStop){
+                posX = bombPosition.getX();
+                posY = bombPosition.getY() + i;
+                if(isOutOfBound(posX, posY) || checkMaterial(posX, posY, "wall")){
+                    downStop = true;
+                }else{
+                    if (checkMaterial(posX, posY, "brick")) {
+                        gameMap.mapCells[posY][posX] = "grass";
+                        downStop = true;
+                    } else {
+                        tilesToBlow.get(i).add(new Rectangle(posX * tileSize, posY * tileSize, tileSize, tileSize));
+                    }
+                }
             }
         }
 
@@ -199,7 +238,7 @@ public class Game extends JPanel implements Runnable{
     }
 
     private boolean checkMaterial(Integer x, Integer y, String material){
-        return gameMap.mapCells[x][y].equals(material);
+        return gameMap.mapCells[y][x].equals(material);
     }
 
     public void paintComponent(Graphics g){
