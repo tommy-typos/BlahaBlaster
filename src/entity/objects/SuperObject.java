@@ -13,6 +13,8 @@ public class SuperObject {
     public boolean collision;
     public Point position;
 
+    public boolean shouldBeRemoved = false;
+
     public SuperObject(Point position, Game game){
         this.position = position;
         this.game = game;

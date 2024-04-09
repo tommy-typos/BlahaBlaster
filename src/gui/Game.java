@@ -142,34 +142,30 @@ public class Game extends JPanel implements Runnable{
                 monsterIterator.remove();
             }
         }
-    }
 
-//    private void blowUpBombs() {
-//        for(int i = 0; i < obj.size(); i++){
-//            SuperObject superObject = obj.get(i);
-//            if(superObject instanceof BombObject){
-//                BombObject bomb = (BombObject) superObject;
-//                if(bomb.blowTime < System.currentTimeMillis()){
-//                    blowEntities(bomb);
-//                    obj.remove(i);
-//                }
-//            }
-//        }
-//    }
-
-    private void blowUpBombs() {
-        for (int i = obj.size() - 1; i >= 0; i--) {
-            SuperObject superObject = obj.get(i);
-            if (superObject instanceof BombObject) {
-                BombObject bomb = (BombObject) superObject;
-                if (bomb.blowTime < System.currentTimeMillis()) {
-                    blowEntities(bomb);
-                    obj.remove(i); // Safe to remove while iterating in reverse
+        // check if chest should be replaced with effect
+        for (SuperObject superObject : obj) {
+            if (superObject instanceof ChestObject) {
+                ChestObject chest = (ChestObject) superObject;
+                if (chest.shouldBeRemoved) {
+                    replaceObjectWithEffect(chest.position, new Effect(chest.position, this));
                 }
             }
         }
     }
 
+    private void blowUpBombs() {
+        for(int i = obj.size() - 1; i >= 0; i--){
+            SuperObject superObject = obj.get(i);
+            if(superObject instanceof BombObject){
+                BombObject bomb = (BombObject) superObject;
+                if(bomb.blowTime < System.currentTimeMillis() && i < obj.size()){
+                    blowEntities(bomb);
+                    obj.remove(i);
+                }
+            }
+        }
+    }
 
     private void blowEntities(BombObject bomb){
         HashMap<Integer, ArrayList<Rectangle>> tilesToBlow = new HashMap<>();
@@ -227,15 +223,16 @@ public class Game extends JPanel implements Runnable{
                 }
 
                 // Chest blow up, if it blows up, it will be replaced by an effect
-//                for(int j = 0; j < obj.size(); j++){
-//                    SuperObject superObject = obj.get(j);
-//                    if(superObject instanceof ChestObject){
-//                        Rectangle chestSolidArea = new Rectangle(superObject.position.getX(), superObject.position.getY(), tileSize, tileSize);
-//                        if(tile.intersects(chestSolidArea)){
-//                            replaceObjectWithEffect(superObject.position, new Effect(superObject.position, this));
-//                        }
-//                    }
-//                }
+                for(SuperObject superObject : obj){
+                    if(superObject instanceof ChestObject){
+                        ChestObject chest = (ChestObject) superObject;
+                        Rectangle chestSolidArea = new Rectangle(chest.position.getX(), chest.position.getY(), tileSize, tileSize);
+                        if(tile.intersects(chestSolidArea)){
+                            chest.shouldBeRemoved = true;
+                        }
+                    }
+                }
+
 
 
             }
