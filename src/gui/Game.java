@@ -66,7 +66,7 @@ public class Game extends JPanel implements Runnable{
     }
 
     public void setUpGame(ArrayList<Player> players){
-        effects.add(new Effect(new Point(0*tileSize, 0*tileSize), this));
+        effects.add(new Effect(new Point(-5*tileSize, -5*tileSize), this));
 
         obj.add(new ChestObject(new Point(tileSize, tileSize), this));
         obj.add(new ChestObject(new Point(3*tileSize, 3*tileSize), this));
@@ -144,12 +144,12 @@ public class Game extends JPanel implements Runnable{
         }
 
         // check if chest should be replaced with effect
-        for (SuperObject superObject : obj) {
-            if (superObject instanceof ChestObject) {
-                ChestObject chest = (ChestObject) superObject;
-                if (chest.shouldBeRemoved) {
-                    replaceObjectWithEffect(chest.position, new Effect(chest.position, this));
-                }
+        Iterator<SuperObject> objIterator = obj.iterator();
+        while(objIterator.hasNext()){
+            SuperObject superObject = objIterator.next();
+            if (superObject instanceof ChestObject && ((ChestObject) superObject).shouldBeRemoved) {
+                objIterator.remove(); // Safe removal
+                replaceObjectWithEffect(superObject.position, new Effect(superObject.position, this));
             }
         }
     }
@@ -232,9 +232,6 @@ public class Game extends JPanel implements Runnable{
                         }
                     }
                 }
-
-
-
             }
         }
 
@@ -292,27 +289,14 @@ public class Game extends JPanel implements Runnable{
     }
 
 
-    // Manage the Effects show up
     // Method to replace a ChestObject with an Effect (PowerUp or Curse)
-//    public void replaceObjectWithEffect(Point position, Effect effect) {
-//        // First, find and remove the ChestObject at the given position
-//        for (int i = 0; i < obj.size(); i++) {
-//            SuperObject superObject = obj.get(i);
-//            if (superObject instanceof ChestObject && superObject.position.equals(position)) {
-//                obj.remove(i); // Remove the chest
-//                break; // Assuming only one chest can exist at a position, we break the loop after finding it
-//            }
-//        }
-//
-//    }
-
     public void replaceObjectWithEffect(Point position, Effect effect) {
-        // First, find and remove the ChestObject at the given position
+        // Find and remove the ChestObject at the given position
         for (int i = 0; i < obj.size(); i++) {
             SuperObject superObject = obj.get(i);
             if (superObject instanceof ChestObject && superObject.position.equals(position)) {
-                obj.remove(i); // Remove the chest
-                break; // Assuming only one chest can exist at a position, we break the loop after finding it
+                obj.remove(i);
+                break;
             }
         }
 
