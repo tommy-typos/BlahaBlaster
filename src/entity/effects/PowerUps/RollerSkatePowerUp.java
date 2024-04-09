@@ -1,15 +1,18 @@
-package entity.effects.PowerUps;
-
-import entity.effects.Effect;
-
-public class RollerSkatePowerUp extends Effect {
-
-    @Override
-    public boolean isRollerSkatePowerUp() {
-        return true;
-    }
-
-    protected RollerSkatePowerUp() {
-        super();
-    }
-}
+//package entity.effects.PowerUps;
+//
+//import entity.Player;
+//import entity.Point;
+//import entity.effects.Effect;
+//import gui.Game;
+//
+//public class RollerSkatePowerUp extends Effect {
+//
+//    @Override
+//    public boolean isRollerSkatePowerUp() {
+//        return true;
+//    }
+//
+//    protected RollerSkatePowerUp(Player player, Point position, Game game) {
+//        super(position, game);
+//    }
+//}

@@ -1,23 +1,55 @@
 package entity.effects;
 
-public abstract class Effect {
+import entity.Point;
+import gui.Game;
 
-    protected int speedChange = 0;
-    protected int blastRangeChange = 0;
-    protected int bombFreezeTime = 0;
-    protected int bombPlacementTimeLimit = 0;
-    protected int invincibilityDuration = 0;
-    protected int ghostDuration = 0;
-    protected int maxObstacles = 0;
-    protected boolean hasDetonator = false;
+import javax.swing.*;
+
+public  class Effect {
+
+    public Point position;
+    public Game game;
+    public ImageIcon image;
+
+    public int speedChange = 0;
+    public int blastRangeChange = 0;
+    public int bombFreezeTime = 0;
+    public int bombPlacementTimeLimit = 0;
+    public int invincibilityDuration = 0;
+    public int ghostDuration = 0;
+    public int maxObstacles = 0;
+    public boolean hasDetonator = false;
 
 
-    protected Effect() {
-        this.speedChange = speedChange;
-        this.blastRangeChange = blastRangeChange;
+
+
+    /*
+    public BombObject(Point position, Game game, String owner) {
+        super(position, game);
+        this.name = "bomb";
+        this.owner = owner;
+        try{
+            this.image = ImageIO.read(getClass().getResourceAsStream("/objects/bomb.png"));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    * */
+
+    // make a constructor with an image like in BombObject
+
+    public Effect(Point position, Game game){
+        this.position = position;
+        this.game = game;
+        try{
+            this.image = new ImageIcon(getClass().getResource("/objects/effect.gif"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
-    protected void applyEffect() {
+
+    public void applyEffect() {
         // Apply the effect to the player
         // Virtual method to be overwritten in other sub classes
     }

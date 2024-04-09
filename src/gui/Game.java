@@ -9,7 +9,7 @@ import entity.objects.ChestObject;
 import entity.objects.SuperObject;
 import handler.KeyHandler;
 
-import entity.effects.PowerUps.GhostPowerUp;
+//import entity.effects.PowerUps.GhostPowerUp;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,6 +41,9 @@ public class Game extends JPanel implements Runnable{
 
     public ArrayList<Player> players = new ArrayList<>();
 
+    public ArrayList<Effect> effects = new ArrayList<>();
+
+
     int FPS = 60;
 
 
@@ -63,9 +66,12 @@ public class Game extends JPanel implements Runnable{
     }
 
     public void setUpGame(ArrayList<Player> players){
-        obj.add(new ChestObject(new Point(tileSize, tileSize), this));
+        effects.add(new Effect(new Point(0*tileSize, 0*tileSize), this));
 
+        obj.add(new ChestObject(new Point(tileSize, tileSize), this));
         obj.add(new ChestObject(new Point(3*tileSize, 3*tileSize), this));
+
+
 
         monsters.add(new BasicMonster(this));
         monsters.add(new GhostMonster(this));
@@ -81,6 +87,9 @@ public class Game extends JPanel implements Runnable{
             player.activateInvincibilityPowerUp(player.invincibilityDuration);
             System.out.println("Player " + player.name + " is invincible for " + player.invincibilityDuration + " seconds");
         }
+
+        // checking roller skate powerUp
+        players.getLast().speedBoosted = true;
     }
 
 
@@ -135,18 +144,32 @@ public class Game extends JPanel implements Runnable{
         }
     }
 
+//    private void blowUpBombs() {
+//        for(int i = 0; i < obj.size(); i++){
+//            SuperObject superObject = obj.get(i);
+//            if(superObject instanceof BombObject){
+//                BombObject bomb = (BombObject) superObject;
+//                if(bomb.blowTime < System.currentTimeMillis()){
+//                    blowEntities(bomb);
+//                    obj.remove(i);
+//                }
+//            }
+//        }
+//    }
+
     private void blowUpBombs() {
-        for(int i = 0; i < obj.size(); i++){
+        for (int i = obj.size() - 1; i >= 0; i--) {
             SuperObject superObject = obj.get(i);
-            if(superObject instanceof BombObject){
+            if (superObject instanceof BombObject) {
                 BombObject bomb = (BombObject) superObject;
-                if(bomb.blowTime < System.currentTimeMillis()){
+                if (bomb.blowTime < System.currentTimeMillis()) {
                     blowEntities(bomb);
-                    obj.remove(i);
+                    obj.remove(i); // Safe to remove while iterating in reverse
                 }
             }
         }
     }
+
 
     private void blowEntities(BombObject bomb){
         HashMap<Integer, ArrayList<Rectangle>> tilesToBlow = new HashMap<>();
@@ -203,6 +226,17 @@ public class Game extends JPanel implements Runnable{
                     }
                 }
 
+                // Chest blow up, if it blows up, it will be replaced by an effect
+//                for(int j = 0; j < obj.size(); j++){
+//                    SuperObject superObject = obj.get(j);
+//                    if(superObject instanceof ChestObject){
+//                        Rectangle chestSolidArea = new Rectangle(superObject.position.getX(), superObject.position.getY(), tileSize, tileSize);
+//                        if(tile.intersects(chestSolidArea)){
+//                            replaceObjectWithEffect(superObject.position, new Effect(superObject.position, this));
+//                        }
+//                    }
+//                }
+
 
             }
         }
@@ -222,6 +256,12 @@ public class Game extends JPanel implements Runnable{
         Graphics2D g2d = (Graphics2D) g;
 
         tileManager.draw(g2d);
+
+        for (Effect effect : effects) { // Assuming you have a collection of effects somewhere
+            if (effect.image != null) {
+                g.drawImage(effect.image.getImage(), effect.position.getX(), effect.position.getY(), this);
+            }
+        }
 
         for (SuperObject superObject : obj) {
             if (superObject != null) {
@@ -257,6 +297,18 @@ public class Game extends JPanel implements Runnable{
 
     // Manage the Effects show up
     // Method to replace a ChestObject with an Effect (PowerUp or Curse)
+//    public void replaceObjectWithEffect(Point position, Effect effect) {
+//        // First, find and remove the ChestObject at the given position
+//        for (int i = 0; i < obj.size(); i++) {
+//            SuperObject superObject = obj.get(i);
+//            if (superObject instanceof ChestObject && superObject.position.equals(position)) {
+//                obj.remove(i); // Remove the chest
+//                break; // Assuming only one chest can exist at a position, we break the loop after finding it
+//            }
+//        }
+//
+//    }
+
     public void replaceObjectWithEffect(Point position, Effect effect) {
         // First, find and remove the ChestObject at the given position
         for (int i = 0; i < obj.size(); i++) {
@@ -267,5 +319,8 @@ public class Game extends JPanel implements Runnable{
             }
         }
 
+        // Then, add the effect to the game
+        effects.add(effect); // This adds the effect so it will be drawn on the next paintComponent call
     }
+
 }

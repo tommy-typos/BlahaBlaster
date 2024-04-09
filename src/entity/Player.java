@@ -26,7 +26,7 @@ public class Player extends Entity {
 
 
     public int blastRange = 1;
-    public int speedBoost = 0;
+    public boolean speedBoosted = false;
     public int bombFreezeTime = 0;
     public int nextBombCanBePlaced = 0;
     public int bombPlacmentDelay = 0;
@@ -65,6 +65,8 @@ public class Player extends Entity {
             e.printStackTrace();
         }
     }
+
+
 
     public void update() {
         if (playerNumber == 1) {
@@ -109,6 +111,13 @@ public class Player extends Entity {
                 System.out.println("Player " + name + " is no longer invincible");
             }
         }
+
+        // Roller skate check
+        if (speedBoosted) {
+            speed = 6;
+        }
+
+
     }
 
     private void movePlayer(boolean up, boolean down, boolean left, boolean right) {

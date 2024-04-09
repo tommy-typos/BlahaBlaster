@@ -1,16 +1,18 @@
-package entity.effects.PowerUps;
-
-import entity.effects.Effect;
-
-public class GhostPowerUp extends Effect {
-    public int ghostDuration = 10;
-
-    @Override
-    public boolean isGhostPowerUp() {
-        return true;
-    }
-
-    public GhostPowerUp() {
-        super();
-    }
-}
+//package entity.effects.PowerUps;
+//
+//import entity.Point;
+//import entity.effects.Effect;
+//import gui.Game;
+//
+//public class GhostPowerUp extends Effect {
+//    public int ghostDuration = 10;
+//
+//    @Override
+//    public boolean isGhostPowerUp() {
+//        return true;
+//    }
+//
+//    public GhostPowerUp(Point position, Game game) {
+//        super(position, game);
+//    }
+//}
