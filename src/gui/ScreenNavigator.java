@@ -78,7 +78,7 @@ public class ScreenNavigator {
 
     public void goto_screen_customControls(){
         mainPanel.removeAll();
-        frame.headerPanel.changeHeaderText("Map Editor");
+        frame.headerPanel.changeHeaderText("Custom Controls");
 
         CustomControls _customControls = new CustomControls(this);
 
