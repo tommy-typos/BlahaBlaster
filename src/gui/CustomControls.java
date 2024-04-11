@@ -37,9 +37,9 @@ class CustomControls extends JPanel {
 
         ControlEventSource controlEventSource = new ControlEventSource(settingKey, this);
 
-        PlayerControl player1 = new PlayerControl(Color.blue, "player1", controlEventSource);
-        PlayerControl player2 = new PlayerControl(Color.red, "player2", controlEventSource);
-        PlayerControl player3 = new PlayerControl(Color.green, "player3", controlEventSource);
+        PlayerControl player1 = new PlayerControl(Color.blue, "player1",0, controlEventSource);
+        PlayerControl player2 = new PlayerControl(Color.red, "player2", 1, controlEventSource);
+        PlayerControl player3 = new PlayerControl(Color.green, "player3", 2, controlEventSource);
 
         grid_3players.add(player1);
         grid_3players.add(player2);
@@ -93,8 +93,35 @@ class CustomControls extends JPanel {
         changesSaved.setPreferredSize(new Dimension(200, 50));
         changesSaved.setHorizontalAlignment(SwingConstants.CENTER);
 
+
+
+        bottom_btns.add(mainMenu);
+        bottom_btns.add(changesSaved);
+        bottom_btns.add(saveChanges);
+
+        grid_bottom.add(top_info);
+        grid_bottom.add(bottom_btns);
+
+
+
+        grid.add(grid_bottom);
+        this.add(grid);
+
+
+        // ******************************************************************
+        // EVENT HANDLING ***************************************************
+        // ******************************************************************
+        CustomControl[] jsonControls = CustomControlsJson.readControlsFromJson();
+
+
+
+        this.addKeyListener(new CustomControlKeyHandler(controlEventSource, settingKey, jsonControls));
+        this.setFocusable(true);
+
+
         saveChanges.addActionListener(e -> {
             changesSaved.setText("Changes are saved ✅");
+            CustomControlsJson.saveControlsToJson(jsonControls);
             new Thread(() -> {
                 try {
                     Thread.sleep(500);
@@ -110,41 +137,19 @@ class CustomControls extends JPanel {
 
 
 
-        bottom_btns.add(mainMenu);
-        bottom_btns.add(changesSaved);
-        bottom_btns.add(saveChanges);
-
-        grid_bottom.add(top_info);
-        grid_bottom.add(bottom_btns);
-
-
-
-        grid.add(grid_bottom);
-        this.add(grid);
-
-        this.addKeyListener(new CustomControlKeyHandler(controlEventSource, settingKey));
-        this.setFocusable(true);
-
-
-        // ******************************************************************
-        // EVENT HANDLING ***************************************************
-        // ******************************************************************
-
-
-
-
-
     }
 }
 
 class CustomControlKeyHandler implements KeyListener {
     ControlEventSource controlEventSource;
     CustomLabel settingKey;
+    CustomControl[] jsonControls;
 
-    public CustomControlKeyHandler(ControlEventSource controlEventSource, CustomLabel settingKey) {
+    public CustomControlKeyHandler(ControlEventSource controlEventSource, CustomLabel settingKey, CustomControl[] jsonControls ) {
         super();
         this.controlEventSource = controlEventSource;
         this.settingKey = settingKey;
+        this.jsonControls = jsonControls;
     }
 
 
@@ -160,6 +165,7 @@ class CustomControlKeyHandler implements KeyListener {
 
         if(key != KeyEvent.VK_ESCAPE && this.controlEventSource.activelyListening){
             System.out.println("keyCode: " + key + "...keyChar: " + ev.getKeyChar());
+            jsonControls[this.controlEventSource.pIndex].changeAttrValue(this.controlEventSource.controlKeyOnJson, key);
         }
 
         if (this.controlEventSource.activelyListening){
@@ -172,6 +178,7 @@ class CustomControlKeyHandler implements KeyListener {
 
 class ControlEventSource{
     public String playerId;
+    public int pIndex;
     public String controlKeyOnJson;
     public  String settingUpKeyLabelText = "Setting Key for Player 1 > UP... (Press Esc to Cancel)";
 
@@ -208,12 +215,14 @@ class ControlEventSource{
 
 class PlayerControl extends JPanel{
     public CustomButton button_up;
+    public int pIndex;
     public CustomButton button_left;
     public CustomButton button_down;
     public CustomButton button_right;
     public CustomButton button_bomb;
-    public PlayerControl(Color color, String playerId, ControlEventSource controlEventSource) {
+    public PlayerControl(Color color, String playerId, int pIndex, ControlEventSource controlEventSource) {
         super();
+        this.pIndex = pIndex;
         GridLayout gridlayout_p2 = new GridLayout(4, 1, 0, 0);
         this.setLayout(gridlayout_p2);
         this.setOpaque(true);
@@ -283,6 +292,7 @@ class PlayerControl extends JPanel{
 
         button_up.addActionListener(e -> {
             controlEventSource.playerId = playerId;
+            controlEventSource.pIndex = this.pIndex;
             controlEventSource.controlKeyOnJson = "go_up";
             controlEventSource.eventThrowerKey = button_up;
             controlEventSource.settingUpKeyLabelText = this.settingKeyLabelBuilder(playerName, "UP");
@@ -290,6 +300,7 @@ class PlayerControl extends JPanel{
         });
         button_left.addActionListener(e -> {
             controlEventSource.playerId = playerId;
+            controlEventSource.pIndex = this.pIndex;
             controlEventSource.controlKeyOnJson = "go_left";
             controlEventSource.eventThrowerKey = button_left;
             controlEventSource.settingUpKeyLabelText = this.settingKeyLabelBuilder(playerName, "LEFT");
@@ -297,6 +308,7 @@ class PlayerControl extends JPanel{
         });
         button_down.addActionListener(e -> {
             controlEventSource.playerId = playerId;
+            controlEventSource.pIndex = this.pIndex;
             controlEventSource.controlKeyOnJson = "go_down";
             controlEventSource.eventThrowerKey = button_down;
             controlEventSource.settingUpKeyLabelText = this.settingKeyLabelBuilder(playerName, "DOWN");
@@ -304,6 +316,7 @@ class PlayerControl extends JPanel{
         });
         button_right.addActionListener(e -> {
             controlEventSource.playerId = playerId;
+            controlEventSource.pIndex = this.pIndex;
             controlEventSource.controlKeyOnJson = "go_right";
             controlEventSource.eventThrowerKey = button_right;
             controlEventSource.settingUpKeyLabelText = this.settingKeyLabelBuilder(playerName, "RIGHT");
@@ -311,6 +324,7 @@ class PlayerControl extends JPanel{
         });
         button_bomb.addActionListener(e -> {
             controlEventSource.playerId = playerId;
+            controlEventSource.pIndex = this.pIndex;
             controlEventSource.controlKeyOnJson = "place_bomb";
             controlEventSource.eventThrowerKey = button_bomb;
             controlEventSource.settingUpKeyLabelText = this.settingKeyLabelBuilder(playerName, "BOMB");
