@@ -15,11 +15,15 @@ public class Entity {
     public String direction;
     public int spriteCounter = 0;
     public int spriteNum = 1;
-    public Rectangle solidArea = new Rectangle(10, 15, 28, 32);
     public boolean collisionOn = false;
     public int actionLockCounter = 0;
-    public int solidAreaDefaultX = 10;
-    public int solidAreaDefaultY = 15;
+    public final int solidAreaDefaultX = 10;
+    public final int solidAreaDefaultY = 20;
+
+    // 48 as the tile size
+    private final int width = 48 - 2*solidAreaDefaultX;
+    private final int height = 48 - solidAreaDefaultY - 1;
+    public Rectangle solidArea = new Rectangle(solidAreaDefaultX, solidAreaDefaultY, width, height);
     public boolean shouldBeRemoved = false;
 
     public int getX() {
@@ -34,7 +38,7 @@ public class Entity {
         this.gp = gp;
     }
 
-    public void setAction(){};
+    public void setAction(){}
 
     public void update(){
         setAction();
