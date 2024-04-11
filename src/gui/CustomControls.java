@@ -255,7 +255,7 @@ class PlayerControl extends JPanel{
 
         this.button_up = new CustomButton("⬆");
         this.button_up.setForeground(color);
-        this.button_up.setPreferredSize(new Dimension(70, 25));
+        this.button_up.setPreferredSize(new Dimension(80, 25));
         p2_up.add(this.button_up);
 
         // left bottom right
@@ -268,15 +268,15 @@ class PlayerControl extends JPanel{
 
         this.button_left = new CustomButton("⬅");
         this.button_left.setForeground(color);
-        this.button_left.setPreferredSize(new Dimension(70, 25));
+        this.button_left.setPreferredSize(new Dimension(80, 25));
 
         this.button_down = new CustomButton("⬇");
         this.button_down.setForeground(color);
-        this.button_down.setPreferredSize(new Dimension(70, 25));
+        this.button_down.setPreferredSize(new Dimension(80, 25));
 
         this.button_right = new CustomButton("➡");
         this.button_right.setForeground(color);
-        this.button_right.setPreferredSize(new Dimension(70, 25));
+        this.button_right.setPreferredSize(new Dimension(80, 25));
 
 
         p2_left_bottom_right.add(this.button_left);
