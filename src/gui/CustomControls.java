@@ -7,10 +7,12 @@ import custom.Slate;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 class CustomControls extends JPanel {
+    CustomLabel settingKey;
     public CustomControls(ScreenNavigator navigator) {
         super();
         this.setBackground(Slate._950);
@@ -29,10 +31,13 @@ class CustomControls extends JPanel {
         grid_3players.setBackground(Slate._950);
 
         // players
+        settingKey = new CustomLabel("");
 
-        PlayerControl player1 = new PlayerControl(Color.blue, "Player 1");
-        PlayerControl player2 = new PlayerControl(Color.red, "Player 2");
-        PlayerControl player3 = new PlayerControl(Color.green, "Player 3");
+        ControlEventSource controlEventSource = new ControlEventSource(settingKey);
+
+        PlayerControl player1 = new PlayerControl(Color.blue, "player1", controlEventSource);
+        PlayerControl player2 = new PlayerControl(Color.red, "player2", controlEventSource);
+        PlayerControl player3 = new PlayerControl(Color.green, "player3", controlEventSource);
 
         grid_3players.add(player1);
         grid_3players.add(player2);
@@ -57,8 +62,8 @@ class CustomControls extends JPanel {
         info.setHorizontalAlignment(SwingConstants.CENTER);
 
 
-        String settinupKey = "Setting Key for Player 1 > UP... (Press Esc to Cancel)";
-        CustomLabel settingKey = new CustomLabel("");
+
+
         settingKey.setFont(new Font("Arial", Font.PLAIN, 26));
         settingKey.setHorizontalAlignment(SwingConstants.CENTER);
         settingKey.setForeground(Color.yellow);
@@ -115,7 +120,37 @@ class CustomControls extends JPanel {
         grid.add(grid_bottom);
         this.add(grid);
 
+
+        // ******************************************************************
+        // EVENT HANDLING ***************************************************
+        // ******************************************************************
+
+
+
+
+
     }
+}
+
+class ControlEventSource{
+    public String playerId;
+    public String controlKeyOnJson;
+    public  String settingUpKeyLabelText = "Setting Key for Player 1 > UP... (Press Esc to Cancel)";
+
+    public CustomButton eventThrowerKey;
+
+    // ***********
+    CustomLabel settingKey;
+
+    public ControlEventSource(CustomLabel settingKey){
+        this.settingKey = settingKey;
+    }
+
+    public void callAction() {
+//        System.out.println(this.playerId + " clicked on: " + this.controlKeyOnJson);
+        this.settingKey.setText(this.settingUpKeyLabelText);
+    }
+
 }
 
 class PlayerControl extends JPanel{
@@ -124,11 +159,13 @@ class PlayerControl extends JPanel{
     public CustomButton button_down;
     public CustomButton button_right;
     public CustomButton button_bomb;
-    public PlayerControl(Color color, String playerName) {
+    public PlayerControl(Color color, String playerId, ControlEventSource controlEventSource) {
         super();
         GridLayout gridlayout_p2 = new GridLayout(4, 1, 0, 0);
         this.setLayout(gridlayout_p2);
         this.setOpaque(true);
+
+        String playerName = playerId.equals("player1") ? "Player 1" : playerId.equals("player2") ? "Player 2": "Player 3";
 
         // label
         JPanel p2_label = new JPanel();
@@ -191,9 +228,50 @@ class PlayerControl extends JPanel{
         p2_bomb.add(this.button_bomb);
 
 
+        button_up.addActionListener(e -> {
+            controlEventSource.playerId = playerId;
+            controlEventSource.controlKeyOnJson = "go_up";
+            controlEventSource.eventThrowerKey = button_up;
+            controlEventSource.settingUpKeyLabelText = this.settingKeyLabelBuilder(playerName, "UP");
+            controlEventSource.callAction();
+        });
+        button_left.addActionListener(e -> {
+            controlEventSource.playerId = playerId;
+            controlEventSource.controlKeyOnJson = "go_left";
+            controlEventSource.eventThrowerKey = button_left;
+            controlEventSource.settingUpKeyLabelText = this.settingKeyLabelBuilder(playerName, "LEFT");
+            controlEventSource.callAction();
+        });
+        button_down.addActionListener(e -> {
+            controlEventSource.playerId = playerId;
+            controlEventSource.controlKeyOnJson = "go_down";
+            controlEventSource.eventThrowerKey = button_down;
+            controlEventSource.settingUpKeyLabelText = this.settingKeyLabelBuilder(playerName, "DOWN");
+            controlEventSource.callAction();
+        });
+        button_right.addActionListener(e -> {
+            controlEventSource.playerId = playerId;
+            controlEventSource.controlKeyOnJson = "go_right";
+            controlEventSource.eventThrowerKey = button_right;
+            controlEventSource.settingUpKeyLabelText = this.settingKeyLabelBuilder(playerName, "RIGHT");
+            controlEventSource.callAction();
+        });
+        button_bomb.addActionListener(e -> {
+            controlEventSource.playerId = playerId;
+            controlEventSource.controlKeyOnJson = "place_bomb";
+            controlEventSource.eventThrowerKey = button_bomb;
+            controlEventSource.settingUpKeyLabelText = this.settingKeyLabelBuilder(playerName, "BOMB");
+            controlEventSource.callAction();
+        });
+
+
         this.add(p2_label);
         this.add(p2_up);
         this.add(p2_left_bottom_right);
         this.add(p2_bomb);
+    }
+
+    private String settingKeyLabelBuilder(String playerName, String btnName) {
+        return "Setting Key for " + playerName + " > " + btnName + "... (Press Esc to Cancel)";
     }
 }
