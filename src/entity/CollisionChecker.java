@@ -234,37 +234,37 @@ public class CollisionChecker {
     }
 
     public void checkMonsterToPlayer(Monster monster){
-        for (Player m : game.players) {
+        for (Player p : game.players) {
             monster.solidArea.x = monster.getX() + monster.solidArea.x;
             monster.solidArea.y = monster.getY() + monster.solidArea.y;
 
             // Get target's position on the map
-            m.solidArea.x = m.getX() + m.solidArea.x;
-            m.solidArea.y = m.getY() + m.solidArea.y;
+            p.solidArea.x = p.getX() + p.solidArea.x;
+            p.solidArea.y = p.getY() + p.solidArea.y;
 
             boolean playerDies = false;
             switch (monster.direction) {
                 case "up":
                     monster.solidArea.y -= monster.speed;
-                    if (monster.solidArea.intersects(m.solidArea)) {
+                    if (monster.solidArea.intersects(p.solidArea)) {
                         playerDies = true;
                     }
                     break;
                 case "down":
                     monster.solidArea.y += monster.speed;
-                    if (monster.solidArea.intersects(m.solidArea)) {
+                    if (monster.solidArea.intersects(p.solidArea)) {
                         playerDies = true;
                     }
                     break;
                 case "left":
                     monster.solidArea.x -= monster.speed;
-                    if (monster.solidArea.intersects(m.solidArea)) {
+                    if (monster.solidArea.intersects(p.solidArea)) {
                         playerDies = true;
                     }
                     break;
                 case "right":
                     monster.solidArea.x += monster.speed;
-                    if (monster.solidArea.intersects(m.solidArea)) {
+                    if (monster.solidArea.intersects(p.solidArea)) {
                         playerDies = true;
                     }
                     break;
@@ -274,10 +274,10 @@ public class CollisionChecker {
             monster.solidArea.x = monster.solidAreaDefaultX;
             monster.solidArea.y = monster.solidAreaDefaultY;
 
-            m.shouldBeRemoved = playerDies;
+            p.shouldBeRemoved = playerDies;
             if(!playerDies){
-                m.solidArea.x = m.solidAreaDefaultX;
-                m.solidArea.y = m.solidAreaDefaultY;
+                p.solidArea.x = p.solidAreaDefaultX;
+                p.solidArea.y = p.solidAreaDefaultY;
             }
         }
     }
