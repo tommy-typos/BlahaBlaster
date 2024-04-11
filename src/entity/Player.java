@@ -91,20 +91,7 @@ public class Player extends Entity{
             interactWithMonster(npcIndex);
 
             if(!collisionOn){
-                switch(direction){
-                    case "up":
-                        position.setY(position.getY() - speed);
-                        break;
-                    case "down":
-                        position.setY(position.getY() + speed);
-                        break;
-                    case "left":
-                        position.setX(position.getX() - speed);
-                        break;
-                    case "right":
-                        position.setX(position.getX() + speed);
-                        break;
-                }
+                move(direction);
             }
             updateSpriteImage();
         }
@@ -154,37 +141,5 @@ public class Player extends Entity{
                 spriteNum = 1;
             spriteCounter = 0;
         }
-    }
-
-    public void draw(Graphics2D g2d){
-        BufferedImage img = null;
-        switch (direction){
-            case "up":
-                if(spriteNum == 1)
-                    img = up1;
-                else
-                    img = up2;
-                break;
-            case "down":
-                if(spriteNum == 1)
-                    img = down1;
-                else
-                    img = down2;
-                break;
-            case "left":
-                if(spriteNum == 1)
-                    img = left1;
-                else
-                    img = left2;
-                break;
-            case "right":
-                if(spriteNum == 1)
-                    img = right1;
-                else
-                    img = right2;
-                break;
-        }
-        g2d.drawImage(img, getX(), getY(), gp.tileSize, gp.tileSize, null);
-        g2d.drawRect(solidArea.x + getX(), solidArea.y + getY(), solidArea.width, solidArea.height);
     }
 }
