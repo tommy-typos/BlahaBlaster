@@ -1,11 +1,14 @@
 package gui;
 
+import com.google.gson.JsonObject;
 import custom.CustomButton;
 import custom.CustomLabel;
 import custom.Slate;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 class CustomControls extends JPanel {
     public CustomControls(ScreenNavigator navigator) {
@@ -39,10 +42,79 @@ class CustomControls extends JPanel {
 		grid.add(grid_3players);
 		// other stuff *************************************************
 
+        JPanel grid_bottom = new JPanel();
+        grid_bottom.setLayout(new GridLayout(2, 1, 10, 20));
+        grid_bottom.setBackground(Slate._950);
 
-        
+        // top of bottom
+        JPanel top_info = new JPanel();
+//        top_info.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
+        top_info.setLayout(new GridLayout(2, 1, 10, 1));
+        top_info.setBackground(Slate._950);
 
+        CustomLabel info = new CustomLabel("Click on control buttons and then press a key to change defined control key.");
+        info.setPreferredSize(new Dimension(700, 20));
+        info.setHorizontalAlignment(SwingConstants.CENTER);
+
+
+        String settinupKey = "Setting Key for Player 1 > UP... (Press Esc to Cancel)";
+        CustomLabel settingKey = new CustomLabel("");
+        settingKey.setFont(new Font("Arial", Font.PLAIN, 26));
+        settingKey.setHorizontalAlignment(SwingConstants.CENTER);
+        settingKey.setForeground(Color.yellow);
+
+        top_info.add(info);
+        top_info.add(settingKey);
+
+        // bottom of bottom
+
+        JPanel bottom_btns = new JPanel();
+        FlowLayout flw = new FlowLayout(FlowLayout.CENTER, 100, 1);
+        bottom_btns.setLayout(flw);
+        bottom_btns.setBackground(Slate._950);
+
+        CustomButton mainMenu = new CustomButton("Back to Main Menu");
+        mainMenu.setPreferredSize(new Dimension(200, 50));
+        mainMenu.addActionListener(e -> {
+            navigator.goto_screen_mainMenu();
+        });
+
+        CustomButton saveChanges = new CustomButton("Save Changes");
+        saveChanges.setPreferredSize(new Dimension(200, 50));
+
+        CustomLabel changesSaved = new CustomLabel("");
+        changesSaved.setPreferredSize(new Dimension(200, 50));
+        changesSaved.setHorizontalAlignment(SwingConstants.CENTER);
+
+        saveChanges.addActionListener(e -> {
+            changesSaved.setText("Changes are saved ✅");
+            new Thread(() -> {
+                try {
+                    Thread.sleep(500);
+                    SwingUtilities.invokeLater(() -> {
+                        changesSaved.setText("");
+                    });
+                } catch (InterruptedException ee) {
+                    ee.printStackTrace();
+                }
+            }).start();
+        });
+
+
+
+
+        bottom_btns.add(mainMenu);
+        bottom_btns.add(changesSaved);
+        bottom_btns.add(saveChanges);
+
+        grid_bottom.add(top_info);
+        grid_bottom.add(bottom_btns);
+
+
+
+        grid.add(grid_bottom);
         this.add(grid);
+
     }
 }
 
