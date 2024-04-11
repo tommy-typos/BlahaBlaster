@@ -211,7 +211,7 @@ class ControlEventSource{
         this.customControls.setFocusable(true);
         this.customControls.requestFocusInWindow();
 
-        if(this.previous_eventThrowerKey != null) {
+        if(this.previous_eventThrowerKey != null && this.previous_eventThrowerKey != this.eventThrowerKey) {
             this.previous_eventThrowerKey.setBorder(null);
         }
         this.previous_eventThrowerKey = eventThrowerKey;
