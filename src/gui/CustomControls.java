@@ -113,6 +113,10 @@ class CustomControls extends JPanel {
         // ******************************************************************
         CustomControl[] jsonControls = CustomControlsJson.readControlsFromJson();
 
+        jsonControls[0].changePlayerControlBtnsTexts(player1);
+        jsonControls[1].changePlayerControlBtnsTexts(player2);
+        jsonControls[2].changePlayerControlBtnsTexts(player3);
+
 
 
         this.addKeyListener(new CustomControlKeyHandler(controlEventSource, settingKey, jsonControls));
@@ -166,6 +170,8 @@ class CustomControlKeyHandler implements KeyListener {
         if(key != KeyEvent.VK_ESCAPE && this.controlEventSource.activelyListening){
             System.out.println("keyCode: " + key + "...keyChar: " + ev.getKeyChar());
             jsonControls[this.controlEventSource.pIndex].changeAttrValue(this.controlEventSource.controlKeyOnJson, key);
+            String tempText = this.controlEventSource.eventThrowerKey.getText();
+            this.controlEventSource.eventThrowerKey.setText(tempText.substring(0, tempText.length() - 2) + KeyEvent.getKeyText(key) + ")");
         }
 
         if (this.controlEventSource.activelyListening){

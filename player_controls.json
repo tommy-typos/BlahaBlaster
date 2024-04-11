@@ -1,26 +1,26 @@
 [
   {
     "id": "player1",
-    "go_up": 1,
-    "go_left": 1,
-    "go_down": 1,
-    "go_right": 1,
-    "place_bomb": 1
+    "go_up": 87,
+    "go_left": 87,
+    "go_down": 87,
+    "go_right": 87,
+    "place_bomb": 87
   },
   {
     "id": "player2",
-    "go_up": 1,
-    "go_left": 1,
-    "go_down": 1,
-    "go_right": 1,
-    "place_bomb": 1
+    "go_up": 87,
+    "go_left": 87,
+    "go_down": 87,
+    "go_right": 87,
+    "place_bomb": 87
   },
   {
     "id": "player3",
-    "go_up": 1,
-    "go_left": 1,
-    "go_down": 1,
-    "go_right": 1,
-    "place_bomb": 1
+    "go_up": 87,
+    "go_left": 87,
+    "go_down": 87,
+    "go_right": 87,
+    "place_bomb": 87
   }
 ]

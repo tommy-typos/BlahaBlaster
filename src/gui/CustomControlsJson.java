@@ -3,6 +3,7 @@ package gui;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.awt.event.KeyEvent;
 import java.io.*;
 
 class CustomControl {
@@ -40,6 +41,14 @@ class CustomControl {
 			this.place_bomb = value;
 		} 
 	}
+
+    public void changePlayerControlBtnsTexts(PlayerControl playerControl){
+        playerControl.button_up.setText("⬆ (" + KeyEvent.getKeyText(this.go_up) + ")");
+        playerControl.button_left.setText("⬅ (" + KeyEvent.getKeyText(this.go_left) + ")");
+        playerControl.button_down.setText("⬇ (" + KeyEvent.getKeyText(this.go_down) + ")");
+        playerControl.button_right.setText("➡ (" + KeyEvent.getKeyText(this.go_right) + ")");
+        playerControl.button_bomb.setText("bomb (" + KeyEvent.getKeyText(this.place_bomb) + ")");
+    }
 }
 
 
