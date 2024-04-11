@@ -7,6 +7,8 @@ import custom.Slate;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +35,7 @@ class CustomControls extends JPanel {
         // players
         settingKey = new CustomLabel("");
 
-        ControlEventSource controlEventSource = new ControlEventSource(settingKey);
+        ControlEventSource controlEventSource = new ControlEventSource(settingKey, this);
 
         PlayerControl player1 = new PlayerControl(Color.blue, "player1", controlEventSource);
         PlayerControl player2 = new PlayerControl(Color.red, "player2", controlEventSource);
@@ -120,6 +122,9 @@ class CustomControls extends JPanel {
         grid.add(grid_bottom);
         this.add(grid);
 
+        this.addKeyListener(new CustomControlKeyHandler(controlEventSource, settingKey));
+        this.setFocusable(true);
+
 
         // ******************************************************************
         // EVENT HANDLING ***************************************************
@@ -132,23 +137,71 @@ class CustomControls extends JPanel {
     }
 }
 
+class CustomControlKeyHandler implements KeyListener {
+    ControlEventSource controlEventSource;
+    CustomLabel settingKey;
+
+    public CustomControlKeyHandler(ControlEventSource controlEventSource, CustomLabel settingKey) {
+        super();
+        this.controlEventSource = controlEventSource;
+        this.settingKey = settingKey;
+    }
+
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent ev) {}
+
+    @Override
+    public void keyReleased(KeyEvent ev) {
+        int key = ev.getKeyCode();
+
+        if(key != KeyEvent.VK_ESCAPE && this.controlEventSource.activelyListening){
+            System.out.println("keyCode: " + key + "...keyChar: " + ev.getKeyChar());
+        }
+
+        if (this.controlEventSource.activelyListening){
+            this.controlEventSource.activelyListening = false;
+            this.controlEventSource.eventThrowerKey.setBorder(null);
+            this.settingKey.setText("");
+        }
+    }
+}
+
 class ControlEventSource{
     public String playerId;
     public String controlKeyOnJson;
     public  String settingUpKeyLabelText = "Setting Key for Player 1 > UP... (Press Esc to Cancel)";
 
     public CustomButton eventThrowerKey;
+    public CustomButton previous_eventThrowerKey = null;
+
+    public boolean activelyListening = false;
 
     // ***********
     CustomLabel settingKey;
 
-    public ControlEventSource(CustomLabel settingKey){
+    CustomControls customControls;
+
+    public ControlEventSource(CustomLabel settingKey, CustomControls customControls){
         this.settingKey = settingKey;
+        this.customControls = customControls;
     }
 
     public void callAction() {
-//        System.out.println(this.playerId + " clicked on: " + this.controlKeyOnJson);
+        this.activelyListening = true;
         this.settingKey.setText(this.settingUpKeyLabelText);
+        this.eventThrowerKey.setBorder(BorderFactory.createLineBorder(Color.yellow, 2));
+        // regain focus on the panel to be able to continue to listen key events
+        this.customControls.setFocusable(true);
+        this.customControls.requestFocusInWindow();
+
+        if(this.previous_eventThrowerKey != null) {
+            this.previous_eventThrowerKey.setBorder(null);
+        }
+        this.previous_eventThrowerKey = eventThrowerKey;
     }
 
 }

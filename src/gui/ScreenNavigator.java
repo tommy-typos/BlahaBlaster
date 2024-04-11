@@ -86,6 +86,8 @@ public class ScreenNavigator {
 
         mainPanel.revalidate();
         mainPanel.repaint();
+
+        mainPanel.transferFocus();
     }
 
     public void goto_screen_new_game_screen(){
