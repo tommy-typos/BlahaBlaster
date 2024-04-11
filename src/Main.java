@@ -28,8 +28,11 @@ public class Main {
         // *********************** Map Editor Screen **********************
 //        navigator.goto_screen_mapEditor(0);
 
+        // *********************** Map Editor Screen **********************
+        navigator.goto_screen_customControls();
+
         // *********************** New Game Screen **********************
-        navigator.goto_screen_new_game_screen();
+//        navigator.goto_screen_new_game_screen();
 
         // *********************** IN GAME SCREEN *************************
         /**

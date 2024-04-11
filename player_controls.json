@@ -14,5 +14,13 @@
     "go_down": "s",
     "go_right": "d",
     "place_bomb": ""
+  },
+  {
+    "id": "player3",
+    "go_up": "w",
+    "go_left": "a",
+    "go_down": "s",
+    "go_right": "d",
+    "place_bomb": ""
   }
 ]
