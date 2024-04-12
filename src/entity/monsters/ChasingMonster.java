@@ -58,7 +58,7 @@ public class ChasingMonster extends Monster{
                 collisionOn = false;
                 gp.collisionChecker.checkTile(this);
                 gp.collisionChecker.checkObject(this);
-                gp.collisionChecker.checkMonsterToMonster(this);
+                gp.collisionChecker.checkEntityToEntity(this);
                 gp.collisionChecker.checkMonsterToPlayer(this);
 
                 if (!collisionOn) {
@@ -89,7 +89,7 @@ public class ChasingMonster extends Monster{
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
         gp.collisionChecker.checkObject(this);
-        gp.collisionChecker.checkMonsterToMonster(this);
+        gp.collisionChecker.checkEntityToEntity(this);
         gp.collisionChecker.checkMonsterToPlayer(this);
 
         if (!collisionOn) {
