@@ -14,7 +14,7 @@ public class Player extends Entity {
     KeyHandler keyHandler;
     public int bombsNum = 1;
     public String name;
-    int playerNumber;
+    public int playerNumber;
 
     // PowerUp and Curse related variables
 
@@ -142,9 +142,11 @@ public class Player extends Entity {
             if (ghostDuration <= 0 && !canPassThroughWallOnce) {
                 collisionOn = false;
                 gp.collisionChecker.checkTile(this);
+            gp.collisionChecker.checkEntityToEntity(this);
+            int objIndex = gp.collisionChecker.checkObject(this);
 
                 if (invincibilityDuration <= 0) {
-                    int npcIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
+                    int npcIndex = gp.collisionChecker.checkEntityToMonsters(this, gp.monsters);
                     interactWithMonster(npcIndex);
                 }
 

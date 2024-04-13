@@ -1,21 +1,24 @@
 package entity.monsters;
 
 import entity.Entity;
+import entity.Point;
 import gui.Game;
 
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 
 public abstract class Monster extends Entity {
     protected BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     protected int spriteCounter;
     protected int spriteNum;
+    public int id;
 
-    public Monster(Game gp) {
+    public Monster(Game gp, int id, Point position) {
         super(gp);
+        this.id = id;
+        this.position = position;
         direction = "down";
         getMonsterImage();
     }

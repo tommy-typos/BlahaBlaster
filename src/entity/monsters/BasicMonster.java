@@ -8,9 +8,8 @@ import java.util.Random;
 
 
 public class BasicMonster extends Monster{
-    public BasicMonster(Game gp) {
-        super(gp);
-        position = new Point(5 * gp.tileSize, 6 * gp.tileSize);
+    public BasicMonster(Game gp, int id, Point position) {
+        super(gp, id, position);
         speed = 2;
     }
 
@@ -62,6 +61,9 @@ public class BasicMonster extends Monster{
 
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
+        gp.collisionChecker.checkObject(this);
+        gp.collisionChecker.checkEntityToEntity(this);
+        gp.collisionChecker.checkMonsterToPlayer(this);
 
         if (!collisionOn) {
             move();

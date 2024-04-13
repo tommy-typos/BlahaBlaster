@@ -10,9 +10,12 @@ public class SuperObject {
     public BufferedImage image;
     public String name;
     public Game game;
-    public boolean collision;
+    public boolean collision = true;
     public Point position;
     public boolean shouldBeRemoved = false;
+    public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+    public int solidAreaDefaultX = 0;
+    public int solidAreaDefaultY = 0;
 
     public SuperObject(Point position, Game game){
         this.position = position;

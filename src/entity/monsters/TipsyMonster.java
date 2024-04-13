@@ -17,11 +17,10 @@ public class TipsyMonster extends Monster{
     private final Random random;
 
 
-    public TipsyMonster(Game gp, List<Player> players) {
-        super(gp);
+    public TipsyMonster(Game gp, List<Player> players, int id, Point position) {
+        super(gp, id, position);
         this.game = gp;
         this.players = players;
-        position = new Point(4 * gp.tileSize, 5 * gp.tileSize);
         speed = 2;
         random = new Random();
     }
@@ -65,6 +64,9 @@ public class TipsyMonster extends Monster{
                 adjustDirectionBasedOnNextMove(nextMove);
                 collisionOn = false;
                 gp.collisionChecker.checkTile(this);
+                gp.collisionChecker.checkObject(this);
+                gp.collisionChecker.checkEntityToEntity(this);
+                gp.collisionChecker.checkMonsterToPlayer(this);
 
                 if (!collisionOn) {
                     movedTowardsPlayer = true;
@@ -78,6 +80,9 @@ public class TipsyMonster extends Monster{
         }
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
+        gp.collisionChecker.checkObject(this);
+        gp.collisionChecker.checkEntityToEntity(this);
+        gp.collisionChecker.checkMonsterToPlayer(this);
 
         if (!collisionOn) {
             move();

@@ -15,11 +15,10 @@ public class ChasingMonster extends Monster{
     private final Game game;
     private final List<Player> players;
 
-    public ChasingMonster(Game gp, List<Player> players) {
-        super(gp);
+    public ChasingMonster(Game gp, List<Player> players, int id, Point position) {
+        super(gp, id, position);
         this.game = gp;
         this.players = players;
-        position = new Point(8 * gp.tileSize, 9 * gp.tileSize);
         speed = 3;
     }
 
@@ -58,6 +57,9 @@ public class ChasingMonster extends Monster{
                 adjustDirectionBasedOnNextMove(nextMove);
                 collisionOn = false;
                 gp.collisionChecker.checkTile(this);
+                gp.collisionChecker.checkObject(this);
+                gp.collisionChecker.checkEntityToEntity(this);
+                gp.collisionChecker.checkMonsterToPlayer(this);
 
                 if (!collisionOn) {
                     movedTowardsPlayer = true;
@@ -86,6 +88,9 @@ public class ChasingMonster extends Monster{
         }
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
+        gp.collisionChecker.checkObject(this);
+        gp.collisionChecker.checkEntityToEntity(this);
+        gp.collisionChecker.checkMonsterToPlayer(this);
 
         if (!collisionOn) {
             move();

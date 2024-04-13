@@ -1,6 +1,9 @@
 package entity;
 
+import entity.monsters.GhostMonster;
 import entity.monsters.Monster;
+import entity.objects.BombObject;
+import entity.objects.SuperObject;
 import gui.Game;
 
 import java.util.ArrayList;
@@ -51,11 +54,74 @@ public class CollisionChecker {
         checkCollision(tile1, tile2, entity);
     }
 
+    public int checkObject(Entity entity){
+        int index = 999;
+
+        for(SuperObject obj: game.obj){
+
+            if(obj != null){
+                if(entity instanceof Player && obj instanceof BombObject){
+                    Player player = (Player) entity;
+                    BombObject bomb = (BombObject) obj;
+                    long leaveTime = bomb.timeToLeave - System.currentTimeMillis();
+                    if(leaveTime > 0 && bomb.owner.equals(player.name)){
+                        continue;
+                    }
+                }
+                entity.solidArea.x = entity.getX() + entity.solidArea.x;
+                entity.solidArea.y = entity.getY() + entity.solidArea.y;
+
+                obj.solidArea.x = obj.getX() + obj.solidArea.x;
+                obj.solidArea.y = obj.getY() + obj.solidArea.y;
+
+                switch (entity.direction){
+                    case "up":
+                        entity.solidArea.y -= entity.speed;
+                        if(entity.solidArea.intersects(obj.solidArea)){
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }
+                        break;
+
+                    case "down":
+                        entity.solidArea.y += entity.speed;
+                        if(entity.solidArea.intersects(obj.solidArea)){
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }
+                        break;
+
+                    case "left":
+                        entity.solidArea.x -= entity.speed;
+                        if(entity.solidArea.intersects(obj.solidArea)){
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }
+                        break;
+
+                    case "right":
+                        entity.solidArea.x += entity.speed;
+                        if(entity.solidArea.intersects(obj.solidArea)){
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }
+                        break;
+                }
+                entity.solidArea.x = entity.solidAreaDefaultX;
+                entity.solidArea.y = entity.solidAreaDefaultY;
+                obj.solidArea.x = obj.solidAreaDefaultX;
+                obj.solidArea.y = obj.solidAreaDefaultY;
+            }
+        }
+
+        return index;
+    }
+
     private void checkCollision(String tile1, String tile2, Entity entity){
         entity.collisionOn = game.tileManager.isTileCollision(tile1) || game.tileManager.isTileCollision(tile2);
     }
 
-    public int checkEntity(Entity entity, ArrayList<Monster> target){
+    public int checkEntityToMonsters(Entity entity, ArrayList<Monster> target){
         int i = 999;
 
         for(Entity e : target){
@@ -108,5 +174,111 @@ public class CollisionChecker {
             e.solidArea.y = e.solidAreaDefaultY;
         }
         return i;
+    }
+
+    public void checkEntityToEntity(Entity entity){
+        ArrayList<Entity> entities = new ArrayList<>();
+        if(entity instanceof Player){
+            entities.addAll(game.players);
+        }else if(entity instanceof Monster) {
+            entities.addAll(game.monsters);
+        }
+
+        for(Entity e : entities){
+            if(e != entity){
+                // Get entity's position on the map
+                entity.solidArea.x = entity.getX() + entity.solidArea.x;
+                entity.solidArea.y = entity.getY() + entity.solidArea.y;
+
+                // Get target's position on the map
+                e.solidArea.x = e.getX() + e.solidArea.x;
+                e.solidArea.y = e.getY() + e.solidArea.y;
+
+                // Check if the two entities collide
+                switch (entity.direction){
+                    case "up":
+                        entity.solidArea.y -= entity.speed;
+                        if(entity.solidArea.intersects(e.solidArea)){
+                            entity.collisionOn = true;
+                        }
+                        break;
+
+                    case "down":
+                        entity.solidArea.y += entity.speed;
+                        if(entity.solidArea.intersects(e.solidArea)){
+                            entity.collisionOn = true;
+                        }
+                        break;
+
+                    case "left":
+                        entity.solidArea.x -= entity.speed;
+                        if(entity.solidArea.intersects(e.solidArea)){
+                            entity.collisionOn = true;
+                        }
+                        break;
+
+                    case "right":
+                        entity.solidArea.x += entity.speed;
+                        if(entity.solidArea.intersects(e.solidArea)){
+                            entity.collisionOn = true;
+                        }
+                        break;
+
+                }
+                entity.solidArea.x = entity.solidAreaDefaultX;
+                entity.solidArea.y = entity.solidAreaDefaultY;
+                e.solidArea.x = e.solidAreaDefaultX;
+                e.solidArea.y = e.solidAreaDefaultY;
+            }
+        }
+    }
+
+    public void checkMonsterToPlayer(Monster monster){
+        for (Player p : game.players) {
+            monster.solidArea.x = monster.getX() + monster.solidArea.x;
+            monster.solidArea.y = monster.getY() + monster.solidArea.y;
+
+            // Get target's position on the map
+            p.solidArea.x = p.getX() + p.solidArea.x;
+            p.solidArea.y = p.getY() + p.solidArea.y;
+
+            boolean playerDies = false;
+            switch (monster.direction) {
+                case "up":
+                    monster.solidArea.y -= monster.speed;
+                    if (monster.solidArea.intersects(p.solidArea)) {
+                        playerDies = true;
+                    }
+                    break;
+                case "down":
+                    monster.solidArea.y += monster.speed;
+                    if (monster.solidArea.intersects(p.solidArea)) {
+                        playerDies = true;
+                    }
+                    break;
+                case "left":
+                    monster.solidArea.x -= monster.speed;
+                    if (monster.solidArea.intersects(p.solidArea)) {
+                        playerDies = true;
+                    }
+                    break;
+                case "right":
+                    monster.solidArea.x += monster.speed;
+                    if (monster.solidArea.intersects(p.solidArea)) {
+                        playerDies = true;
+                    }
+                    break;
+            }
+
+
+            monster.solidArea.x = monster.solidAreaDefaultX;
+            monster.solidArea.y = monster.solidAreaDefaultY;
+
+            p.shouldBeRemoved = playerDies;
+            if(!playerDies){
+                p.solidArea.x = p.solidAreaDefaultX;
+                p.solidArea.y = p.solidAreaDefaultY;
+            }
+        }
     }
 }
