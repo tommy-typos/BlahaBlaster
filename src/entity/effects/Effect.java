@@ -1,14 +1,16 @@
 package entity.effects;
 
+import entity.Player;
 import entity.Point;
 import gui.Game;
 
 import javax.swing.*;
 
-public  class Effect {
+public abstract class Effect {
 
     public Point position;
     public Game game;
+    public Player player;
     public ImageIcon image;
 
     public int speedChange = 0;
@@ -38,7 +40,7 @@ public  class Effect {
 
     // make a constructor with an image like in BombObject
 
-    public Effect(Point position, Game game){
+    protected Effect(Point position, Game game){
         this.position = position;
         this.game = game;
         try{
@@ -50,8 +52,44 @@ public  class Effect {
 
 
     public void applyEffect() {
-        // Apply the effect to the player
-        // Virtual method to be overwritten in other sub classes
+        // Use switch to check the type of effect and apply the effect
+
+        switch (this.getClass().getSimpleName()) {
+            case "ShortBlastCurse":
+                // Apply ShortBlastCurse effect
+                break;
+            case "SlowerCurse":
+                // Apply SlowerCurse effect
+                break;
+            case "BombFreezeCurse":
+                // Apply BombFreezeCurse effect
+                break;
+            case "BombPlacementTimeLimitCurse":
+                // Apply BombPlacementTimeLimitCurse effect
+                break;
+            case "GhostPowerUp":
+                // Apply GhostPowerUp effect
+                break;
+            case "RollerSkatePowerUp":
+                // Apply RollerSkatePowerUp effect
+                break;
+            case "InvincibilityPowerUp":
+                // Apply InvincibilityPowerUp effect
+                break;
+            case "BlastRangePowerUp":
+                // Apply BlastRangePowerUp effect
+                break;
+            case "DetonatorPowerUp":
+                // Apply DetonatorPowerUp effect
+                break;
+            case "ObstaclePowerUp":
+                // Apply ObstaclePowerUp effect
+                break;
+            case "BombSlotIncreasePowerUp":
+                // Apply BombSlotIncreasePowerUp effect
+                break;
+        }
+
     }
 
     public boolean isGhostPowerUp() { return false; }

@@ -21,6 +21,10 @@ public class TileManager {
         getTileImages();
     }
 
+
+
+
+
     public void getTileImages(){
         try{
             tile.put("grass", new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/grass.png")), false));
@@ -28,10 +32,13 @@ public class TileManager {
             tile.put("wall", new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png")), true));
 
             tile.put("brick", new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/brick.png")), true));
+            tile.put("explosion", new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/explosion.gif")), false)
         }catch (IOException e){
             e.printStackTrace();
         }
     }
+
+    // temporarily replace the images of tiles to explosion gif
 
     public boolean isTileCollision(String tileType){
         return tile.get(tileType).collision;

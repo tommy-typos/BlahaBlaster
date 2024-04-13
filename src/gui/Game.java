@@ -2,7 +2,8 @@ package gui;
 
 import entity.*;
 import entity.Point;
-import entity.effects.Effect;
+import entity.effects.*;
+import entity.effects.powerUps.*;
 import entity.monsters.*;
 import entity.objects.BombObject;
 import entity.objects.ChestObject;
@@ -66,7 +67,7 @@ public class Game extends JPanel implements Runnable{
     }
 
     public void setUpGame(ArrayList<Player> players){
-        effects.add(new Effect(new Point(-5*tileSize, -5*tileSize), this));
+        effects.add(new GhostPowerUp(new Point(-5*tileSize, -5*tileSize), this));
 
         obj.add(new ChestObject(new Point(tileSize, tileSize), this));
         obj.add(new ChestObject(new Point(3*tileSize, 3*tileSize), this));
@@ -148,8 +149,8 @@ public class Game extends JPanel implements Runnable{
         while(objIterator.hasNext()){
             SuperObject superObject = objIterator.next();
             if (superObject instanceof ChestObject && ((ChestObject) superObject).shouldBeRemoved) {
-                objIterator.remove(); // Safe removal
-                replaceObjectWithEffect(superObject.position, new Effect(superObject.position, this));
+                objIterator.remove();
+                replaceObjectWithEffect(superObject.position, new GhostPowerUp(superObject.position, this));
             }
         }
     }
@@ -176,6 +177,7 @@ public class Game extends JPanel implements Runnable{
         tilesToBlow.put(0, new ArrayList<>());
         tilesToBlow.get(0).add(new Rectangle(bombPosition.getX()*tileSize, bombPosition.getY()*tileSize, tileSize, tileSize));
 
+        // add the tiles in the blow radius
         int posX, posY;
         for (int i = 1; i <= bomb.blowRadius; i++){
             tilesToBlow.put(i, new ArrayList<>());
@@ -232,10 +234,30 @@ public class Game extends JPanel implements Runnable{
                         }
                     }
                 }
+
+                // replace the affected tiles' image with the explosion gif
+
             }
         }
 
     }
+
+
+    public void replaceTile(Point position, Effect effect) {
+        // Find and remove the ChestObject at the given position
+        for (int i = 0; i < obj.size(); i++) {
+            SuperObject superObject = obj.get(i);
+            if (superObject instanceof ChestObject && superObject.position.equals(position)) {
+                obj.remove(i);
+                break;
+            }
+        }
+
+        // Then, add the effect to the game
+        effects.add(effect); // This adds the effect so it will be drawn on the next paintComponent call
+    }
+
+
 
     private boolean isOutOfBound(int i, int y) {
         return i < 0 || i >= gameMap.mapDimensions[0] || y < 0 || y >= gameMap.mapDimensions[1];
@@ -301,7 +323,7 @@ public class Game extends JPanel implements Runnable{
         }
 
         // Then, add the effect to the game
-        effects.add(effect); // This adds the effect so it will be drawn on the next paintComponent call
+        effects.add(effect); // This adds the effect, so it will be drawn on the next paintComponent call
     }
 
 }

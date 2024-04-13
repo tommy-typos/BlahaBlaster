@@ -17,6 +17,8 @@ public class Player extends Entity {
     int playerNumber;
 
     // PowerUp and Curse related variables
+
+
     public boolean hasDetonator = false;
 
     private boolean ghostModeActive = false;
