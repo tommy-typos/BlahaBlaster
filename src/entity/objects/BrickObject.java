@@ -2,21 +2,20 @@ package entity.objects;
 
 import entity.Point;
 //import entity.effects.Curses.ShortBlastCurse;
-import entity.effects.Effect;
 //import entity.effects.PowerUps.GhostPowerUp;
 import gui.Game;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.util.Random;
 
-public class ChestObject extends SuperObject{
+public class BrickObject extends SuperObject{
 
-    public ChestObject(Point position, Game game) {
+    public BrickObject(Point position, Game game) {
         super(position, game);
         this.name = "chest";
         try{
-            this.image = ImageIO.read(getClass().getResourceAsStream("/objects/chest.png"));
+            this.image = ImageIO.read(getClass().getResourceAsStream("/objects/chest.png")); // TODO change this to brick.png
+//            this.image = ImageIO.read(getClass().getResourceAsStream("/objects/brick.png"));
         }catch (IOException e){
             e.printStackTrace();
         }

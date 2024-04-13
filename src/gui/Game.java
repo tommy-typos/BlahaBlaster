@@ -6,7 +6,8 @@ import entity.effects.*;
 import entity.effects.powerUps.*;
 import entity.monsters.*;
 import entity.objects.BombObject;
-import entity.objects.ChestObject;
+import entity.objects.BrickObject;
+import entity.objects.ExplosionObject;
 import entity.objects.SuperObject;
 import handler.KeyHandler;
 
@@ -17,6 +18,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 public class Game extends JPanel implements Runnable{
 
@@ -43,6 +45,8 @@ public class Game extends JPanel implements Runnable{
     public ArrayList<Player> players = new ArrayList<>();
 
     public ArrayList<Effect> effects = new ArrayList<>();
+    public ArrayList<ExplosionObject> activeExplosions = new ArrayList<>();
+
 
 
     int FPS = 60;
@@ -69,8 +73,8 @@ public class Game extends JPanel implements Runnable{
     public void setUpGame(ArrayList<Player> players){
         effects.add(new GhostPowerUp(new Point(-5*tileSize, -5*tileSize), this));
 
-        obj.add(new ChestObject(new Point(tileSize, tileSize), this));
-        obj.add(new ChestObject(new Point(3*tileSize, 3*tileSize), this));
+        obj.add(new BrickObject(new Point(tileSize, tileSize), this));
+        obj.add(new BrickObject(new Point(3*tileSize, 3*tileSize), this));
 
 
 
@@ -148,7 +152,7 @@ public class Game extends JPanel implements Runnable{
         Iterator<SuperObject> objIterator = obj.iterator();
         while(objIterator.hasNext()){
             SuperObject superObject = objIterator.next();
-            if (superObject instanceof ChestObject && ((ChestObject) superObject).shouldBeRemoved) {
+            if (superObject instanceof BrickObject && ((BrickObject) superObject).shouldBeRemoved) {
                 objIterator.remove();
                 replaceObjectWithEffect(superObject.position, new GhostPowerUp(superObject.position, this));
             }
@@ -244,6 +248,27 @@ public class Game extends JPanel implements Runnable{
                     }
                 }
             }
+
+            for (Rectangle tile : tilesToBlow.get(i)) {
+                // Calculate the tile position
+                int tileX = tile.x / tileSize;
+                int tileY = tile.y / tileSize;
+                Point tilePosition = new Point(tileX, tileY);
+
+                // Skip the tile that will be replaced by an effect
+                if (isTileToBeReplacedWithEffect(tilePosition)) {
+                    continue;
+                }
+
+                // Replace the tile with an explosion
+                ExplosionObject explosion = new ExplosionObject(tilePosition, this);
+                activeExplosions.add(explosion);
+
+                // Schedule to remove this explosion object after 2 seconds
+                Timer timer = new Timer(2000, e -> activeExplosions.remove(explosion));
+                timer.setRepeats(false); // Only execute once
+                timer.start();
+            }
         }
 
         for(int i=0; i<= bomb.blowRadius; i++){
@@ -265,8 +290,8 @@ public class Game extends JPanel implements Runnable{
 
                 // Chest blow up, if it blows up, it will be replaced by an effect
                 for(SuperObject superObject : obj){
-                    if(superObject instanceof ChestObject){
-                        ChestObject chest = (ChestObject) superObject;
+                    if(superObject instanceof BrickObject){
+                        BrickObject chest = (BrickObject) superObject;
                         Rectangle chestSolidArea = new Rectangle(chest.position.getX(), chest.position.getY(), tileSize, tileSize);
                         if(tile.intersects(chestSolidArea)){
                             chest.shouldBeRemoved = true;
@@ -286,7 +311,7 @@ public class Game extends JPanel implements Runnable{
         // Find and remove the ChestObject at the given position
         for (int i = 0; i < obj.size(); i++) {
             SuperObject superObject = obj.get(i);
-            if (superObject instanceof ChestObject && superObject.position.equals(position)) {
+            if (superObject instanceof BrickObject && superObject.position.equals(position)) {
                 obj.remove(i);
                 break;
             }
@@ -332,6 +357,12 @@ public class Game extends JPanel implements Runnable{
             player.draw(g2d);
         }
 
+        for (ExplosionObject explosion : activeExplosions) {
+            if (explosion.image != null) {
+                g.drawImage(explosion.image.getImage(), explosion.position.getX() * tileSize, explosion.position.getY() * tileSize, tileSize, tileSize, this);
+            }
+        }
+
         g2d.dispose();
     }
 
@@ -355,7 +386,7 @@ public class Game extends JPanel implements Runnable{
         // Find and remove the ChestObject at the given position
         for (int i = 0; i < obj.size(); i++) {
             SuperObject superObject = obj.get(i);
-            if (superObject instanceof ChestObject && superObject.position.equals(position)) {
+            if (superObject instanceof BrickObject && superObject.position.equals(position)) {
                 obj.remove(i);
                 break;
             }
@@ -363,6 +394,16 @@ public class Game extends JPanel implements Runnable{
 
         // Then, add the effect to the game
         effects.add(effect); // This adds the effect, so it will be drawn on the next paintComponent call
+    }
+
+    private boolean isTileToBeReplacedWithEffect(Point position) {
+        // Check if the tile at the given position should be replaced with an effect
+        for (Effect effect : effects) {
+            if (effect.position.equals(position)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
