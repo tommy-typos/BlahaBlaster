@@ -29,7 +29,7 @@ public class Main {
 //        navigator.goto_screen_mapEditor(0);
 
         // *********************** Map Editor Screen **********************
-        navigator.goto_screen_customControls();
+        // navigator.goto_screen_customControls();
 
         // *********************** New Game Screen **********************
 //        navigator.goto_screen_new_game_screen();
