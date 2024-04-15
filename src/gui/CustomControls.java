@@ -59,7 +59,7 @@ class CustomControls extends JPanel {
         top_info.setLayout(new GridLayout(2, 1, 10, 1));
         top_info.setBackground(Slate._950);
 
-        CustomLabel info = new CustomLabel("Click on control buttons and then press a key to change defined control key.");
+        CustomLabel info = new CustomLabel("Click on the control buttons and then press a key to change the defined control key.");
         info.setPreferredSize(new Dimension(700, 20));
         info.setHorizontalAlignment(SwingConstants.CENTER);
 
