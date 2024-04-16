@@ -13,6 +13,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 public class Game extends JPanel implements Runnable{
 
@@ -21,6 +22,14 @@ public class Game extends JPanel implements Runnable{
      *                 "blaha_map_unique_id",true, true, true);
      * */
 
+    private List<SuperObject> gameObjects = new ArrayList<>();
+
+    public List<SuperObject> getObjects() {
+        return gameObjects;
+    }
+    public void addGameObject(SuperObject object) {
+        gameObjects.add(object);
+    }
     final int originalTileSize = 16;
     final int scale = 3;
 
