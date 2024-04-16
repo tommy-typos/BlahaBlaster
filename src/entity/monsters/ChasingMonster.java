@@ -2,6 +2,8 @@ package entity.monsters;
 
 import entity.Player;
 import entity.Point;
+import entity.objects.SuperObject;
+import entity.objects.BombObject;
 import gui.Game;
 
 import java.util.List;
@@ -9,8 +11,8 @@ import java.util.Random;
 
 
 public class ChasingMonster extends Monster{
-    private final Game game;
     private final List<Player> players;
+    private final Game game;
 
     public ChasingMonster(Game gp, List<Player> players) {
         super(gp);
@@ -35,39 +37,41 @@ public class ChasingMonster extends Monster{
         actionLockCounter++;
 
         if (actionLockCounter == 60 || collisionOn) {
-            Point closestPlayerPosition = findClosestPlayer();
-            boolean movedTowardsPlayer = false;
+            if (!isNearBomb()) {
+                Point closestPlayerPosition = findClosestPlayer();
+                boolean movedTowardsPlayer = false;
 
-            if (closestPlayerPosition != null) {
-                Point nextMove = calculateNextMoveTowardsPlayer(closestPlayerPosition);
-                adjustDirectionBasedOnNextMove(nextMove);
-                collisionOn = false;
-                gp.collisionChecker.checkTile(this);
+                if (closestPlayerPosition != null) {
+                    Point nextMove = calculateNextMoveTowardsPlayer(closestPlayerPosition);
+                    adjustDirectionBasedOnNextMove(nextMove);
+                    collisionOn = false;
+                    gp.collisionChecker.checkTile(this);
 
-                if (!collisionOn) {
-                    movedTowardsPlayer = true;
+                    if (!collisionOn) {
+                        movedTowardsPlayer = true;
+                    }
                 }
-            }
 
-            if (!movedTowardsPlayer) {
-                Random random = new Random();
-                int i = random.nextInt(4) + 1;
-                switch (i) {
-                    case 1:
-                        direction = "up";
-                        break;
-                    case 2:
-                        direction = "down";
-                        break;
-                    case 3:
-                        direction = "left";
-                        break;
-                    case 4:
-                        direction = "right";
-                        break;
+                if (!movedTowardsPlayer) {
+                    Random random = new Random();
+                    int i = random.nextInt(4) + 1;
+                    switch (i) {
+                        case 1:
+                            direction = "up";
+                            break;
+                        case 2:
+                            direction = "down";
+                            break;
+                        case 3:
+                            direction = "left";
+                            break;
+                        case 4:
+                            direction = "right";
+                            break;
+                    }
                 }
+                actionLockCounter = 0;
             }
-            actionLockCounter = 0;
         }
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
@@ -76,6 +80,18 @@ public class ChasingMonster extends Monster{
             move();
         }
         updateSpriteImage();
+    }
+
+    private boolean isNearBomb() {
+        for (SuperObject obj : game.getObjects()) {
+            if (obj instanceof BombObject) {
+                BombObject bomb = (BombObject) obj;
+                if (position.distance(bomb.position) <= bomb.blowRadius * game.tileSize) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private Point calculateNextMoveTowardsPlayer(Point playerPosition) {

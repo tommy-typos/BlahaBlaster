@@ -2,6 +2,8 @@ package entity.monsters;
 
 import entity.Player;
 import entity.Point;
+import entity.objects.SuperObject;
+import entity.objects.BombObject;
 import gui.Game;
 
 import java.util.List;
@@ -9,8 +11,9 @@ import java.util.Random;
 
 
 public class TipsyMonster extends Monster{
-    private final Game game;
     private final List<Player> players;
+
+    private final Game game;
     private final Random random;
 
 
@@ -37,29 +40,31 @@ public class TipsyMonster extends Monster{
     public void setAction() {
         actionLockCounter++;
         if (actionLockCounter == 60 || collisionOn) {
-            Point closestPlayerPosition = findClosestPlayer();
-            boolean movedTowardsPlayer = false;
+            if (!isNearBomb()) {
+                Point closestPlayerPosition = findClosestPlayer();
+                boolean movedTowardsPlayer = false;
 
-            if (closestPlayerPosition != null) {
-                Point nextMove = calculateNextMoveTowardsPlayer(closestPlayerPosition);
+                if (closestPlayerPosition != null) {
+                    Point nextMove = calculateNextMoveTowardsPlayer(closestPlayerPosition);
 
-                if (random.nextInt(100) < 20) { // 20% chance to make a wrong move
-                    nextMove = calculateRandomMove(); // Choose a random direction instead
+                    if (random.nextInt(100) < 20) { // 20% chance to make a wrong move
+                        nextMove = calculateRandomMove(); // Choose a random direction instead
+                    }
+
+                    adjustDirectionBasedOnNextMove(nextMove);
+                    collisionOn = false;
+                    gp.collisionChecker.checkTile(this);
+
+                    if (!collisionOn) {
+                        movedTowardsPlayer = true;
+                    }
                 }
 
-                adjustDirectionBasedOnNextMove(nextMove);
-                collisionOn = false;
-                gp.collisionChecker.checkTile(this);
-
-                if (!collisionOn) {
-                    movedTowardsPlayer = true;
+                if (!movedTowardsPlayer) {
+                    adjustDirectionBasedOnNextMove(calculateRandomMove());
                 }
+                actionLockCounter = 0;
             }
-
-            if (!movedTowardsPlayer) {
-                adjustDirectionBasedOnNextMove(calculateRandomMove());
-            }
-            actionLockCounter = 0;
         }
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
@@ -68,6 +73,18 @@ public class TipsyMonster extends Monster{
             move();
         }
         updateSpriteImage();
+    }
+
+    private boolean isNearBomb() {
+        for (SuperObject obj : game.getObjects()) {
+            if (obj instanceof BombObject) {
+                BombObject bomb = (BombObject) obj;
+                if (position.distance(bomb.position) <= bomb.blowRadius * game.tileSize) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private Point calculateNextMoveTowardsPlayer(Point playerPosition) {
