@@ -1,5 +1,6 @@
 package entity;
 
+import entity.effects.Effect;
 import entity.monsters.GhostMonster;
 import entity.monsters.Monster;
 import entity.objects.BombObject;
@@ -281,4 +282,100 @@ public class CollisionChecker {
             }
         }
     }
+
+    public void checkPlayerToEffect(Player player) {
+        for (Effect effect : game.effects) {  // Assuming 'game.effects' is your list of all effects on the game map.
+            effect.solidArea.x = effect.position.getX() + effect.solidArea.x;
+            effect.solidArea.y = effect.position.getY() + effect.solidArea.y;
+
+            player.solidArea.x = player.getX() + player.solidArea.x;
+            player.solidArea.y = player.getY() + player.solidArea.y;
+
+            // Check if the player collides with an effect in any direction.
+            switch (player.direction) {
+                case "up":
+                    player.solidArea.y -= player.speed;
+                    break;
+                case "down":
+                    player.solidArea.y += player.speed;
+                    break;
+                case "left":
+                    player.solidArea.x -= player.speed;
+                    break;
+                case "right":
+                    player.solidArea.x += player.speed;
+                    break;
+            }
+
+            // Apply the effect if there is a collision
+            if (player.solidArea.intersects(effect.solidArea)) {
+                game.effects.remove(effect);
+                effect.applyEffect(player);
+                System.out.println("Effect " + effect.effectType() +" applied: " + effect.getClass().getSimpleName());
+                System.out.println("ghostDuration: " + player.ghostDuration);
+                System.out.println("invincibilityDuration: " + player.invincibilityDuration);
+                System.out.println("hasDetonator: " + player.hasDetonator);
+                System.out.println("speed: " + player.speed);
+                System.out.println("blastRange: " + player.blastRange);
+                System.out.println("bombsNum: " + player.bombsNum);
+
+                break;  // Assuming only one effect can be applied at a time.
+            }
+
+            // Reset the areas after checking
+            player.solidArea.x = player.solidAreaDefaultX;
+            player.solidArea.y = player.solidAreaDefaultY;
+            effect.solidArea.x = effect.solidAreaDefaultX;
+            effect.solidArea.y = effect.solidAreaDefaultY;
+        }
+    }
+
+//    private void applyEffectToPlayer(Player player, Effect effect) {
+//        // This method applies the effect to the player.
+//        effect.applyEffect(player);  // Assuming that 'applyEffect' is implemented in each effect class handling its specific logic.
+//        System.out.println("Effect applied: " + effect.getClass().getSimpleName());
+//    }
+
+
+//    public void applyEffect(Player player) {
+//        switch (this.getClass().getSimpleName()) {
+//            case "ShortBlastCurse":
+//                player.blastRange = Math.max(1, player.blastRange - 1); // Reduce blast range
+//                break;
+//            case "SlowerCurse":
+//                player.speed = Math.max(1, player.speed - 1); // Reduce speed
+//                break;
+//            case "BombFreezeCurse":
+//                player.bombFreezeTime = 10; // Freeze bomb placement for 10 seconds
+//                break;
+//            case "BombPlacementTimeLimitCurse":
+//                player.bombPlacmentDelay = 5; // Delay next bomb placement
+//                break;
+//            case "GhostPowerUp":
+//                player.activateGhostPowerUp(10); // Activate ghost mode for 10 seconds
+//                break;
+//            case "RollerSkatePowerUp":
+//                player.speed += 2; // Increase speed
+//                break;
+//            case "InvincibilityPowerUp":
+//                player.activateInvincibilityPowerUp(10); // Activate invincibility for 10 seconds
+//                break;
+//            case "BlastRangePowerUp":
+//                player.blastRange += 1; // Increase blast range
+//                break;
+//            case "DetonatorPowerUp":
+//                player.hasDetonator = true; // Player gains a detonator
+//                break;
+//            case "ObstaclePowerUp":
+//                player.maxObstacles += 1; // Increase max obstacles
+//                break;
+//            case "BombSlotIncreasePowerUp":
+//                player.bombsNum += 1; // Increase bomb slots
+//                break;
+//            default:
+//                System.out.println("No effect or unknown effect.");
+//                break;
+//        }
+//    }
+
 }

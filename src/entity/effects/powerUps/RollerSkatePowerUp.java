@@ -7,12 +7,18 @@ import gui.Game;
 
 public class RollerSkatePowerUp extends Effect {
 
+    private int speedIncrease = 2;
+
     @Override
     public boolean isRollerSkatePowerUp() {
         return true;
     }
 
-    protected RollerSkatePowerUp(Player player, Point position, Game game) {
+    public RollerSkatePowerUp(Player player, Point position, Game game) {
         super(position, game);
+    }
+
+    public void applyEffect(Player player) {
+        player.speed += speedIncrease;
     }
 }

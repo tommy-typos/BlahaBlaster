@@ -5,6 +5,7 @@ import entity.Point;
 import gui.Game;
 
 import javax.swing.*;
+import java.awt.*;
 
 public abstract class Effect {
 
@@ -12,6 +13,17 @@ public abstract class Effect {
     public Game game;
     public Player player;
     public ImageIcon image;
+
+
+
+    public final int solidAreaDefaultX = 10;
+    public final int solidAreaDefaultY = 20;
+
+    // 48 as the tile size
+    private final int width = 48 - 2*solidAreaDefaultX;
+    private final int height = 48 - solidAreaDefaultY - 1;
+    public Rectangle solidArea = new Rectangle(solidAreaDefaultX, solidAreaDefaultY, width, height);
+
 
     public int speedChange = 0;
     public int blastRangeChange = 0;
@@ -24,6 +36,10 @@ public abstract class Effect {
 
 
 
+
+    public String effectType() {
+        return this.getClass().getSimpleName();
+    }
 
     /*
     public BombObject(Point position, Game game, String owner) {
@@ -51,7 +67,7 @@ public abstract class Effect {
     }
 
 
-    public void applyEffect() {
+    public void applyEffect(Player player) {
         // Use switch to check the type of effect and apply the effect
 
         switch (this.getClass().getSimpleName()) {

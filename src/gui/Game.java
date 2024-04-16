@@ -133,6 +133,10 @@ public class Game extends JPanel implements Runnable{
             Player player = playerIterator.next();
             player.update();
 
+            // Check for collisions with effects
+            collisionChecker.checkPlayerToEffect(player);
+
+
             if (player.shouldBeRemoved) {
                 playerIterator.remove();
             }
@@ -248,27 +252,6 @@ public class Game extends JPanel implements Runnable{
                     }
                 }
             }
-
-            for (Rectangle tile : tilesToBlow.get(i)) {
-                // Calculate the tile position
-                int tileX = tile.x / tileSize;
-                int tileY = tile.y / tileSize;
-                Point tilePosition = new Point(tileX, tileY);
-
-                // Skip the tile that will be replaced by an effect
-                if (isTileToBeReplacedWithEffect(tilePosition)) {
-                    continue;
-                }
-
-                // Replace the tile with an explosion
-                ExplosionObject explosion = new ExplosionObject(tilePosition, this);
-                activeExplosions.add(explosion);
-
-                // Schedule to remove this explosion object after 2 seconds
-                Timer timer = new Timer(2000, e -> activeExplosions.remove(explosion));
-                timer.setRepeats(false); // Only execute once
-                timer.start();
-            }
         }
 
         for(int i=0; i<= bomb.blowRadius; i++){
@@ -300,10 +283,28 @@ public class Game extends JPanel implements Runnable{
                 }
 
                 // replace the affected tiles' image with the explosion gif
+                for (Rectangle tileToBlow : tilesToBlow.get(i)) {
+                    // Calculate the tile position
+                    int tileX = tileToBlow.x / tileSize;
+                    int tileY = tileToBlow.y / tileSize;
+                    Point tilePosition = new Point(tileX, tileY);
 
+                    // Skip the tile that will be replaced by an effect
+                    if (isTileToBeReplacedWithEffect(tilePosition)) {
+                        continue;
+                    }
+
+                    // Replace the tile with an explosion
+                    ExplosionObject explosion = new ExplosionObject(tilePosition, this);
+                    activeExplosions.add(explosion);
+
+                    // Schedule to remove this explosion object after 2 seconds
+                    Timer timer = new Timer(2000, e -> activeExplosions.remove(explosion));
+                    timer.setRepeats(false); // Only execute once
+                    timer.start();
+                }
             }
         }
-
     }
 
 

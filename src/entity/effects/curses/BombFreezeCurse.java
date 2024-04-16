@@ -1,5 +1,6 @@
 package entity.effects.curses;
 
+import entity.Player;
 import entity.Point;
 import entity.effects.Effect;
 import gui.Game;
@@ -16,7 +17,7 @@ public class BombFreezeCurse  extends Effect {
     }
 
     @Override
-    public void applyEffect() {
+    public void applyEffect(Player player) {
         // Specific effect application logic here
     }
 

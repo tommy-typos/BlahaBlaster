@@ -1,11 +1,12 @@
 package entity.effects.powerUps;
 
+import entity.Player;
 import entity.Point;
 import entity.effects.Effect;
 import gui.Game;
 
 public class GhostPowerUp extends Effect {
-    public int ghostDuration = 10;
+    public int ghostModeDuration = 15;
 
     @Override
     public boolean isGhostPowerUp() {
@@ -14,5 +15,10 @@ public class GhostPowerUp extends Effect {
 
     public GhostPowerUp(Point position, Game game) {
         super(position, game);
+    }
+
+    @Override
+    public void applyEffect(Player player) {
+        player.ghostDuration = ghostModeDuration;
     }
 }
