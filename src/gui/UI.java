@@ -1,16 +1,12 @@
 package gui;
 
 import java.awt.*;
-import java.text.DecimalFormat;
 
 public class UI {
     Game game;
     Graphics2D g2d;
     Font arial_40, arial_80B;
-    public boolean messageOn = false;
-    public String message = "";
     public int commandNum = 0;
-    DecimalFormat dFormat = new DecimalFormat("#0.00");
 
     public UI(Game game){
         this.game = game;
@@ -18,19 +14,11 @@ public class UI {
         arial_80B = new Font("Arial", Font.BOLD, 80);
     }
 
-    public void showMessage(String message){
-        this.message = message;
-        messageOn = true;
-    }
-
     public void draw (Graphics2D g2d){
         this.g2d = g2d;
         g2d.setFont(arial_40);
         g2d.setColor(Color.WHITE);
 
-        if(game.gameState == game.playState){
-
-        }
         if(game.gameState == game.pauseState){
             drawPauseScreen();
         }
@@ -159,8 +147,7 @@ public class UI {
 
     private int getXforCenteredText(String text) {
         int length = (int)g2d.getFontMetrics().getStringBounds(text, g2d).getWidth();
-        int x = (int) (game.screenWidth/1.3 - length/2);
-        return x;
+        return (int) (game.screenWidth/1.3 - length/2);
     }
 
     public void drawSubWindow(int x, int y, int width, int height){
