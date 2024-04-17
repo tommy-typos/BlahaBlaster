@@ -85,7 +85,7 @@ public class Game extends JPanel implements Runnable{
 
         // Development: call the ghost powerUp
         for (Player player : players) {
-            player.activateGhostPowerUp(player.ghostDuration);
+//            player.activateGhostPowerUp(player.ghostDuration);
         }
 
         for (Player player : players) {

@@ -15,15 +15,13 @@ public class BlastRangePowerUp extends Effect {
     }
 
     @Override
-    public void applyEffect(Player player) {
-        player.blastRange += blastRangeIncrease;
-    }
-
-    @Override
     public boolean isBlastRangePowerUp() {
         return true;
     }
 
-
+    @Override
+    public void applyEffect(Player player) {
+        player.blastRange += blastRangeIncrease;
+    }
 
 }

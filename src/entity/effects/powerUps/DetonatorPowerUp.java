@@ -7,12 +7,13 @@ import gui.Game;
 
 public class DetonatorPowerUp extends Effect {
 
+    protected DetonatorPowerUp(Point position, Game game) {
+        super(position, game);
+    }
+
     @Override
     public boolean isDetonatorPowerUp() {
         return true;
-    }
-    protected DetonatorPowerUp(Point position, Game game) {
-        super(position, game);
     }
 
     @Override

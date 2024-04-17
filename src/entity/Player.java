@@ -20,6 +20,9 @@ public class Player extends Entity {
 
 
     public boolean hasDetonator = false;
+    public boolean canPutObstacles = false;
+    public int maxObstacles = 0;
+
 
     private boolean ghostModeActive = false;
     public int ghostDuration = 5;
@@ -36,7 +39,6 @@ public class Player extends Entity {
     public int invincibilityDuration = 15;
     private long invincibilityEffectStartTime = 0;
 
-    public int maxObstacles = 0;
 
 
 

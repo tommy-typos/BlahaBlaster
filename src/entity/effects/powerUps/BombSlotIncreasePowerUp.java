@@ -9,12 +9,13 @@ public class BombSlotIncreasePowerUp extends Effect {
 
     private int bombSlotIncrease = 1;
 
+    protected BombSlotIncreasePowerUp(Point position, Game game) {
+        super(position, game);
+    }
+
     @Override
     public boolean isBombSlotIncreasePowerUp() {
         return true;
-    }
-    protected BombSlotIncreasePowerUp(Point position, Game game) {
-        super(position, game);
     }
 
     public void applyEffect(Player player) {
