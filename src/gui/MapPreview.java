@@ -9,11 +9,11 @@ import java.awt.*;
 class MapPreview extends JPanel {
     public MapPreview(GameMap gameMap) {
         super();
-        this.setLayout(new GridLayout(10, 10, 1, 1));
+        this.setLayout(new GridLayout(12, 13, 1, 1));
         this.setBackground(Slate._950);
         this.setBorder(BorderFactory.createLineBorder(Slate._950, 1));
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i< 12; i++) {
+            for (int j = 0; j < 13; j++) {
                 JLabel tempbtn = new JLabel();
                 tempbtn.setForeground(Slate._400);
                 tempbtn.setVerticalAlignment(SwingConstants.CENTER);
@@ -25,9 +25,9 @@ class MapPreview extends JPanel {
                 String value = gameMap.mapCells[i][j];
                 switch (value) {
                     case "grass" -> tempbtn.setBackground(new Color(5, 46, 22));
-                    case "box" -> {
+                    case "brick" -> {
                         tempbtn.setBackground(new Color(120, 53, 15));
-                        tempbtn.setText("box");
+                        tempbtn.setText("brick");
                     }
                     case "wall" -> {
                         tempbtn.setBackground(new Color(41, 37, 36));

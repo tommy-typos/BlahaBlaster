@@ -57,11 +57,11 @@ class MapEditor extends JPanel {
         map_grid_wrapper.setPreferredSize(new Dimension(450, 450));
 
         JPanel map_grid = new JPanel();
-        map_grid.setLayout(new GridLayout(10, 10, 1, 1));
+        map_grid.setLayout(new GridLayout(12, 13, 1, 1));
         map_grid.setBackground(Slate._950);
         map_grid.setBorder(BorderFactory.createLineBorder(Slate._950, 1));
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 13; j++) {
                 JLabel cell_btn = new JLabel("");
                 cell_btn.setForeground(Slate._400);
                 cell_btn.setVerticalAlignment(SwingConstants.CENTER);
@@ -116,10 +116,10 @@ class MapEditor extends JPanel {
             material_label.setText(currentMaterialType);
             material_label.setBackground(new Color(5, 46, 22));
         });
-        JButton mt_box = new CustomButton("Box");
+        JButton mt_box = new CustomButton("Brick");
         mt_box.setPreferredSize(new Dimension(100, 30));
         mt_box.addActionListener(e -> {
-            this.currentMaterialType = "box";
+            this.currentMaterialType = "brick";
             material_label.setText(currentMaterialType);
             material_label.setBackground(new Color(120, 53, 15));
         });
@@ -232,9 +232,9 @@ class MapEditor extends JPanel {
                 cell_btn.setBackground(new Color(5, 46, 22));
                 cell_btn.setText("");
             }
-            case "box" -> {
+            case "brick" -> {
                 cell_btn.setBackground(new Color(120, 53, 15));
-                cell_btn.setText("box");
+                cell_btn.setText("brick");
             }
             case "wall" -> {
                 cell_btn.setBackground(new Color(41, 37, 36));
