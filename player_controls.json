@@ -10,8 +10,8 @@
   {
     "id": "player2",
     "go_up": 38,
-    "go_left": 40,
-    "go_down": 37,
+    "go_left": 37,
+    "go_down": 40,
     "go_right": 39,
     "place_bomb": 10
   },

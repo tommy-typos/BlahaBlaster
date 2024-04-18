@@ -17,7 +17,7 @@ public class Main {
         ScreenNavigator navigator = new ScreenNavigator(frame, mainPanel);
 
         // ********************* Main Menu Screen *************************
-//        navigator.goto_screen_mainMenu();
+       navigator.goto_screen_mainMenu();
 
         // *********************** Game Info Screen **********************
 //        navigator.goto_screen_gameInfo();
