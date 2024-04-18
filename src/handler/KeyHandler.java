@@ -1,22 +1,37 @@
 package handler;
 
+import gui.CustomControl;
+import gui.CustomControlsJson;
 import gui.Game;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener{
+    public CustomControl p1Controls;
+    public CustomControl p2Controls;
+    public CustomControl p3Controls;
 
     Game game;
     public boolean w, a, s, d, e, up, down, left, right, plant, num_up, num_down, num_left, num_right, num_plant, enterPressed;
 
     public KeyHandler(Game game){
         this.game = game;
+
+        CustomControl[] jsonControls = CustomControlsJson.readControlsFromJson();
+        p1Controls = jsonControls[0];
+        p2Controls = jsonControls[1];
+        p3Controls = jsonControls[2];
     }
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
+    /**
+     * w, a, s, d, e - player 1 (blue)
+     * up, down, left, right, plant - player 2 (red)
+     * num_up, num_down, num_left, num_right, num_plant - player 3 (green)
+     * */
 
     @Override
     public void keyPressed(KeyEvent ev) {
@@ -29,50 +44,52 @@ public class KeyHandler implements KeyListener{
             if(key == KeyEvent.VK_ESCAPE){
                 game.gameState = game.pauseState;
             }
-            if(key == KeyEvent.VK_W){
+            if(key == p1Controls.go_up){
                 w = true;
             }
-            if(key == KeyEvent.VK_A){
+            if(key == p1Controls.go_left){
                 a = true;
             }
-            if(key == KeyEvent.VK_S){
+            if(key == p1Controls.go_down){
                 s = true;
             }
-            if(key == KeyEvent.VK_D){
+            if(key == p1Controls.go_right){
                 d = true;
             }
-            if(key == KeyEvent.VK_E){
+            if(key == p1Controls.place_bomb){
                 e = true;
             }
-            if(key == KeyEvent.VK_UP){
+
+            if(key == p2Controls.go_up){
                 up = true;
             }
-            if(key == KeyEvent.VK_DOWN){
-                down = true;
-            }
-            if(key == KeyEvent.VK_LEFT){
+            if(key == p2Controls.go_left){
                 left = true;
             }
-            if(key == KeyEvent.VK_RIGHT){
+            if(key == p2Controls.go_down){
+                down = true;
+            }
+            if(key == p2Controls.go_right){
                 right = true;
             }
-            if(key == KeyEvent.VK_ENTER){
+            if(key == p2Controls.place_bomb){
                 plant = true;
             }
-            if(key == KeyEvent.VK_NUMPAD7){
-                num_plant = true;
+
+            if(key == p3Controls.go_up){
+                num_up = true;
             }
-            if(key == KeyEvent.VK_NUMPAD5){
-                num_down = true;
-            }
-            if(key == KeyEvent.VK_NUMPAD4){
+            if(key == p3Controls.go_left){
                 num_left = true;
             }
-            if(key == KeyEvent.VK_NUMPAD6){
+            if(key == p3Controls.go_down){
+                num_down = true;
+            }
+            if(key == p3Controls.go_right){
                 num_right = true;
             }
-            if(key == KeyEvent.VK_NUMPAD8){
-                num_up = true;
+            if(key == p3Controls.place_bomb){
+                num_plant = true;
             }
         }
     }
@@ -80,42 +97,45 @@ public class KeyHandler implements KeyListener{
     @Override
     public void keyReleased(KeyEvent ev) {
         int key = ev.getKeyCode();
-        if(key == KeyEvent.VK_W){
+        if(key == p1Controls.go_up){
             w = false;
         }
-        if(key == KeyEvent.VK_A){
+        if(key == p1Controls.go_left){
             a = false;
         }
-        if(key == KeyEvent.VK_S){
+        if(key == p1Controls.go_down){
             s = false;
         }
-        if(key == KeyEvent.VK_D){
+        if(key == p1Controls.go_right){
             d = false;
         }
-        if(key == KeyEvent.VK_UP){
+
+        if(key == p2Controls.go_up){
             up = false;
         }
-        if(key == KeyEvent.VK_DOWN){
-            down = false;
-        }
-        if(key == KeyEvent.VK_LEFT){
+        if(key == p2Controls.go_left){
             left = false;
         }
-        if(key == KeyEvent.VK_RIGHT){
+        if(key == p2Controls.go_down){
+            down = false;
+        }
+        if(key == p2Controls.go_right){
             right = false;
         }
-        if(key == KeyEvent.VK_NUMPAD5){
-            num_down = false;
-        }
-        if(key == KeyEvent.VK_NUMPAD4){
-            num_left = false;
-        }
-        if(key == KeyEvent.VK_NUMPAD6){
-            num_right = false;
-        }
-        if(key == KeyEvent.VK_NUMPAD8){
+
+        if(key == p3Controls.go_up){
             num_up = false;
         }
+        if(key == p3Controls.go_left){
+            num_left = false;
+        }
+        if(key == p3Controls.go_down){
+            num_down = false;
+        }
+        if(key == p3Controls.go_right){
+            num_right = false;
+        }
+
     }
 
     public void pauseState(int key){

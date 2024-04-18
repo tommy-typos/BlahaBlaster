@@ -17,7 +17,7 @@ public class Main {
         ScreenNavigator navigator = new ScreenNavigator(frame, mainPanel);
 
         // ********************* Main Menu Screen *************************
-//        navigator.goto_screen_mainMenu();
+       navigator.goto_screen_mainMenu();
 
         // *********************** Game Info Screen **********************
 //        navigator.goto_screen_gameInfo();
@@ -28,8 +28,11 @@ public class Main {
         // *********************** Map Editor Screen **********************
 //        navigator.goto_screen_mapEditor(0);
 
+        // *********************** Map Editor Screen **********************
+        // navigator.goto_screen_customControls();
+
         // *********************** New Game Screen **********************
-        navigator.goto_screen_new_game_screen();
+//        navigator.goto_screen_new_game_screen();
 
         // *********************** IN GAME SCREEN *************************
         /**
