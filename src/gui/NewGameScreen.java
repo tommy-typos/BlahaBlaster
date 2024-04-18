@@ -14,6 +14,11 @@ public class NewGameScreen extends JPanel {
         this.setBackground(Slate._950);
         GameMap[] gameMaps = MapsController.readGameMapsFromJson();
 
+        JPanel maingrid = new JPanel();
+        maingrid.setLayout(new GridLayout(1, 2, 0, 0));
+        maingrid.setOpaque(true);
+        maingrid.setBackground(Slate._950);
+
         JPanel grid = new JPanel();
         GridLayout gridlayout = new GridLayout(9, 2, 20, 0);
         gridlayout.setVgap(20);
@@ -243,6 +248,20 @@ public class NewGameScreen extends JPanel {
         grid.add(hindering_flow);
         grid.add(buttons_flow);
 
-        this.add(grid);
+
+
+        MapPreviewWrapper previewWrapper = new MapPreviewWrapper();
+        previewWrapper.setPreferredSize(new Dimension(450, 450));
+        previewWrapper.setMapPreview(new MapPreview(gameMaps[0]));
+
+        map_combobox.addActionListener(e -> {
+            previewWrapper.setMapPreview(new MapPreview(gameMaps[map_combobox.getSelectedIndex()]));
+        });
+
+
+        maingrid.add(grid);
+        maingrid.add(previewWrapper);
+
+        this.add(maingrid);
     }
 }
