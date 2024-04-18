@@ -1,6 +1,7 @@
 package entity;
 
 import entity.objects.BombObject;
+import entity.objects.BrickObject;
 import entity.objects.SuperObject;
 import gui.Game;
 import handler.KeyHandler;
@@ -24,10 +25,9 @@ public class Player extends Entity {
     public int maxObstacles = 0;
 
 
-    private boolean ghostModeActive = false;
     public int ghostDuration = 5;
     private long ghostEffectStartTime = 0;
-    private boolean canPassThroughWallOnce = false;
+    public boolean hasGhostPowerUp = false;
 
 
     public int blastRange = 1;
@@ -96,13 +96,33 @@ public class Player extends Entity {
             movePlayer(keyHandler.num_up, keyHandler.num_down, keyHandler.num_left, keyHandler.num_right);
         }
 
+        if (this.canPutObstacles) {
+            if (playerNumber == 1) {
+                if (keyHandler.q) {
+                    placeBrick();
+                    keyHandler.q = false;
+                }
+            }
+            if (playerNumber == 2) {
+                if (keyHandler.space) {
+                    placeBrick();
+                    keyHandler.space = false;
+                }
+            }
+            if (playerNumber == 3) {
+                if (keyHandler.num_q) {
+                    placeBrick();
+                    keyHandler.num_q = false;
+                }
+            }
+        }
+
         if (ghostDuration > 0) {
             long currentTime = System.currentTimeMillis();
             long elapsedTimeInSeconds = (currentTime - ghostEffectStartTime) / 1000;
 
             if (elapsedTimeInSeconds >= ghostDuration) {
-                ghostDuration = 0; // Reset ghostDuration after ghostDuration ends
-                canPassThroughWallOnce = true; // Allow passing through wall once after effect ends
+                    ghostDuration = 0; // Reset ghostDuration after ghostDuration ends
             }
         }
 
@@ -116,12 +136,16 @@ public class Player extends Entity {
             }
         }
 
+        if(isPlayerOnGrass()) {
+            System.out.println("Player " + name + " is on grass");
+        } else {
+            System.out.println("Player " + name + " is NOT on grass");
+        }
+
         // Roller skate check
         if (speedBoosted) {
             speed = 6;
         }
-
-
     }
 
     private void movePlayer(boolean up, boolean down, boolean left, boolean right) {
@@ -139,9 +163,8 @@ public class Player extends Entity {
                 direction = "right";
             }
 
-            boolean passedThroughWallThisMove = false;
 
-            if (ghostDuration <= 0 && !canPassThroughWallOnce) {
+            if (ghostDuration <= 0 ) {
                 collisionOn = false;
                 gp.collisionChecker.checkTile(this);
             gp.collisionChecker.checkEntityToEntity(this);
@@ -152,11 +175,8 @@ public class Player extends Entity {
                     interactWithMonster(npcIndex);
                 }
 
-//                canPassThroughWallOnce = true;
-            } else if (canPassThroughWallOnce ) {
-                System.out.println("Player can pass through wall once");
-                passedThroughWallThisMove = true;
             }
+
 
             adjustMovementAtMapEdges();
 
@@ -177,18 +197,6 @@ public class Player extends Entity {
                         break;
                 }
             }
-
-            if (passedThroughWallThisMove) {
-                canPassThroughWallOnce = false;
-            }
-
-////             After moving, check if on a grass tile to possibly update canPassThroughWallOnce
-//            int tileX = position.getX() / gp.tileSize;
-//            int tileY = position.getY() / gp.tileSize;
-//            if (gp.isPlantable(tileX, tileY)) {
-//                canPassThroughWallOnce = false; // Disable wall pass-through after moving onto a grass tile
-//            }
-
 
             updateSpriteImage();
         }
@@ -254,6 +262,35 @@ public class Player extends Entity {
         gp.obj.add(new BombObject(new Point(coordX, coordY), gp, name));
     }
 
+
+    private void placeBrick() {
+        // check if user can plant more bombs
+        int bricksPlaced = 0;
+        for (SuperObject superObject : gp.obj) {
+            if (superObject instanceof BrickObject) {
+                if (((BrickObject) superObject).owner.equals(name)) {
+                    bricksPlaced++;
+                }
+            }
+        }
+
+        if(bricksPlaced >= maxObstacles){
+            return;
+        }
+
+        // check if there is already a brick in the same position
+        int posX = (position.getX() + solidArea.x)/ gp.tileSize;
+        int posY = (position.getY() + solidArea.y)/ gp.tileSize;
+
+        int coordX = posX * gp.tileSize;
+        int coordY = posY * gp.tileSize;
+        if(gp.positionOccupied(coordX, coordY)){
+            return;
+        }
+
+        gp.obj.add(new BrickObject(new Point(coordX, coordY), gp, name));
+    }
+
     private void updateSpriteImage(){
         spriteCounter++;
         if(spriteCounter > 12){
@@ -299,17 +336,31 @@ public class Player extends Entity {
 
 
 
-    // PowerUp and Curse related methods
-
-    public void activateGhostPowerUp(int duration) {
-        this.ghostDuration = duration;
-        this.ghostEffectStartTime = System.currentTimeMillis(); // Set start time
+    // check if player standing on grass
+    public boolean isPlayerOnGrass(){
+        int tileX = position.getX() / gp.tileSize;
+        int tileY = position.getY() / gp.tileSize;
+        return gp.isPlantable(tileX, tileY);
     }
 
 
+    // PowerUp and Curse related methods
+
+    // activateGhostPowerUp method
+    public void activateGhostPowerUp(int duration) {
+        this.ghostDuration = duration;
+        this.ghostEffectStartTime = System.currentTimeMillis(); // Set start time
+        this.hasGhostPowerUp = true;
+    }
+
+    // activateInvincibilityPowerUp method
     public void activateInvincibilityPowerUp(int duration) {
         this.invincibilityDuration = duration;
         this.invincibilityEffectStartTime = System.currentTimeMillis(); // Set start time
     }
 
+    // activate Roller Skate PowerUp
+    public void activateRollerSkatePowerUp() {
+        this.speedBoosted = true;
+    }
 }

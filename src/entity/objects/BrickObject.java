@@ -10,8 +10,23 @@ import java.io.IOException;
 
 public class BrickObject extends SuperObject{
 
+    public String owner;
+
     public BrickObject(Point position, Game game) {
         super(position, game);
+        this.name = "chest";
+        try{
+            this.image = ImageIO.read(getClass().getResourceAsStream("/objects/chest.png")); // TODO change this to brick.png
+//            this.image = ImageIO.read(getClass().getResourceAsStream("/objects/brick.png"));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    // Plantable brick
+    public BrickObject(Point position, Game game, String owner) {
+        super(position, game);
+        this.owner = owner;
         this.name = "chest";
         try{
             this.image = ImageIO.read(getClass().getResourceAsStream("/objects/chest.png")); // TODO change this to brick.png

@@ -330,6 +330,7 @@ public class CollisionChecker {
         }
     }
 
+
 //    private void applyEffectToPlayer(Player player, Effect effect) {
 //        // This method applies the effect to the player.
 //        effect.applyEffect(player);  // Assuming that 'applyEffect' is implemented in each effect class handling its specific logic.

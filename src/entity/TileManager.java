@@ -22,9 +22,6 @@ public class TileManager {
     }
 
 
-
-
-
     public void getTileImages(){
         try{
             tile.put("grass", new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/grass.png")), false));
@@ -39,7 +36,17 @@ public class TileManager {
         }
     }
 
-    // temporarily replace the images of tiles to explosion gif
+
+    public boolean checkMaterial(Integer x, Integer y, String material){
+        return gameMap.mapCells[y][x].equals(material);
+    }
+
+
+
+    // check if the tile is a grass
+//    public boolean isTileGrass(String tileType){
+//        return tile.get(tileType).grass;
+//    }
 
     public boolean isTileCollision(String tileType){
         return tile.get(tileType).collision;

@@ -94,7 +94,7 @@ public class Game extends JPanel implements Runnable{
         }
 
         // checking roller skate powerUp
-        players.getLast().speedBoosted = true;
+//        players.getLast().speedBoosted = true;
     }
 
 
@@ -195,10 +195,10 @@ public class Game extends JPanel implements Runnable{
             if(!leftStop){
                 posX = bombPosition.getX() - i;
                 posY = bombPosition.getY();
-                if(isOutOfBound(posX, posY) || checkMaterial(posX, posY, "wall")){
+                if(isOutOfBound(posX, posY) || tileManager.checkMaterial(posX, posY, "wall")){
                     leftStop = true;
                 }else{
-                    if(checkMaterial(posX, posY, "brick")){
+                    if(tileManager.checkMaterial(posX, posY, "brick")){
                         gameMap.mapCells[posY][posX] = "grass";
                         leftStop = true;
                     }else{
@@ -211,10 +211,10 @@ public class Game extends JPanel implements Runnable{
             if(!rightStop){
                 posX = bombPosition.getX() + i;
                 posY = bombPosition.getY();
-                if(isOutOfBound(posX, posY) || checkMaterial(posX, posY, "wall")){
+                if(isOutOfBound(posX, posY) || tileManager.checkMaterial(posX, posY, "wall")){
                     rightStop = true;
                 }else{
-                    if(checkMaterial(posX, posY, "brick")){
+                    if(tileManager.checkMaterial(posX, posY, "brick")){
                         gameMap.mapCells[posY][posX] = "grass";
                         rightStop = true;
                     }else {
@@ -226,10 +226,10 @@ public class Game extends JPanel implements Runnable{
             if(!upStop){
                 posX = bombPosition.getX();
                 posY = bombPosition.getY() - i;
-                if(isOutOfBound(posX, posY) || checkMaterial(posX, posY, "wall")){
+                if(isOutOfBound(posX, posY) || tileManager.checkMaterial(posX, posY, "wall")){
                     upStop = true;
                 }else{
-                    if (checkMaterial(posX, posY, "brick")) {
+                    if (tileManager.checkMaterial(posX, posY, "brick")) {
                         gameMap.mapCells[posY][posX] = "grass";
                         upStop = true;
                     } else {
@@ -241,10 +241,10 @@ public class Game extends JPanel implements Runnable{
             if(!downStop){
                 posX = bombPosition.getX();
                 posY = bombPosition.getY() + i;
-                if(isOutOfBound(posX, posY) || checkMaterial(posX, posY, "wall")){
+                if(isOutOfBound(posX, posY) || tileManager.checkMaterial(posX, posY, "wall")){
                     downStop = true;
                 }else{
-                    if (checkMaterial(posX, posY, "brick")) {
+                    if (tileManager.checkMaterial(posX, posY, "brick")) {
                         gameMap.mapCells[posY][posX] = "grass";
                         downStop = true;
                     } else {
@@ -328,9 +328,9 @@ public class Game extends JPanel implements Runnable{
         return i < 0 || i >= gameMap.mapDimensions[0] || y < 0 || y >= gameMap.mapDimensions[1];
     }
 
-    private boolean checkMaterial(Integer x, Integer y, String material){
-        return gameMap.mapCells[y][x].equals(material);
-    }
+//    private boolean checkMaterial(Integer x, Integer y, String material){
+//        return gameMap.mapCells[y][x].equals(material);
+//    }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -377,7 +377,6 @@ public class Game extends JPanel implements Runnable{
     }
 
     public boolean isPlantable(int posX, int posY) {
-
         return gameMap.mapCells[posY / tileSize][posX / tileSize].equals("grass");
     }
 

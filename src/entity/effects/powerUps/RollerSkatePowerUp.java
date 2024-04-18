@@ -7,7 +7,7 @@ import gui.Game;
 
 public class RollerSkatePowerUp extends Effect {
 
-    private int speedIncrease = 2;
+//    private int speedIncrease = 2;
 
     public RollerSkatePowerUp(Player player, Point position, Game game) {
         super(position, game);
@@ -19,6 +19,8 @@ public class RollerSkatePowerUp extends Effect {
     }
 
     public void applyEffect(Player player) {
-        player.speed += speedIncrease;
+//        player.speed += speedIncrease;
+        player.activateRollerSkatePowerUp();
+
     }
 }
