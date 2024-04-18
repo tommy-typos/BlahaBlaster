@@ -2,8 +2,6 @@ package entity.monsters;
 import entity.Point;
 import gui.Game;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
 import java.util.Random;
 
 
@@ -14,20 +12,8 @@ public class BasicMonster extends Monster{
     }
 
     @Override
-    public void getMonsterImage() {
-        String basePath = "/monsters/basic_monster/bm_";
-        try {
-            up1 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_2.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    protected String getMonsterType() {
+        return "basic_monster";
     }
 
     @Override

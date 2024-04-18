@@ -13,6 +13,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 public class Game extends JPanel implements Runnable{
 
@@ -21,6 +22,14 @@ public class Game extends JPanel implements Runnable{
      *                 "blaha_map_unique_id",true, true, true);
      * */
 
+    private List<SuperObject> gameObjects = new ArrayList<>();
+
+    public List<SuperObject> getObjects() {
+        return gameObjects;
+    }
+    public void addGameObject(SuperObject object) {
+        gameObjects.add(object);
+    }
     final int originalTileSize = 16;
     final int scale = 3;
 
@@ -32,36 +41,57 @@ public class Game extends JPanel implements Runnable{
     Thread gameThread;
     public GameMap gameMap;
     public TileManager tileManager;
-    KeyHandler keyHandler = new KeyHandler();
+    KeyHandler keyHandler = new KeyHandler(this);
     public ArrayList<SuperObject> obj = new ArrayList<>();
     public ArrayList<Monster> monsters = new ArrayList<>();
+    public UI ui;
 
     public ArrayList<Player> players = new ArrayList<>();
 
     int FPS = 60;
+    private HashMap<String, String> playerNames = new HashMap<>();
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
+    public final int gameOverState = 3;
+    public ScreenNavigator screenNavigator;
+    public long timeToFinish;
 
 
     public Game(ScreenNavigator screenNavigator, String player_name1, String player_name2, boolean threePlayers, String player_name3, String mapID, boolean p1AI, boolean p2AI, boolean p1Turn) {
-        players.add(new Player(this, keyHandler, new Point(tileSize*1, tileSize*3), player_name1, 1));
-        players.add(new Player(this, keyHandler, new Point(tileSize*4, tileSize*5), player_name2, 2));
-        if(threePlayers){
-            players.add(new Player(this, keyHandler, new Point(tileSize*1, tileSize*5), player_name3, 3));
-        }
-
+        this.screenNavigator = screenNavigator;
         this.gameMap = MapsController.getMapById(mapID);
         this.screenWidth = gameMap.mapDimensions[1] * tileSize;
         this.screenHeight = gameMap.mapDimensions[0] * tileSize;
         this.tileManager = new TileManager(this, gameMap);
+        this.ui = new UI(this);
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
-        this.setUpGame(players);
+
+        this.playerNames.put("player1", player_name1);
+        this.playerNames.put("player2", player_name2);
+        if(threePlayers){
+            this.playerNames.put("player3", player_name3);
+        }else{
+            this.playerNames.put("player3", "");
+        }
+        this.setUpGame();
     }
 
-    public void setUpGame(ArrayList<Player> players){
-        obj.add(new ChestObject(new Point(tileSize, tileSize), this));
+    public void setUpGame(){
 
+        timeToFinish = 0;
+        players.add(new Player(this, keyHandler, new Point(tileSize*1, tileSize*3), playerNames.get("player1"), 1));
+        players.add(new Player(this, keyHandler, new Point(tileSize*4, tileSize*5), playerNames.get("player2"), 2));
+        if(!playerNames.get("player3").equals("")){
+            players.add(new Player(this, keyHandler, new Point(tileSize*1, tileSize*5), playerNames.get("player3"), 3));
+        }
+
+        gameState = playState;
+
+        obj.add(new ChestObject(new Point(tileSize, tileSize), this));
         obj.add(new ChestObject(new Point(3*tileSize, 3*tileSize), this));
 
         monsters.add(new BasicMonster(this, 1, new Point(11 * tileSize, tileSize)));
@@ -100,24 +130,27 @@ public class Game extends JPanel implements Runnable{
     }   
 
     public void update(){
-        blowUpBombs();
-        Iterator<Player> playerIterator = players.iterator();
-        while (playerIterator.hasNext()) {
-            Player player = playerIterator.next();
-            player.update();
+        if (gameState == playState) {
+            blowUpBombs();
+            Iterator<Player> playerIterator = players.iterator();
+            while (playerIterator.hasNext()) {
+                Player player = playerIterator.next();
+                player.update();
 
-            if (player.shouldBeRemoved) {
-                playerIterator.remove();
+                if (player.shouldBeRemoved) {
+                    playerIterator.remove();
+                }
             }
-        }
+            checkGameOver();
 
-        Iterator<Monster> monsterIterator = monsters.iterator();
-        while(monsterIterator.hasNext()){
-            Monster monster = monsterIterator.next();
-            monster.update();
+            Iterator<Monster> monsterIterator = monsters.iterator();
+            while(monsterIterator.hasNext()){
+                Monster monster = monsterIterator.next();
+                monster.update();
 
-            if(monster.shouldBeRemoved){
-                monsterIterator.remove();
+                if(monster.shouldBeRemoved){
+                    monsterIterator.remove();
+                }
             }
         }
     }
@@ -230,7 +263,6 @@ public class Game extends JPanel implements Runnable{
                 }
             }
         }
-
     }
 
     private boolean isOutOfBound(int i, int y) {
@@ -261,6 +293,7 @@ public class Game extends JPanel implements Runnable{
             player.draw(g2d);
         }
 
+        ui.draw(g2d);
         g2d.dispose();
     }
 
@@ -274,9 +307,28 @@ public class Game extends JPanel implements Runnable{
     }
 
     public boolean isPlantable(int posX, int posY) {
-
         return gameMap.mapCells[posY / tileSize][posX / tileSize].equals("grass");
     }
 
 
+    public void restart() {
+        obj.clear();
+        monsters.clear();
+        players.clear();
+        gameMap = MapsController.getMapById(gameMap.id);
+        tileManager = new TileManager(this, gameMap);
+        this.setUpGame();
+    }
+
+    public void checkGameOver(){
+        if(players.size() == 1){
+            if(timeToFinish == 0){
+                timeToFinish = System.currentTimeMillis() + 2000;
+            }else if(timeToFinish < System.currentTimeMillis()){
+                gameState = gameOverState;
+            }
+        }else if(players.size() == 0){
+            gameState = gameOverState;
+        }
+    }
 }

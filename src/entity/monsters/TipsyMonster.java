@@ -2,18 +2,18 @@ package entity.monsters;
 
 import entity.Player;
 import entity.Point;
+import entity.objects.SuperObject;
+import entity.objects.BombObject;
 import gui.Game;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import javax.imageio.ImageIO;
 
 
 public class TipsyMonster extends Monster{
-    private final Game game;
     private final List<Player> players;
+
+    private final Game game;
     private final Random random;
 
 
@@ -26,20 +26,8 @@ public class TipsyMonster extends Monster{
     }
 
     @Override
-    public void getMonsterImage() {
-        String basePath = "/monsters/tipsy_monster/tm_";
-        try {
-            up1 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_2.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    protected String getMonsterType() {
+        return "tipsy_monster";
     }
 
     @Override
@@ -51,36 +39,36 @@ public class TipsyMonster extends Monster{
     public void setAction() {
         actionLockCounter++;
         if (actionLockCounter == 60 || collisionOn) {
-            Point closestPlayerPosition = findClosestPlayer();
-            boolean movedTowardsPlayer = false;
+            if (!isNearBomb()) {
+                Point closestPlayerPosition = findClosestPlayer();
+                boolean movedTowardsPlayer = false;
 
-            if (closestPlayerPosition != null) {
-                Point nextMove = calculateNextMoveTowardsPlayer(closestPlayerPosition);
+                if (closestPlayerPosition != null) {
+                    Point nextMove = calculateNextMoveTowardsPlayer(closestPlayerPosition);
 
-                if (random.nextInt(100) < 20) { // 20% chance to make a wrong move
-                    nextMove = calculateRandomMove(); // Choose a random direction instead
+                    if (random.nextInt(100) < 20) { // 20% chance to make a wrong move
+                        nextMove = calculateRandomMove(); // Choose a random direction instead
+                    }
+
+                    adjustDirectionBasedOnNextMove(nextMove);
+                    collisionOn = false;
+                    gp.collisionChecker.checkTile(this);
+                    gp.collisionChecker.checkEntityToEntity(this);
+                    gp.collisionChecker.checkMonsterToPlayer(this);
+
+                    if (!collisionOn) {
+                        movedTowardsPlayer = true;
+                    }
                 }
 
-                adjustDirectionBasedOnNextMove(nextMove);
-                collisionOn = false;
-                gp.collisionChecker.checkTile(this);
-                gp.collisionChecker.checkObject(this);
-                gp.collisionChecker.checkEntityToEntity(this);
-                gp.collisionChecker.checkMonsterToPlayer(this);
-
-                if (!collisionOn) {
-                    movedTowardsPlayer = true;
+                if (!movedTowardsPlayer) {
+                    adjustDirectionBasedOnNextMove(calculateRandomMove());
                 }
+                actionLockCounter = 0;
             }
-
-            if (!movedTowardsPlayer) {
-                adjustDirectionBasedOnNextMove(calculateRandomMove());
-            }
-            actionLockCounter = 0;
         }
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
-        gp.collisionChecker.checkObject(this);
         gp.collisionChecker.checkEntityToEntity(this);
         gp.collisionChecker.checkMonsterToPlayer(this);
 
@@ -88,6 +76,19 @@ public class TipsyMonster extends Monster{
             move();
         }
         updateSpriteImage();
+    }
+
+
+    private boolean isNearBomb() {
+        for (SuperObject obj : game.getObjects()) {
+            if (obj instanceof BombObject) {
+                BombObject bomb = (BombObject) obj;
+                if (position.distance(bomb.position) <= bomb.blowRadius * game.tileSize) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private Point calculateNextMoveTowardsPlayer(Point playerPosition) {
