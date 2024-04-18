@@ -75,7 +75,7 @@ public class KeyHandler implements KeyListener{
             if(key == p2Controls.place_bomb){
                 plant = true;
             }
-            
+
             if(key == p3Controls.go_up){
                 num_up = true;
             }
