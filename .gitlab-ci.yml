@@ -23,7 +23,7 @@ stages:
   - deploy
 
 # Define the Docker image used for all jobs unless overridden in the job
-image: maven:3.8.4-jdk21-image
+image: maven:3-openjdk-21
 
 # Define the paths that should be cached between pipeline runs
 cache:
@@ -34,14 +34,16 @@ cache:
 build-job:
   stage: build  # Assign to 'build' stage
   script:       # List of commands to execute
-    - mvn checkstyle:check           # Run Checkstyle for code style auditing
-    - mvn site                       # Generate the site with documentation and reports
-    - mvn pmd:pmd                    # Run PMD to find common Java flaws
-    - mvn spotbugs:spotbugs          # Run SpotBugs for static code analysis
+    - mvn spotless:apply  # Apply code formatting to ensure consistent style
+    - mvn compile  # Compile the project's source code
+    - mvn pmd:pmd  # Run PMD to analyze the code for common flaws and issues
+    - mvn verify  # Execute the project's tests and perform additional verification
+    - mvn site  # Generate documentation and reports for the project
   artifacts:                         # Specify files to save after job runs
     paths:
       - target/site                 # Store site generation output
     expire_in: 1 week               # Keep artifacts for one week
+
 
 # Test job: runs unit tests and produces test reports
 unit-test-job:
