@@ -16,34 +16,60 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
-stages:          # List of stages for jobs, and their order of execution
+variables:
+  # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
+  MAVEN_OPTS: >-
+    -Dhttps.protocols=TLSv1.2
+    -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
+    -Dorg.slf4j.simpleLogger.showDateTime=true
+    -Djava.awt.headless=true
+
+  MAVEN_CLI_OPTS: >-
+    --batch-mode
+    --errors
+    --fail-at-end
+    --show-version
+    --no-transfer-progress
+    -DinstallAtEnd=true
+    -DdeployAtEnd=true
+
+# Define the Docker image used for all jobs unless overridden in the job
+image: maven:3-openjdk-17
+
+# Define the paths that should be cached between pipeline runs
+cache:
+  paths:
+    - .m2/repository  # Maven's local repository where dependencies are stored
+
+# Define the stages used in the pipeline
+stages:
   - build
   - test
   - deploy
 
-build-job:       # This job runs in the build stage, which runs first.
-  stage: build
-  script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
+# Build job: compiles the code, runs static checks, and generates project reports
+build-job:
+  stage: build  # Assign to 'build' stage
+  script:       # List of commands to execute
+    - mvn spotless:apply  # Apply code formatting to ensure consistent style
+    - mvn compile  # Compile the project's source code
+    - mvn pmd:pmd  # Run PMD to analyze the code for common flaws and issues
+    - mvn verify  # Execute the project's tests and perform additional verification
 
-unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
+# Test job: runs unit tests and produces test reports
+unit-test-job:
+  stage: test  # Assign to 'test' stage
   script:
-    - echo "Running unit tests... This will take about 60 seconds."
-    - sleep 60
-    - echo "Code coverage is 90%"
+    - mvn test  # Execute unit tests
+  artifacts:    # Generate reports from test results
+    reports:
+      junit: target/surefire-reports/TEST-*.xml  # JUnit format is useful for integration in GitLab UI
 
-lint-test-job:   # This job also runs in the test stage.
-  stage: test    # It can run at the same time as unit-test-job (in parallel).
+# Deployment job: deploys the application, requires manual trigger if conditions are met
+deploy-job:
+  stage: deploy
   script:
-    - echo "Linting code... This will take about 10 seconds."
-    - sleep 10
-    - echo "No lint issues found."
-
-deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  environment: production
-  script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - mvn install  # This command builds the project and installs the package to the local repository.
+  artifacts:
+    paths:
+      - target/*.jar  # This specifies that all JAR files in the target directory should be saved as artifacts.

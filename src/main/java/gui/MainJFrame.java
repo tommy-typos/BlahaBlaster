@@ -1,24 +1,23 @@
 package gui;
 
 import custom.Slate;
-
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class MainJFrame extends JFrame {
-    HeaderPanel headerPanel;
+  HeaderPanel headerPanel;
 
-    public MainJFrame() {
-        super();
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Blaha Blaster");
-        this.setResizable(false);
-        this.setSize(1000, 700);
-        this.setLocationRelativeTo(null);
-        this.setLayout(new BorderLayout());
-        this.getContentPane().setBackground(Slate._950);
+  public MainJFrame() {
+    super();
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setTitle("Blaha Blaster");
+    this.setResizable(false);
+    this.setSize(1000, 700);
+    this.setLocationRelativeTo(null);
+    this.setLayout(new BorderLayout());
+    this.getContentPane().setBackground(Slate._950);
 
-        headerPanel = new HeaderPanel();
-        this.add(headerPanel, BorderLayout.NORTH);
-    }
+    headerPanel = new HeaderPanel();
+    this.add(headerPanel, BorderLayout.NORTH);
+  }
 }
