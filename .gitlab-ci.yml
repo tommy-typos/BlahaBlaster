@@ -16,19 +16,36 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
-# Define the stages used in the pipeline
-stages:
-  - build
-  - test
-  - deploy
+variables:
+  # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
+  MAVEN_OPTS: >-
+    -Dhttps.protocols=TLSv1.2
+    -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
+    -Dorg.slf4j.simpleLogger.showDateTime=true
+    -Djava.awt.headless=true
+
+  MAVEN_CLI_OPTS: >-
+    --batch-mode
+    --errors
+    --fail-at-end
+    --show-version
+    --no-transfer-progress
+    -DinstallAtEnd=true
+    -DdeployAtEnd=true
 
 # Define the Docker image used for all jobs unless overridden in the job
-image: maven:3-openjdk-21
+image: maven:3-openjdk-17
 
 # Define the paths that should be cached between pipeline runs
 cache:
   paths:
     - .m2/repository  # Maven's local repository where dependencies are stored
+
+# Define the stages used in the pipeline
+stages:
+  - build
+  - test
+  - deploy
 
 # Build job: compiles the code, runs static checks, and generates project reports
 build-job:
