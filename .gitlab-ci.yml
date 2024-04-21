@@ -55,12 +55,6 @@ build-job:
     - mvn compile  # Compile the project's source code
     - mvn pmd:pmd  # Run PMD to analyze the code for common flaws and issues
     - mvn verify  # Execute the project's tests and perform additional verification
-    - mvn site  # Generate documentation and reports for the project
-  artifacts:                         # Specify files to save after job runs
-    paths:
-      - target/site                 # Store site generation output
-    expire_in: 1 week               # Keep artifacts for one week
-
 
 # Test job: runs unit tests and produces test reports
 unit-test-job:
