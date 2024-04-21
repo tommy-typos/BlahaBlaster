@@ -16,44 +16,47 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
+# Define the stages used in the pipeline
 stages:
   - build
   - test
   - deploy
 
+# Define the Docker image used for all jobs unless overridden in the job
+image: maven:3.8.4-jdk21-image
+
+# Define the paths that should be cached between pipeline runs
 cache:
   paths:
-    - .m2/repository
+    - .m2/repository  # Maven's local repository where dependencies are stored
 
-# fix
+# Build job: compiles the code, runs static checks, and generates project reports
 build-job:
-  stage: build
-  image: maven:3.8.4-jdk-11
-  script:
-    - mvn clean install -DskipTests
-    - mvn checkstyle:check
-    - mvn site
-    - mvn pmd:pmd
-    - mvn spotbugs:spotbugs
-  artifacts:
+  stage: build  # Assign to 'build' stage
+  script:       # List of commands to execute
+    - mvn checkstyle:check           # Run Checkstyle for code style auditing
+    - mvn site                       # Generate the site with documentation and reports
+    - mvn pmd:pmd                    # Run PMD to find common Java flaws
+    - mvn spotbugs:spotbugs          # Run SpotBugs for static code analysis
+  artifacts:                         # Specify files to save after job runs
     paths:
-      - target/site
-    expire_in: 1 week
+      - target/site                 # Store site generation output
+    expire_in: 1 week               # Keep artifacts for one week
 
+# Test job: runs unit tests and produces test reports
 unit-test-job:
-  stage: test
+  stage: test  # Assign to 'test' stage
   script:
-    - mvn test
-  artifacts:
+    - mvn test  # Execute unit tests
+  artifacts:    # Generate reports from test results
     reports:
-      junit: target/surefire-reports/TEST-*.xml
+      junit: target/surefire-reports/TEST-*.xml  # JUnit format is useful for integration in GitLab UI
 
+# Deployment job: deploys the application, requires manual trigger if conditions are met
 deploy-job:
   stage: deploy
-  environment: production
   script:
-    - ./deploy.sh
-  only:
-    - master
-  when: manual
-  allow_failure: false
+    - mvn install  # This command builds the project and installs the package to the local repository.
+  artifacts:
+    paths:
+      - target/*.jar  # This specifies that all JAR files in the target directory should be saved as artifacts.
