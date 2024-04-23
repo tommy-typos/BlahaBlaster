@@ -31,12 +31,12 @@ public class Main {
     // navigator.goto_screen_customControls();
 
     // *********************** New Game Screen **********************
-    navigator.goto_screen_new_game_screen();
+//    navigator.goto_screen_new_game_screen();
 
     // *********************** IN GAME SCREEN *************************
     /** NOTE: map with given id should exists in maps.json file */
-    //        navigator.goto_screen_ACTUAL_GAME("player1", "player2", false, "",
-    //                "default_map_unique_id",true, true, true);
+            navigator.goto_screen_ACTUAL_GAME("player1", "player2", false, "",
+                    "default_map_unique_id",true, true, true);
 
     frame.setVisible(true);
   }
