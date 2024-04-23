@@ -1,5 +1,10 @@
 package gui;
 
+import custom.CustomButton;
+import custom.CustomLabel;
+import custom.Slate;
+
+import javax.swing.*;
 import java.awt.*;
 
 public class ScreenNavigator {
@@ -119,6 +124,31 @@ public class ScreenNavigator {
     mainPanel.removeAll();
     frame.headerPanel.changeHeaderText("In Game Screen");
 
+    // ******************************************
+    // ******************************************
+    // ******************************************
+    JPanel gameWrapper = new JPanel(new GridBagLayout());
+    gameWrapper.setBackground(Slate._950);
+
+    GridBagConstraints gbc = new GridBagConstraints();
+
+    //==== left side
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    gbc.weightx = 0; // 1st column width
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+
+    JPanel leftSide = new JPanel();
+    leftSide.setBackground(Slate._950);
+    leftSide.setPreferredSize(new Dimension(237, 575));
+    gameWrapper.add(leftSide, gbc);
+
+
+    //==== game
+    gbc.gridx = 1;
+    gbc.weightx = 1; // 2nd column width
+    gbc.fill = GridBagConstraints.BOTH;
+
     Game game =
         new Game(
             this,
@@ -130,8 +160,27 @@ public class ScreenNavigator {
             intelligent_monsters,
             advanced_powerups,
             hindering_curses);
+    gameWrapper.add(game, gbc);
 
-    mainPanel.add(game, BorderLayout.CENTER);
+
+    //==== right side
+    gbc.gridx = 2;
+    gbc.weightx = 0; // 3rd column width
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+
+    JPanel rightSide = new JPanel();
+    rightSide.setBackground(Slate._950);
+    rightSide.setPreferredSize(new Dimension(237, 575));
+    gameWrapper.add(rightSide, gbc);
+
+
+
+
+    mainPanel.add(gameWrapper, BorderLayout.CENTER);
+
+    // ******************************************
+    // ******************************************
+    // ******************************************
 
     mainPanel.revalidate();
     mainPanel.repaint();
