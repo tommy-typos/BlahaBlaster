@@ -38,7 +38,7 @@ public class UI {
 
     text = "Game Over";
     g2d.setColor(Color.BLACK);
-    x = getXforCenteredText(text);
+    x = game.tileSize + 23;
     y = game.tileSize * 4;
     g2d.drawString(text, x, y);
 
@@ -52,7 +52,10 @@ public class UI {
     } else {
       text = "Draw";
     }
-    x = getXforCenteredText(text);
+    // setting x
+    int length = (int) g2d.getFontMetrics().getStringBounds(text, g2d).getWidth();
+    x = (int) (game.screenWidth / 1.92 - length / 2);
+
     y = game.tileSize * 6;
     g2d.drawString(text, x, y);
 
@@ -86,7 +89,7 @@ public class UI {
     g2d.setColor(Color.WHITE);
     g2d.setFont(g2d.getFont().deriveFont(50F));
 
-    int frameX = game.tileSize * 6;
+    int frameX = game.tileSize * 2 + 23;
     int frameY = game.tileSize;
     int frameWidth = game.tileSize * 8;
     int frameHeight = game.tileSize * 10;
@@ -103,7 +106,7 @@ public class UI {
 
     // Paused
     String text = "Paused";
-    textX = getXforCenteredText(text);
+    textX = game.tileSize * 4 + 28;
     textY = frameY + game.tileSize;
     g2d.drawString(text, textX, textY);
 

@@ -1,5 +1,6 @@
 package gui;
 
+import custom.Slate;
 import entity.*;
 import entity.Point;
 import entity.monsters.*;
@@ -77,6 +78,7 @@ public class Game extends JPanel implements Runnable {
     this.setDoubleBuffered(true);
     this.addKeyListener(keyHandler);
     this.setFocusable(true);
+    this.setBackground(Slate._950);
 
     this.playerNames.put("player1", player_name1);
     this.playerNames.put("player2", player_name2);

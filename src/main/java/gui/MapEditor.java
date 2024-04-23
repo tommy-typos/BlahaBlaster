@@ -22,8 +22,8 @@ class MapEditor extends JPanel {
     String map_id =
         String.valueOf((new Random()).nextInt()) + String.valueOf((new Random()).nextInt());
     String map_name = "New Map " + allMaps.length;
-    int[] map_dimensions = new int[] {10, 10};
-    String[][] map_cells = new String[10][10];
+    int[] map_dimensions = new int[] {12, 13};
+    String[][] map_cells = new String[12][13];
     for (int i = 0; i < map_dimensions[0]; i++) {
       for (int j = 0; j < map_dimensions[1]; j++) {
         map_cells[i][j] = "grass";
