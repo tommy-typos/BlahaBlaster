@@ -139,38 +139,9 @@ public class ScreenNavigator {
     gbc.weightx = 0; // 1st column width
     gbc.fill = GridBagConstraints.HORIZONTAL;
 
-    JPanel leftSide = new JPanel();
-    leftSide.setBackground(Slate._950);
+    PlayerControlsPreviewInGame leftSide = new PlayerControlsPreviewInGame(player1_name, player2_name, player_name3, threePlayers);
+
     leftSide.setPreferredSize(new Dimension(237, 575));
-
-    leftSide.setLayout(new GridLayout(3, 1, 0, 55));
-
-    CustomControl[] jsonControls = CustomControlsJson.readControlsFromJson();
-    CustomControl p1Controls = jsonControls[0];
-    CustomControl p2Controls = jsonControls[1];
-    CustomControl p3Controls = jsonControls[2];
-
-    PlayerControl2 p1ControlsPanel = new PlayerControl2(Color.blue, player1_name, p1Controls);
-    PlayerControl2 p2ControlsPanel = new PlayerControl2(Color.red, player2_name, p2Controls);
-    PlayerControl2 p3ControlsPanel = new PlayerControl2(Color.green, player_name3, p3Controls);
-
-
-
-    leftSide.add(p1ControlsPanel);
-    leftSide.add(p2ControlsPanel);
-    if (threePlayers) {
-      leftSide.add(p3ControlsPanel);
-    }
-
-
-
-
-
-
-
-
-
-
 
     gameWrapper.add(leftSide, gbc);
 
@@ -199,12 +170,9 @@ public class ScreenNavigator {
     gbc.weightx = 0; // 3rd column width
     gbc.fill = GridBagConstraints.HORIZONTAL;
 
-    JPanel rightSide = new JPanel();
-    rightSide.setBackground(Slate._950);
+    TimerAndActivePowerUpsPreview rightSide = new TimerAndActivePowerUpsPreview();
     rightSide.setPreferredSize(new Dimension(237, 575));
     gameWrapper.add(rightSide, gbc);
-
-
 
 
     mainPanel.add(gameWrapper, BorderLayout.CENTER);
@@ -223,87 +191,3 @@ public class ScreenNavigator {
 }
 
 
-class PlayerControl2 extends JPanel {
-  public CustomLabel button_up;
-  public CustomLabel button_left;
-  public CustomLabel button_down;
-  public CustomLabel button_right;
-  public CustomLabel button_bomb;
-
-  class CustomControlLabel extends CustomLabel {
-    CustomControlLabel(String text, Color color){
-      super(text);
-      this.setBorder(BorderFactory.createLineBorder(Slate._800, 1));
-      this.setHorizontalAlignment(SwingConstants.CENTER);
-      this.setForeground(color);
-    }
-  }
-
-  public PlayerControl2(
-          Color color, String playerName, CustomControl pControls) {
-    super();
-    GridLayout gridlayout_p2 = new GridLayout(4, 1, 0, 0);
-    this.setLayout(gridlayout_p2);
-    this.setOpaque(true);
-    this.setBackground(Slate._950);
-    this.setBorder(BorderFactory.createLineBorder(Slate._800, 1));
-
-    // label
-    JPanel p2_label = new JPanel();
-    p2_label.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-    p2_label.setOpaque(true);
-    p2_label.setAlignmentY(CENTER_ALIGNMENT);
-    p2_label.setBackground(Slate._950);
-
-    JLabel label_p2 = new JLabel(playerName);
-    label_p2.setForeground(color);
-    p2_label.add(label_p2);
-
-    // upbutton
-    JPanel p2_up = new JPanel();
-    p2_up.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-    p2_up.setOpaque(true);
-    p2_up.setAlignmentY(CENTER_ALIGNMENT);
-    p2_up.setBackground(Slate._950);
-
-    this.button_up = new CustomControlLabel("⬆ (" + KeyEvent.getKeyText(pControls.go_up) + ")", color);
-    this.button_up.setPreferredSize(new Dimension(73, 25));
-    p2_up.add(this.button_up);
-
-    // left bottom right
-    JPanel p2_left_bottom_right = new JPanel();
-    p2_left_bottom_right.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
-    p2_left_bottom_right.setOpaque(true);
-    p2_left_bottom_right.setAlignmentY(CENTER_ALIGNMENT);
-    p2_left_bottom_right.setBackground(Slate._950);
-
-    this.button_left = new CustomControlLabel("⬅ ("+ KeyEvent.getKeyText(pControls.go_left) + ")", color);
-    this.button_left.setPreferredSize(new Dimension(73, 25));
-
-    this.button_down = new CustomControlLabel("⬇ ("+ KeyEvent.getKeyText(pControls.go_down) + ")", color);
-    this.button_down.setPreferredSize(new Dimension(73, 25));
-
-    this.button_right = new CustomControlLabel("➡ ("+ KeyEvent.getKeyText(pControls.go_right) + ")", color);
-    this.button_right.setPreferredSize(new Dimension(73, 25));
-
-    p2_left_bottom_right.add(this.button_left);
-    p2_left_bottom_right.add(this.button_down);
-    p2_left_bottom_right.add(this.button_right);
-
-    // bomb button
-    JPanel p2_bomb = new JPanel();
-    p2_bomb.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 25));
-    p2_bomb.setOpaque(true);
-    p2_bomb.setAlignmentY(CENTER_ALIGNMENT);
-    p2_bomb.setBackground(Slate._950);
-
-    this.button_bomb = new CustomControlLabel("bomb ("+ KeyEvent.getKeyText(pControls.place_bomb) + ")", color);
-    this.button_bomb.setPreferredSize(new Dimension(200, 25));
-    p2_bomb.add(this.button_bomb);
-
-    this.add(p2_label);
-    this.add(p2_up);
-    this.add(p2_left_bottom_right);
-    this.add(p2_bomb);
-  }
-}
