@@ -12,7 +12,7 @@ public class MainJFrame extends JFrame {
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setTitle("Blaha Blaster");
     this.setResizable(false);
-    this.setSize(1000, 700);
+    this.setSize(1150, 700);
     this.setLocationRelativeTo(null);
     this.setLayout(new BorderLayout());
     this.getContentPane().setBackground(Slate._950);
