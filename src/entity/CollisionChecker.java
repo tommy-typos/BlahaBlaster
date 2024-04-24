@@ -4,6 +4,7 @@ import entity.effects.Effect;
 import entity.monsters.GhostMonster;
 import entity.monsters.Monster;
 import entity.objects.BombObject;
+import entity.objects.BrickObject;
 import entity.objects.SuperObject;
 import gui.Game;
 
@@ -55,59 +56,61 @@ public class CollisionChecker {
         checkCollision(tile1, tile2, entity);
     }
 
-    public int checkObject(Entity entity){
-        int index = 999;
+    public int checkObject(Entity entity) {
+        int index = 999; // Default index for no collision
 
-        for(SuperObject obj: game.obj){
-
-            if(obj != null){
-                if(entity instanceof Player && obj instanceof BombObject){
+        for (SuperObject obj : game.obj) {
+            if (obj != null) {
+                // Handle bomb specific logic
+                if (entity instanceof Player && obj instanceof BombObject) {
                     Player player = (Player) entity;
                     BombObject bomb = (BombObject) obj;
                     long leaveTime = bomb.timeToLeave - System.currentTimeMillis();
-                    if(leaveTime > 0 && bomb.owner.equals(player.name)){
-                        continue;
+                    if (leaveTime > 0 && bomb.owner != null && bomb.owner.equals(player.name)) {
+                        continue; // Skip this iteration if the player is the owner and the bomb hasn't reached its safe time
                     }
                 }
+
+                // Extend the handling to include BrickObject with similar logic as BombObject
+                if (entity instanceof Player && obj instanceof BrickObject) {
+                    Player player = (Player) entity;
+                    BrickObject brick = (BrickObject) obj;
+                    if (brick.owner != null && brick.owner.equals(player.name)) {
+                        continue; // Skip if the brick is owned by the player
+                    }
+                }
+
+                // Update solid areas to current position
                 entity.solidArea.x = entity.getX() + entity.solidArea.x;
                 entity.solidArea.y = entity.getY() + entity.solidArea.y;
 
                 obj.solidArea.x = obj.getX() + obj.solidArea.x;
                 obj.solidArea.y = obj.getY() + obj.solidArea.y;
 
-                switch (entity.direction){
+                // Check for collisions based on direction
+                switch (entity.direction) {
                     case "up":
                         entity.solidArea.y -= entity.speed;
-                        if(entity.solidArea.intersects(obj.solidArea)){
-                            index = game.obj.indexOf(obj);
-                            entity.collisionOn = true;
-                        }
                         break;
-
                     case "down":
                         entity.solidArea.y += entity.speed;
-                        if(entity.solidArea.intersects(obj.solidArea)){
-                            index = game.obj.indexOf(obj);
-                            entity.collisionOn = true;
-                        }
                         break;
-
                     case "left":
                         entity.solidArea.x -= entity.speed;
-                        if(entity.solidArea.intersects(obj.solidArea)){
-                            index = game.obj.indexOf(obj);
-                            entity.collisionOn = true;
-                        }
                         break;
-
                     case "right":
                         entity.solidArea.x += entity.speed;
-                        if(entity.solidArea.intersects(obj.solidArea)){
-                            index = game.obj.indexOf(obj);
-                            entity.collisionOn = true;
-                        }
                         break;
                 }
+
+                // Detect collision
+                if (entity.solidArea.intersects(obj.solidArea)) {
+                    index = game.obj.indexOf(obj);
+                    entity.collisionOn = true;
+                    break; // Exit on first collision found
+                }
+
+                // Reset solid areas after check
                 entity.solidArea.x = entity.solidAreaDefaultX;
                 entity.solidArea.y = entity.solidAreaDefaultY;
                 obj.solidArea.x = obj.solidAreaDefaultX;
@@ -115,8 +118,9 @@ public class CollisionChecker {
             }
         }
 
-        return index;
+        return index; // Return index of the object with which collision is detected
     }
+
 
     private void checkCollision(String tile1, String tile2, Entity entity){
         entity.collisionOn = game.tileManager.isTileCollision(tile1) || game.tileManager.isTileCollision(tile2);
@@ -329,54 +333,4 @@ public class CollisionChecker {
             effect.solidArea.y = effect.solidAreaDefaultY;
         }
     }
-
-
-//    private void applyEffectToPlayer(Player player, Effect effect) {
-//        // This method applies the effect to the player.
-//        effect.applyEffect(player);  // Assuming that 'applyEffect' is implemented in each effect class handling its specific logic.
-//        System.out.println("Effect applied: " + effect.getClass().getSimpleName());
-//    }
-
-
-//    public void applyEffect(Player player) {
-//        switch (this.getClass().getSimpleName()) {
-//            case "ShortBlastCurse":
-//                player.blastRange = Math.max(1, player.blastRange - 1); // Reduce blast range
-//                break;
-//            case "SlowerCurse":
-//                player.speed = Math.max(1, player.speed - 1); // Reduce speed
-//                break;
-//            case "BombFreezeCurse":
-//                player.bombFreezeTime = 10; // Freeze bomb placement for 10 seconds
-//                break;
-//            case "BombPlacementTimeLimitCurse":
-//                player.bombPlacmentDelay = 5; // Delay next bomb placement
-//                break;
-//            case "GhostPowerUp":
-//                player.activateGhostPowerUp(10); // Activate ghost mode for 10 seconds
-//                break;
-//            case "RollerSkatePowerUp":
-//                player.speed += 2; // Increase speed
-//                break;
-//            case "InvincibilityPowerUp":
-//                player.activateInvincibilityPowerUp(10); // Activate invincibility for 10 seconds
-//                break;
-//            case "BlastRangePowerUp":
-//                player.blastRange += 1; // Increase blast range
-//                break;
-//            case "DetonatorPowerUp":
-//                player.hasDetonator = true; // Player gains a detonator
-//                break;
-//            case "ObstaclePowerUp":
-//                player.maxObstacles += 1; // Increase max obstacles
-//                break;
-//            case "BombSlotIncreasePowerUp":
-//                player.bombsNum += 1; // Increase bomb slots
-//                break;
-//            default:
-//                System.out.println("No effect or unknown effect.");
-//                break;
-//        }
-//    }
-
 }

@@ -41,13 +41,6 @@ public class TileManager {
         return gameMap.mapCells[y][x].equals(material);
     }
 
-
-
-    // check if the tile is a grass
-//    public boolean isTileGrass(String tileType){
-//        return tile.get(tileType).grass;
-//    }
-
     public boolean isTileCollision(String tileType){
         return tile.get(tileType).collision;
     }

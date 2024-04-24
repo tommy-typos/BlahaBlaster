@@ -21,8 +21,8 @@ public class Player extends Entity {
 
 
     public boolean hasDetonator = false;
-    public boolean canPutObstacles = false;
-    public int maxObstacles = 0;
+    public boolean canPutObstacles = true;
+    public int maxObstacles = 5;
 
 
     public int ghostDuration = 5;
@@ -81,9 +81,9 @@ public class Player extends Entity {
             movePlayer(keyHandler.w, keyHandler.s, keyHandler.a, keyHandler.d);
         }
         if (playerNumber == 2) {
-            if(keyHandler.plant) {
+            if(keyHandler.plantBomb) {
                 plantBomb();
-                keyHandler.plant = false;
+                keyHandler.plantBomb = false;
             }
             movePlayer(keyHandler.up, keyHandler.down, keyHandler.left, keyHandler.right);
         }
@@ -98,21 +98,21 @@ public class Player extends Entity {
 
         if (this.canPutObstacles) {
             if (playerNumber == 1) {
-                if (keyHandler.q) {
+                if (keyHandler.f) {
                     placeBrick();
-                    keyHandler.q = false;
+                    keyHandler.f = false;
                 }
             }
             if (playerNumber == 2) {
-                if (keyHandler.space) {
+                if (keyHandler.placeBrick) {
                     placeBrick();
-                    keyHandler.space = false;
+                    keyHandler.placeBrick = false;
                 }
             }
             if (playerNumber == 3) {
-                if (keyHandler.num_q) {
+                if (keyHandler.num_brick) {
                     placeBrick();
-                    keyHandler.num_q = false;
+                    keyHandler.num_brick = false;
                 }
             }
         }
@@ -136,11 +136,11 @@ public class Player extends Entity {
             }
         }
 
-        if(isPlayerOnGrass()) {
-            System.out.println("Player " + name + " is on grass");
-        } else {
-            System.out.println("Player " + name + " is NOT on grass");
-        }
+//        if(isPlayerOnGrass()) {
+//            System.out.println("Player " + name + " is on grass");
+//        } else {
+//            System.out.println("Player " + name + " is NOT on grass");
+//        }
 
         // Roller skate check
         if (speedBoosted) {
@@ -264,32 +264,52 @@ public class Player extends Entity {
 
 
     private void placeBrick() {
-        // check if user can plant more bombs
         int bricksPlaced = 0;
         for (SuperObject superObject : gp.obj) {
             if (superObject instanceof BrickObject) {
-                if (((BrickObject) superObject).owner.equals(name)) {
+                BrickObject brick = (BrickObject) superObject;
+                if (brick.owner != null && brick.owner.equals(name)) {
                     bricksPlaced++;
                 }
             }
         }
 
-        if(bricksPlaced >= maxObstacles){
+        if (bricksPlaced >= maxObstacles) {
             return;
         }
 
-        // check if there is already a brick in the same position
-        int posX = (position.getX() + solidArea.x)/ gp.tileSize;
-        int posY = (position.getY() + solidArea.y)/ gp.tileSize;
+        // Calculate the position of the next tile in the direction the player is facing
+        int posX = (position.getX() + solidArea.x) / gp.tileSize;
+        int posY = (position.getY() + solidArea.y) / gp.tileSize;
+
+        // Adjust position based on direction
+        switch (direction) {
+            case "up":
+                posY -= 1;
+                break;
+            case "down":
+                posY += 1;
+                break;
+            case "left":
+                posX -= 1;
+                break;
+            case "right":
+                posX += 1;
+                break;
+        }
 
         int coordX = posX * gp.tileSize;
         int coordY = posY * gp.tileSize;
-        if(gp.positionOccupied(coordX, coordY)){
+
+        // Check if the position is already occupied or not plantable
+        if (gp.positionOccupied(coordX, coordY) || !gp.isPlantable(coordX, coordY)) {
             return;
         }
 
+        // Add the brick object to the game
         gp.obj.add(new BrickObject(new Point(coordX, coordY), gp, name));
     }
+
 
     private void updateSpriteImage(){
         spriteCounter++;

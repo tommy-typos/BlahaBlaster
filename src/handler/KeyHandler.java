@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener{
-    public boolean w, a, s, d, e, up, down, left, right, plant, num_up, num_down, num_left, num_right, num_plant;
+    public boolean w, a, s, d, e, f, up, down, left, right, plantBomb, placeBrick, num_up, num_down, num_left, num_right, num_plant, num_brick;
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -31,6 +31,9 @@ public class KeyHandler implements KeyListener{
         if(key == KeyEvent.VK_E){
             e = true;
         }
+        if (key == KeyEvent.VK_F){
+            f = true;
+        }
         if(key == KeyEvent.VK_UP){
             up = true;
         }
@@ -44,7 +47,10 @@ public class KeyHandler implements KeyListener{
             right = true;
         }
         if(key == KeyEvent.VK_ENTER){
-            plant = true;
+            plantBomb = true;
+        }
+        if(key == KeyEvent.VK_SHIFT){
+            placeBrick = true;
         }
         if(key == KeyEvent.VK_NUMPAD7){
             num_plant = true;
@@ -102,5 +108,9 @@ public class KeyHandler implements KeyListener{
         if(key == KeyEvent.VK_NUMPAD8){
             num_up = false;
         }
+        if(key == KeyEvent.VK_ENTER){
+            plantBomb = false;
+        }
+
     }
 }

@@ -11,7 +11,6 @@ import entity.objects.ExplosionObject;
 import entity.objects.SuperObject;
 import handler.KeyHandler;
 
-//import entity.effects.PowerUps.GhostPowerUp;
 
 import javax.swing.*;
 import java.awt.*;
@@ -319,7 +318,7 @@ public class Game extends JPanel implements Runnable{
         }
 
         // Then, add the effect to the game
-        effects.add(effect); // This adds the effect so it will be drawn on the next paintComponent call
+        effects.add(effect); // This adds the effect, so it will be drawn on the next paintComponent call
     }
 
 
@@ -327,10 +326,6 @@ public class Game extends JPanel implements Runnable{
     private boolean isOutOfBound(int i, int y) {
         return i < 0 || i >= gameMap.mapDimensions[0] || y < 0 || y >= gameMap.mapDimensions[1];
     }
-
-//    private boolean checkMaterial(Integer x, Integer y, String material){
-//        return gameMap.mapCells[y][x].equals(material);
-//    }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
