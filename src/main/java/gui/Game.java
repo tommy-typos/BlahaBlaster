@@ -15,7 +15,6 @@ import java.util.List;
 import javax.swing.*;
 
 public class Game extends JPanel implements Runnable {
-
   /**
    * navigator.goto_screen_ACTUAL_GAME("player1 name", "player2 name", "blaha_map_unique_id",true,
    * true, true);
@@ -41,7 +40,7 @@ public class Game extends JPanel implements Runnable {
   Thread gameThread;
   public GameMap gameMap;
   public TileManager tileManager;
-  KeyHandler keyHandler = new KeyHandler(this);
+  public KeyHandler keyHandler = new KeyHandler(this);
   public ArrayList<SuperObject> obj = new ArrayList<>();
   public ArrayList<Monster> monsters = new ArrayList<>();
   public UI ui;
@@ -69,6 +68,11 @@ public class Game extends JPanel implements Runnable {
       boolean p1Turn) {
     this.screenNavigator = screenNavigator;
     this.gameMap = MapsController.getMapById(mapID);
+
+    if (this.gameMap == null) {
+      throw new IllegalArgumentException("Invalid map ID provided: " + mapID);
+    }
+
     this.screenWidth = gameMap.mapDimensions[1] * tileSize;
     this.screenHeight = gameMap.mapDimensions[0] * tileSize;
     this.tileManager = new TileManager(this, gameMap);
@@ -380,5 +384,9 @@ public class Game extends JPanel implements Runnable {
     } else if (players.size() == 0) {
       gameState = gameOverState;
     }
+  }
+
+  public Object getTileSize() {
+    return tileSize;
   }
 }

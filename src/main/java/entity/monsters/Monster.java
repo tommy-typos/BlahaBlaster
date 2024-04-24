@@ -62,7 +62,7 @@ public abstract class Monster extends Entity {
     super.draw(g2d);
   }
 
-  protected void move() {
+  public void move() {
     move(direction);
   }
 

@@ -64,19 +64,21 @@ public class Entity {
   }
 
   protected void move(String direction) {
-    switch (direction) {
-      case "up":
-        position.y -= speed;
-        break;
-      case "down":
-        position.y += speed;
-        break;
-      case "left":
-        position.x -= speed;
-        break;
-      case "right":
-        position.x += speed;
-        break;
+    if (!collisionOn) {
+      switch (direction) {
+        case "up":
+          position.y -= speed;
+          break;
+        case "down":
+          position.y += speed;
+          break;
+        case "left":
+          position.x -= speed;
+          break;
+        case "right":
+          position.x += speed;
+          break;
+      }
     }
   }
 }
