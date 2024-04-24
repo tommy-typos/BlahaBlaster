@@ -42,6 +42,19 @@ public class Player extends Entity {
     }
   }
 
+  // Getters and setters
+  public Point getPosition() {
+    return position;
+  }
+
+  public KeyHandler getKeyHandler() {
+    return keyHandler;
+  }
+
+  public void setPosition(Point position) {
+    this.position = position;
+  }
+
   public void update() {
     if (playerNumber == 1) {
       if (keyHandler.e) {
@@ -132,7 +145,7 @@ public class Player extends Entity {
     gp.obj.add(new BombObject(new Point(coordX, coordY), gp, name));
   }
 
-  private void updateSpriteImage() {
+  public void updateSpriteImage() {
     spriteCounter++;
     if (spriteCounter > 12) {
       if (spriteNum == 1) spriteNum = 2;
