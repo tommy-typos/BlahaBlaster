@@ -9,7 +9,7 @@ public class BombSlotIncreasePowerUp extends Effect {
 
     private int bombSlotIncrease = 1;
 
-    protected BombSlotIncreasePowerUp(Point position, Game game) {
+    public BombSlotIncreasePowerUp(Point position, Game game) {
         super(position, game);
     }
 

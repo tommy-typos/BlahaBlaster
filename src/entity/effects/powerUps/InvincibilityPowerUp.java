@@ -9,7 +9,7 @@ public class InvincibilityPowerUp extends Effect {
 
     private int invincibilityModeDuration = 15;
 
-    protected InvincibilityPowerUp(Point position, Game game) {
+    public InvincibilityPowerUp(Point position, Game game) {
         super(position, game);
     }
 

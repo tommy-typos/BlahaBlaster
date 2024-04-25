@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Player extends Entity {
     KeyHandler keyHandler;
@@ -17,11 +19,11 @@ public class Player extends Entity {
     public String name;
     public int playerNumber;
 
+
     // PowerUp and Curse related variables
-
-
     public boolean hasDetonator = false;
-    public boolean canPutObstacles = true;
+    public ArrayList<BombObject> plantedBombs = new ArrayList<>();
+    public boolean canPutObstacles = false;
     public int maxObstacles = 5;
 
 
@@ -36,7 +38,7 @@ public class Player extends Entity {
     public int nextBombCanBePlaced = 0;
     public int bombPlacmentDelay = 0;
 
-    public int invincibilityDuration = 15;
+    public int invincibilityDuration = 0;
     private long invincibilityEffectStartTime = 0;
 
 
@@ -136,12 +138,6 @@ public class Player extends Entity {
             }
         }
 
-//        if(isPlayerOnGrass()) {
-//            System.out.println("Player " + name + " is on grass");
-//        } else {
-//            System.out.println("Player " + name + " is NOT on grass");
-//        }
-
         // Roller skate check
         if (speedBoosted) {
             speed = 6;
@@ -233,41 +229,53 @@ public class Player extends Entity {
         }
     }
 
-    private void plantBomb(){
-        // check if user can plant more bombs
+    private void plantBomb() {
         int bombsPlanted = 0;
         for (SuperObject superObject : gp.obj) {
-            if (superObject instanceof BombObject) {
-                if (((BombObject) superObject).owner.equals(name)) {
-                    bombsPlanted++;
-                }
+            if (superObject instanceof BombObject && ((BombObject) superObject).owner.equals(this.name)) {
+                bombsPlanted++;
             }
         }
 
-        if(bombsPlanted >= bombsNum){
+        if (bombsPlanted >= bombsNum) {
+            if (hasDetonator) {
+                detonateAllBombs();  // Detonate all bombs when the max number is reached and player plants another
+            }
             return;
         }
-        // TODO: here is the part of the code for the detonator subtask
 
-        // check if there is already a bomb in the same position
-        int posX = (position.getX() + solidArea.x)/ gp.tileSize;
-        int posY = (position.getY() + solidArea.y)/ gp.tileSize;
-
+        int posX = (position.getX() + solidArea.x) / gp.tileSize;
+        int posY = (position.getY() + solidArea.y) / gp.tileSize;
         int coordX = posX * gp.tileSize;
         int coordY = posY * gp.tileSize;
-        if(gp.positionOccupied(coordX, coordY)){
-           return;
+
+        if (gp.positionOccupied(coordX, coordY)) {
+            return;
         }
 
-        gp.obj.add(new BombObject(new Point(coordX, coordY), gp, name));
+        BombObject newBomb = new BombObject(new Point(coordX, coordY), gp, this, this.blastRange);
+        if (hasDetonator) {
+            newBomb.blowTime = Long.MAX_VALUE; // to prevent bomb from detonating automatically
+            plantedBombs.add(newBomb); // track the bomb for detonation
+        }
+        gp.obj.add(newBomb);
     }
+
+    private void detonateAllBombs() {
+        Iterator<BombObject> it = plantedBombs.iterator();
+        while (it.hasNext()) {
+            BombObject bomb = it.next();
+            bomb.detonate();
+            it.remove(); // Remove from the list after detonation
+        }
+    }
+
 
 
     private void placeBrick() {
         int bricksPlaced = 0;
         for (SuperObject superObject : gp.obj) {
-            if (superObject instanceof BrickObject) {
-                BrickObject brick = (BrickObject) superObject;
+            if (superObject instanceof BrickObject brick) {
                 if (brick.owner != null && brick.owner.equals(name)) {
                     bricksPlaced++;
                 }
@@ -307,7 +315,12 @@ public class Player extends Entity {
         }
 
         // Add the brick object to the game
-        gp.obj.add(new BrickObject(new Point(coordX, coordY), gp, name));
+//        gp.obj.add(new BrickObject(new Point(coordX, coordY), gp, name));
+        // Add the brick object to the game
+//        BrickObject newBrick = new BrickObject(new Point(coordX, coordY), gp, name);
+//        gp.obj.add(newBrick);
+        // Update the gameMap to reflect the presence of a new brick
+        gp.gameMap.mapCells[coordY / gp.tileSize][coordX / gp.tileSize] = "brick";
     }
 
 

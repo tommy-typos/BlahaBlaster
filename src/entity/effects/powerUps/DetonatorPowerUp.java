@@ -7,7 +7,7 @@ import gui.Game;
 
 public class DetonatorPowerUp extends Effect {
 
-    protected DetonatorPowerUp(Point position, Game game) {
+    public DetonatorPowerUp(Point position, Game game) {
         super(position, game);
     }
 

@@ -14,9 +14,9 @@ public class BrickObject extends SuperObject{
 
     public BrickObject(Point position, Game game) {
         super(position, game);
-        this.name = "chest";
+        this.name = "brick";
         try{
-            this.image = ImageIO.read(getClass().getResourceAsStream("/objects/chest.png")); // TODO change this to brick.png
+            this.image = ImageIO.read(getClass().getResourceAsStream("/tiles/brick.png"));
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -26,9 +26,9 @@ public class BrickObject extends SuperObject{
     public BrickObject(Point position, Game game, String owner) {
         super(position, game);
         this.owner = owner != null ? owner : "unknown"; // default owner to "unknown" if null
-        this.name = "chest"; // consider renaming to "brick" after updating the image
+        this.name = "brick";
         try {
-            this.image = ImageIO.read(getClass().getResourceAsStream("/tiles/brick.png")); // TODO change this to brick.png
+            this.image = ImageIO.read(getClass().getResourceAsStream("/tiles/brick.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

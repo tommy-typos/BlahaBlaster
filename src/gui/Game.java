@@ -10,6 +10,8 @@ import entity.objects.BrickObject;
 import entity.objects.ExplosionObject;
 import entity.objects.SuperObject;
 import handler.KeyHandler;
+import java.util.Random;
+
 
 
 import javax.swing.*;
@@ -17,7 +19,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 public class Game extends JPanel implements Runnable{
 
@@ -45,6 +46,10 @@ public class Game extends JPanel implements Runnable{
 
     public ArrayList<Effect> effects = new ArrayList<>();
     public ArrayList<ExplosionObject> activeExplosions = new ArrayList<>();
+    private int maxPowerUps = 10;
+    private int currentPowerUps = 0;
+    private final Random random = new Random();
+
 
 
 
@@ -70,11 +75,8 @@ public class Game extends JPanel implements Runnable{
     }
 
     public void setUpGame(ArrayList<Player> players){
-        effects.add(new GhostPowerUp(new Point(-5*tileSize, -5*tileSize), this));
 
-        obj.add(new BrickObject(new Point(tileSize, tileSize), this));
-        obj.add(new BrickObject(new Point(3*tileSize, 3*tileSize), this));
-
+        effects.add(new ObstaclePowerUp(new Point(1 * tileSize, 1 * tileSize), this));
 
 
         monsters.add(new BasicMonster(this, 1, new Point(11 * tileSize, tileSize)));
@@ -82,18 +84,11 @@ public class Game extends JPanel implements Runnable{
         monsters.add(new ChasingMonster(this, players, 3, new Point(8 * tileSize, 9 * tileSize)));
         monsters.add(new TipsyMonster(this, players, 4, new Point(tileSize, 10 * tileSize)));
 
-        // Development: call the ghost powerUp
-        for (Player player : players) {
-//            player.activateGhostPowerUp(player.ghostDuration);
-        }
 
         for (Player player : players) {
             player.activateInvincibilityPowerUp(player.invincibilityDuration);
             System.out.println("Player " + player.name + " is invincible for " + player.invincibilityDuration + " seconds");
         }
-
-        // checking roller skate powerUp
-//        players.getLast().speedBoosted = true;
     }
 
 
@@ -151,31 +146,31 @@ public class Game extends JPanel implements Runnable{
             }
         }
 
-        // check if chest should be replaced with effect
-        Iterator<SuperObject> objIterator = obj.iterator();
-        while(objIterator.hasNext()){
-            SuperObject superObject = objIterator.next();
-            if (superObject instanceof BrickObject && ((BrickObject) superObject).shouldBeRemoved) {
-                objIterator.remove();
-                replaceObjectWithEffect(superObject.position, new GhostPowerUp(superObject.position, this));
+        Iterator<SuperObject> it = obj.iterator();
+        while (it.hasNext()) {
+            SuperObject obj = it.next();
+            if (obj.shouldBeRemoved) {
+                it.remove(); // This includes bombs after explosion
             }
         }
     }
 
     private void blowUpBombs() {
-        for(int i = obj.size() - 1; i >= 0; i--){
-            SuperObject superObject = obj.get(i);
-            if(superObject instanceof BombObject){
+        // Instead of modifying the list directly, use an iterator
+        for (Iterator<SuperObject> iterator = obj.iterator(); iterator.hasNext();) {
+            SuperObject superObject = iterator.next();
+            if (superObject instanceof BombObject) {
                 BombObject bomb = (BombObject) superObject;
-                if(bomb.blowTime < System.currentTimeMillis() && i < obj.size()){
+                if (bomb.blowTime <= System.currentTimeMillis()) {
                     blowEntities(bomb);
-                    obj.remove(i);
+                    iterator.remove(); // Use iterator's remove method to avoid ConcurrentModificationException
                 }
             }
         }
     }
 
-    private void blowEntities(BombObject bomb){
+
+    public void blowEntities(BombObject bomb){
         HashMap<Integer, ArrayList<Rectangle>> tilesToBlow = new HashMap<>();
 
         Point bombPosition = new Point(bomb.position.getX()/tileSize, bomb.position.getY()/tileSize);
@@ -199,6 +194,12 @@ public class Game extends JPanel implements Runnable{
                 }else{
                     if(tileManager.checkMaterial(posX, posY, "brick")){
                         gameMap.mapCells[posY][posX] = "grass";
+                        if (shouldPlacePowerUp()) {
+                            Effect powerUp = getRandomPowerUp(new Point(posX * tileSize, posY * tileSize));
+                            if (powerUp != null) {
+                                effects.add(powerUp);
+                            }
+                        }
                         leftStop = true;
                     }else{
                         tilesToBlow.get(i).add(new Rectangle(posX*tileSize, posY*tileSize, tileSize, tileSize));
@@ -215,6 +216,12 @@ public class Game extends JPanel implements Runnable{
                 }else{
                     if(tileManager.checkMaterial(posX, posY, "brick")){
                         gameMap.mapCells[posY][posX] = "grass";
+                        if (shouldPlacePowerUp()) {
+                            Effect powerUp = getRandomPowerUp(new Point(posX * tileSize, posY * tileSize));
+                            if (powerUp != null) {
+                                effects.add(powerUp);
+                            }
+                        }
                         rightStop = true;
                     }else {
                         tilesToBlow.get(i).add(new Rectangle(posX * tileSize, posY * tileSize, tileSize, tileSize));
@@ -230,6 +237,12 @@ public class Game extends JPanel implements Runnable{
                 }else{
                     if (tileManager.checkMaterial(posX, posY, "brick")) {
                         gameMap.mapCells[posY][posX] = "grass";
+                        if (shouldPlacePowerUp()) {
+                            Effect powerUp = getRandomPowerUp(new Point(posX * tileSize, posY * tileSize));
+                            if (powerUp != null) {
+                                effects.add(powerUp);
+                            }
+                        }
                         upStop = true;
                     } else {
                         tilesToBlow.get(i).add(new Rectangle(posX * tileSize, posY * tileSize, tileSize, tileSize));
@@ -245,6 +258,12 @@ public class Game extends JPanel implements Runnable{
                 }else{
                     if (tileManager.checkMaterial(posX, posY, "brick")) {
                         gameMap.mapCells[posY][posX] = "grass";
+                        if (shouldPlacePowerUp()) {
+                            Effect powerUp = getRandomPowerUp(new Point(posX * tileSize, posY * tileSize));
+                            if (powerUp != null) {
+                                effects.add(powerUp);
+                            }
+                        }
                         downStop = true;
                     } else {
                         tilesToBlow.get(i).add(new Rectangle(posX * tileSize, posY * tileSize, tileSize, tileSize));
@@ -272,11 +291,29 @@ public class Game extends JPanel implements Runnable{
 
                 // Chest blow up, if it blows up, it will be replaced by an effect
                 for(SuperObject superObject : obj){
-                    if(superObject instanceof BrickObject){
-                        BrickObject chest = (BrickObject) superObject;
-                        Rectangle chestSolidArea = new Rectangle(chest.position.getX(), chest.position.getY(), tileSize, tileSize);
-                        if(tile.intersects(chestSolidArea)){
-                            chest.shouldBeRemoved = true;
+                    if(superObject instanceof BrickObject brick){
+                        Rectangle brickSolidArea = new Rectangle(brick.position.getX(), brick.position.getY(), tileSize, tileSize);
+                        if(tile.intersects(brickSolidArea)){
+                            brick.shouldBeRemoved = true;
+                        }
+                    }
+                }
+
+                for (SuperObject superObject : obj) {
+                    if (superObject instanceof BombObject && superObject != bomb) {
+                        BombObject otherBomb = (BombObject) superObject;
+                        // Get the tile position of the other bomb
+                        Point otherBombTile = new Point(otherBomb.position.getX() / tileSize, otherBomb.position.getY() / tileSize);
+                        Rectangle otherBombRect = new Rectangle(otherBombTile.getX() * tileSize, otherBombTile.getY() * tileSize, tileSize, tileSize);
+
+                        // Check if the other bomb's tile is in the blow radius
+                        for (ArrayList<Rectangle> blowList : tilesToBlow.values()) {
+                            for (Rectangle blowTile : blowList) {
+                                if (blowTile.intersects(otherBombRect)) {
+                                    otherBomb.blowTime = System.currentTimeMillis(); // Set blowTime to now to trigger it immediately
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
@@ -304,24 +341,8 @@ public class Game extends JPanel implements Runnable{
                 }
             }
         }
+
     }
-
-
-    public void replaceTile(Point position, Effect effect) {
-        // Find and remove the ChestObject at the given position
-        for (int i = 0; i < obj.size(); i++) {
-            SuperObject superObject = obj.get(i);
-            if (superObject instanceof BrickObject && superObject.position.equals(position)) {
-                obj.remove(i);
-                break;
-            }
-        }
-
-        // Then, add the effect to the game
-        effects.add(effect); // This adds the effect, so it will be drawn on the next paintComponent call
-    }
-
-
 
     private boolean isOutOfBound(int i, int y) {
         return i < 0 || i >= gameMap.mapDimensions[0] || y < 0 || y >= gameMap.mapDimensions[1];
@@ -377,18 +398,43 @@ public class Game extends JPanel implements Runnable{
 
 
     // Method to replace a ChestObject with an Effect (PowerUp or Curse)
-    public void replaceObjectWithEffect(Point position, Effect effect) {
-        // Find and remove the ChestObject at the given position
-        for (int i = 0; i < obj.size(); i++) {
-            SuperObject superObject = obj.get(i);
-            if (superObject instanceof BrickObject && superObject.position.equals(position)) {
-                obj.remove(i);
-                break;
-            }
+    public void replaceObjectWithEffect(Point position) {
+        // Ensure not to exceed the maximum number of power-ups
+        if (currentPowerUps >= maxPowerUps) {
+            return;
         }
 
-        // Then, add the effect to the game
-        effects.add(effect); // This adds the effect, so it will be drawn on the next paintComponent call
+        // Remove the BrickObject first
+        obj.removeIf(superObject -> superObject instanceof BrickObject && superObject.position.equals(position));
+
+        // Randomly select a power-up to create
+        Effect effect = getRandomPowerUp(position);
+        if (effect != null) {
+            effects.add(effect); // Add to the effects to be drawn and interacted with
+            currentPowerUps++; // Increment the count of active power-ups
+        }
+    }
+
+    private Effect getRandomPowerUp(Point position) {
+        int pick = random.nextInt(7); // Adjust this based on the number of power-up types
+        switch (pick) {
+            case 0:
+                return new BlastRangePowerUp(position, this);
+            case 1:
+                return new BombSlotIncreasePowerUp(position, this);
+            case 2:
+                return new DetonatorPowerUp(position, this);
+            case 3:
+                return new GhostPowerUp(position, this);
+            case 4:
+                return new InvincibilityPowerUp(position, this);
+            case 5:
+                return new ObstaclePowerUp(position, this);
+            case 6:
+                return new RollerSkatePowerUp(position, this);
+            default:
+                return null;
+        }
     }
 
     private boolean isTileToBeReplacedWithEffect(Point position) {
@@ -401,4 +447,7 @@ public class Game extends JPanel implements Runnable{
         return false;
     }
 
+    private boolean shouldPlacePowerUp() {
+        return random.nextBoolean(); // 50% chance
+    }
 }

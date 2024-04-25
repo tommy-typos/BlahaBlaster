@@ -7,8 +7,6 @@ import gui.Game;
 
 public class BlastRangePowerUp extends Effect {
 
-    private int blastRangeIncrease = 1;
-
     public BlastRangePowerUp(Point position, Game game) {
         super(position, game);
         this.blastRangeChange = 1;
@@ -21,7 +19,7 @@ public class BlastRangePowerUp extends Effect {
 
     @Override
     public void applyEffect(Player player) {
-        player.blastRange += blastRangeIncrease;
+        player.blastRange += 1;
     }
 
 }

@@ -9,7 +9,7 @@ public class RollerSkatePowerUp extends Effect {
 
 //    private int speedIncrease = 2;
 
-    public RollerSkatePowerUp(Player player, Point position, Game game) {
+    public RollerSkatePowerUp(Point position, Game game) {
         super(position, game);
     }
 
