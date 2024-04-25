@@ -77,6 +77,9 @@ public class Game extends JPanel implements Runnable{
     public void setUpGame(ArrayList<Player> players){
 
         effects.add(new ObstaclePowerUp(new Point(1 * tileSize, 1 * tileSize), this));
+        effects.add(new BlastRangePowerUp(new Point(2 * tileSize, 1 * tileSize), this));
+        effects.add(new BombSlotIncreasePowerUp(new Point(3 * tileSize, 1 * tileSize), this));
+        effects.add(new DetonatorPowerUp(new Point(4 * tileSize, 1 * tileSize), this));
 
 
         monsters.add(new BasicMonster(this, 1, new Point(11 * tileSize, tileSize)));
