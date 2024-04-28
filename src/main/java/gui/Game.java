@@ -57,6 +57,7 @@ public class Game extends JPanel implements Runnable {
     public final int gameOverState = 3;
     public ScreenNavigator screenNavigator;
     public long timeToFinish;
+    private boolean intelligent_monsters, advanced_powerups, hindering_curses;
 
     public Game(
             ScreenNavigator screenNavigator,
@@ -65,9 +66,9 @@ public class Game extends JPanel implements Runnable {
             boolean threePlayers,
             String player_name3,
             String mapID,
-            boolean p1AI,
-            boolean p2AI,
-            boolean p1Turn) {
+            boolean intelligent_monsters,
+            boolean advanced_powerups,
+            boolean hindering_curses) {
         this.screenNavigator = screenNavigator;
         this.gameMap = MapsController.getMapById(mapID);
 
@@ -84,6 +85,10 @@ public class Game extends JPanel implements Runnable {
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
         this.setBackground(Slate._950);
+
+        this.intelligent_monsters = intelligent_monsters;
+        this.advanced_powerups = advanced_powerups;
+        this.hindering_curses = hindering_curses;
 
         this.playerNames.put("player1", player_name1);
         this.playerNames.put("player2", player_name2);
@@ -102,7 +107,7 @@ public class Game extends JPanel implements Runnable {
                 new Player(
                         this,
                         keyHandler,
-                        new Point(tileSize * 1, tileSize * 3),
+                        new Point(tileSize, tileSize * 3),
                         playerNames.get("player1"),
                         1));
         players.add(
@@ -112,12 +117,12 @@ public class Game extends JPanel implements Runnable {
                         new Point(tileSize * 4, tileSize * 5),
                         playerNames.get("player2"),
                         2));
-        if (!playerNames.get("player3").equals("")) {
+        if (!playerNames.get("player3").isEmpty()) {
             players.add(
                     new Player(
                             this,
                             keyHandler,
-                            new Point(tileSize * 1, tileSize * 5),
+                            new Point(tileSize, tileSize * 5),
                             playerNames.get("player3"),
                             3));
         }
@@ -128,9 +133,11 @@ public class Game extends JPanel implements Runnable {
         obj.add(new ChestObject(new Point(3 * tileSize, 3 * tileSize), this));
 
         monsters.add(new BasicMonster(this, 1, new Point(11 * tileSize, tileSize)));
-        monsters.add(new GhostMonster(this, 2, new Point(7 * tileSize, 8 * tileSize)));
-        monsters.add(new ChasingMonster(this, players, 3, new Point(8 * tileSize, 9 * tileSize)));
-        monsters.add(new TipsyMonster(this, players, 4, new Point(tileSize, 10 * tileSize)));
+        if(intelligent_monsters){
+            monsters.add(new GhostMonster(this, 2, new Point(7 * tileSize, 8 * tileSize)));
+            monsters.add(new ChasingMonster(this, players, 3, new Point(8 * tileSize, 9 * tileSize)));
+            monsters.add(new TipsyMonster(this, players, 4, new Point(tileSize, 10 * tileSize)));
+        }
     }
 
     public void startGameThread() {
