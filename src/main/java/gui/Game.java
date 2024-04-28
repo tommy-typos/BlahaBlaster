@@ -102,7 +102,7 @@ public class Game extends JPanel implements Runnable {
                 new Player(
                         this,
                         keyHandler,
-                        new Point(tileSize * 1, tileSize * 3),
+                        new Point(tileSize, tileSize * 3),
                         playerNames.get("player1"),
                         1));
         players.add(
@@ -112,12 +112,12 @@ public class Game extends JPanel implements Runnable {
                         new Point(tileSize * 4, tileSize * 5),
                         playerNames.get("player2"),
                         2));
-        if (!playerNames.get("player3").equals("")) {
+        if (!playerNames.get("player3").isEmpty()) {
             players.add(
                     new Player(
                             this,
                             keyHandler,
-                            new Point(tileSize * 1, tileSize * 5),
+                            new Point(tileSize, tileSize * 5),
                             playerNames.get("player3"),
                             3));
         }
