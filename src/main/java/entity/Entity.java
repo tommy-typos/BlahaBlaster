@@ -21,7 +21,7 @@ public class Entity {
     public final int solidAreaDefaultY = 20;
 
     // 48 as the tile size
-    private final int width = 48 - 2*solidAreaDefaultX;
+    private final int width = 48 - 2 * solidAreaDefaultX;
     private final int height = 48 - solidAreaDefaultY - 1;
     public Rectangle solidArea = new Rectangle(solidAreaDefaultX, solidAreaDefaultY, width, height);
     public boolean shouldBeRemoved = false;
@@ -34,45 +34,53 @@ public class Entity {
         return position.getY();
     }
 
-    public Entity(Game gp){
+    public Entity(Game gp) {
         this.gp = gp;
     }
 
-    public void setAction(){}
+    public void setAction() {
+    }
 
-    public void update(){
+    public void update() {
         setAction();
     }
 
     public void draw(Graphics2D g2d) {
         BufferedImage img = null;
-        switch (direction){
+        switch (direction) {
             case "up":
-                if(spriteNum == 1)
-                    img = up1;
-                else
-                    img = up2;
+                img = (spriteNum == 1) ? up1 : up2;
                 break;
             case "down":
-                if(spriteNum == 1)
-                    img = down1;
-                else
-                    img = down2;
+                img = (spriteNum == 1) ? down1 : down2;
                 break;
             case "left":
-                if(spriteNum == 1)
-                    img = left1;
-                else
-                    img = left2;
+                img = (spriteNum == 1) ? left1 : left2;
                 break;
             case "right":
-                if(spriteNum == 1)
-                    img = right1;
-                else
-                    img = right2;
+                img = (spriteNum == 1) ? right1 : right2;
                 break;
         }
         g2d.drawImage(img, getX(), getY(), gp.tileSize, gp.tileSize, null);
         g2d.drawRect(solidArea.x + getX(), solidArea.y + getY(), solidArea.width, solidArea.height);
+    }
+
+    protected void move(String direction) {
+        if (!collisionOn) {
+            switch (direction) {
+                case "up":
+                    position.y -= speed;
+                    break;
+                case "down":
+                    position.y += speed;
+                    break;
+                case "left":
+                    position.x -= speed;
+                    break;
+                case "right":
+                    position.x += speed;
+                    break;
+            }
+        }
     }
 }

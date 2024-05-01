@@ -3,7 +3,6 @@ package main.java.gui;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import main.java.entity.GameMap;
-
 import java.io.*;
 
 class MapsController {
@@ -32,19 +31,19 @@ class MapsController {
         return null;
     }
 
-    public static void saveGameMapsToJson(GameMap[] gameMaps) {
-        // Create Gson instance with pretty printing
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+  public static void saveGameMapsToJson(GameMap[] gameMaps) {
+    // Create Gson instance with pretty printing
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        // Convert the array to JSON
-        String json = gson.toJson(gameMaps);
+    // Convert the array to JSON
+    String json = gson.toJson(gameMaps);
 
-        // Write the JSON to a file
-        try (Writer writer = new FileWriter("maps.json")) {
-            writer.write(json);
-            System.out.println("Data written to JSON successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    // Write the JSON to a file
+    try (Writer writer = new FileWriter("maps.json")) {
+      writer.write(json);
+      System.out.println("Data written to JSON successfully.");
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+  }
 }

@@ -1,18 +1,17 @@
 package main.java.entity;
 
 import main.java.gui.Game;
-
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
+import javax.imageio.ImageIO;
 
 public class TileManager {
 
     Game game;
     GameMap gameMap;
-    public HashMap <String, Tile> tile;
+    public HashMap<String, Tile> tile;
 
     public TileManager(Game game, GameMap gameMap){
         this.game = game;
@@ -23,15 +22,13 @@ public class TileManager {
 
 
     public void getTileImages(){
-        try{
+        try {
             tile.put("grass", new Tile(ImageIO.read(getClass().getResourceAsStream("/resources/tiles/grass.png")), false));
-
             tile.put("wall", new Tile(ImageIO.read(getClass().getResourceAsStream("/resources/tiles/wall.png")), true));
-
             tile.put("brick", new Tile(ImageIO.read(getClass().getResourceAsStream("/resources/tiles/brick.png")), true));
             tile.put("explosion", new Tile(ImageIO.read(getClass().getResourceAsStream("/resources/tiles/explosion.gif")), false));
 
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

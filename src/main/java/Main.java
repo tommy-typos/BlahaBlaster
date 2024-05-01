@@ -3,47 +3,47 @@ package main.java;
 import main.java.gui.MainJFrame;
 import main.java.gui.MainJPanel;
 import main.java.gui.ScreenNavigator;
-
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class Main {
-    public static void main(String[] args) {
-        MainJFrame frame = new MainJFrame();
+  public static void main(String[] args) {
+    MainJFrame frame = new MainJFrame();
 
-        MainJPanel mainPanel = new MainJPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS)); // keep this
-        frame.add(mainPanel, BorderLayout.CENTER);
+    MainJPanel mainPanel = new MainJPanel();
+    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS)); // keep this
+    frame.add(mainPanel, BorderLayout.CENTER);
 
-        // ---- Screen Navigator ----
-        ScreenNavigator navigator = new ScreenNavigator(frame, mainPanel);
+    // ---- Screen Navigator ----
+    ScreenNavigator navigator = new ScreenNavigator(frame, mainPanel);
 
-        // ********************* Main Menu Screen *************************
-//        navigator.goto_screen_mainMenu();
+    // ********************* Main Menu Screen *************************
+    //       navigator.goto_screen_mainMenu();
 
-        // *********************** Game Info Screen **********************
-//        navigator.goto_screen_gameInfo();
+    // *********************** Game Info Screen **********************
+    //        navigator.goto_screen_gameInfo();
 
-        // *********************** Maps Menu Screen **********************
-//        navigator.goto_screen_mapsMenu();
+    // *********************** Maps Menu Screen **********************
+    //        navigator.goto_screen_mapsMenu();
 
-        // *********************** Map Editor Screen **********************
-//        navigator.goto_screen_mapEditor(0);
+    // *********************** Map Editor Screen **********************
+    //        navigator.goto_screen_mapEditor(0);
 
-        // *********************** New Game Screen **********************
-        navigator.goto_screen_new_game_screen();
+    // *********************** Map Editor Screen **********************
+    // navigator.goto_screen_customControls();
 
-        // *********************** IN GAME SCREEN *************************
-        /**
-         * NOTE: map with given id should exists in maps.json file
-         * */
-//        navigator.goto_screen_ACTUAL_GAME("player1", "player2", false, "",
-//                "default_map_unique_id",true, true, true);
+    // *********************** New Game Screen **********************
+//    navigator.goto_screen_new_game_screen();
 
+    // *********************** IN GAME SCREEN *************************
+    /** NOTE: map with given id should exist in maps.json file */
+    // 2 players
+//    navigator.goto_screen_ACTUAL_GAME("player1", "player2", false, "",
+//            "default_map_unique_id",true, true, true);
+    // 3 players
+    navigator.goto_screen_ACTUAL_GAME("player1", "player2", true, "player3",
+            "default_map_unique_id",true, true, true);
 
-
-        frame.setVisible(true);
-    }
-
+    frame.setVisible(true);
+  }
 }
-

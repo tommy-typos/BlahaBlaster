@@ -6,7 +6,8 @@ import main.java.gui.Game;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public abstract class Monster extends Entity {
     protected BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
@@ -19,60 +20,72 @@ public abstract class Monster extends Entity {
         this.id = id;
         this.position = position;
         direction = "down";
-        getMonsterImage();
+        loadMonsterImages();
     }
 
+    protected void loadMonsterImages() {
+        String basePath = "/resources/monsters/" + getMonsterType() + "/";
+        try {
+            up1 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_2.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected abstract String getMonsterType();
+
+    @Override
     public void draw(Graphics2D g2d) {
         BufferedImage img = null;
-        switch (direction){
+        switch (direction) {
             case "up":
-                if(spriteNum == 1)
-                    img = up1;
-                else
-                    img = up2;
+                img = (spriteNum == 1) ? up1 : up2;
                 break;
             case "down":
-                if(spriteNum == 1)
-                    img = down1;
-                else
-                    img = down2;
+                img = (spriteNum == 1) ? down1 : down2;
                 break;
             case "left":
-                if(spriteNum == 1)
-                    img = left1;
-                else
-                    img = left2;
+                img = (spriteNum == 1) ? left1 : left2;
                 break;
             case "right":
-                if(spriteNum == 1)
-                    img = right1;
-                else
-                    img = right2;
+                img = (spriteNum == 1) ? right1 : right2;
                 break;
         }
         g2d.drawImage(img, getX(), getY(), gp.tileSize, gp.tileSize, null);
         g2d.drawRect(solidArea.x + getX(), solidArea.y + getY(), solidArea.width, solidArea.height);
+        super.draw(g2d);
     }
 
-
-    public abstract void getMonsterImage();
-
-    protected void move() {
-        switch (direction) {
-            case "up":
-                position.setY(position.getY() - speed);
-                break;
-            case "down":
-                position.setY(position.getY() + speed);
-                break;
-            case "left":
-                position.setX(position.getX() - speed);
-                break;
-            case "right":
-                position.setX(position.getX() + speed);
-                break;
-        }
+    public void move() {
+        move(direction);
     }
+
+    /**  We previously had this in Powerups-and-curse branch
+     * protected void move() {
+     *         switch (direction) {
+     *             case "up":
+     *                 position.setY(position.getY() - speed);
+     *                 break;
+     *             case "down":
+     *                 position.setY(position.getY() + speed);
+     *                 break;
+     *             case "left":
+     *                 position.setX(position.getX() - speed);
+     *                 break;
+     *             case "right":
+     *                 position.setX(position.getX() + speed);
+     *                 break;
+     *         }
+     *     }
+     *
+     */
 
     protected void updateSpriteImage() {
         spriteCounter++;

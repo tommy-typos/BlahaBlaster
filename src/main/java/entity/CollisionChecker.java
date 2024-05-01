@@ -14,11 +14,11 @@ public class CollisionChecker {
 
     Game game;
 
-    public CollisionChecker(Game game){
+    public CollisionChecker(Game game) {
         this.game = game;
     }
 
-    public void checkTile(Entity entity){
+    public void checkTile(Entity entity) {
         int entityLeftX = entity.getX() + entity.solidArea.x;
         int entityRightX = entityLeftX + entity.solidArea.width;
         int entityTopY = entity.getY() + entity.solidArea.y;
@@ -31,7 +31,7 @@ public class CollisionChecker {
 
         String tile1 = null, tile2 = null;
 
-        switch (entity.direction){
+        switch (entity.direction) {
             case "up":
                 topRow = (entityTopY - entity.speed) / game.tileSize;
                 tile1 = game.gameMap.mapCells[topRow][leftCol];
@@ -57,17 +57,16 @@ public class CollisionChecker {
     }
 
     public int checkObject(Entity entity) {
-        int index = 999; // Default index for no collision
+        int index = 999;
 
         for (SuperObject obj : game.obj) {
             if (obj != null) {
-                // Handle bomb specific logic
                 if (entity instanceof Player && obj instanceof BombObject) {
                     Player player = (Player) entity;
                     BombObject bomb = (BombObject) obj;
                     long leaveTime = bomb.timeToLeave - System.currentTimeMillis();
                     if (leaveTime > 0 && bomb.owner != null && bomb.owner.equals(player.name)) {
-                        continue; // Skip this iteration if the player is the owner and the bomb hasn't reached its safe time
+                        continue;
                     }
                 }
 
@@ -87,28 +86,47 @@ public class CollisionChecker {
                 obj.solidArea.x = obj.getX() + obj.solidArea.x;
                 obj.solidArea.y = obj.getY() + obj.solidArea.y;
 
-                // Check for collisions based on direction
                 switch (entity.direction) {
                     case "up":
                         entity.solidArea.y -= entity.speed;
+                        if (entity.solidArea.intersects(obj.solidArea)) {
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }  // If block here and in cases below were not here in powerups before the merge with master
                         break;
+
                     case "down":
                         entity.solidArea.y += entity.speed;
+                        if (entity.solidArea.intersects(obj.solidArea)) {
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }
                         break;
+
                     case "left":
                         entity.solidArea.x -= entity.speed;
+                        if (entity.solidArea.intersects(obj.solidArea)) {
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }
                         break;
+
                     case "right":
                         entity.solidArea.x += entity.speed;
+                        if (entity.solidArea.intersects(obj.solidArea)) {
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }
                         break;
                 }
 
-                // Detect collision
-                if (entity.solidArea.intersects(obj.solidArea)) {
-                    index = game.obj.indexOf(obj);
-                    entity.collisionOn = true;
-                    break; // Exit on first collision found
-                }
+                // For DRY method we need to move if block from the top cases to here
+//                if (entity.solidArea.intersects(obj.solidArea)) {
+//                    index = game.obj.indexOf(obj);
+//                    entity.collisionOn = true;
+//                    break; // Exit on first collision found
+//                }
+
 
                 // Reset solid areas after check
                 entity.solidArea.x = entity.solidAreaDefaultX;
@@ -121,15 +139,15 @@ public class CollisionChecker {
         return index; // Return index of the object with which collision is detected
     }
 
-
-    private void checkCollision(String tile1, String tile2, Entity entity){
-        entity.collisionOn = game.tileManager.isTileCollision(tile1) || game.tileManager.isTileCollision(tile2);
+    private void checkCollision(String tile1, String tile2, Entity entity) {
+        entity.collisionOn =
+                game.tileManager.isTileCollision(tile1) || game.tileManager.isTileCollision(tile2);
     }
 
     public int checkEntityToMonsters(Entity entity, List<Monster> target){
         int i = 999;
 
-        for(Entity e : target){
+        for (Entity e : target) {
             // Get entity's position on the map
             entity.solidArea.x = entity.getX() + entity.solidArea.x;
             entity.solidArea.y = entity.getY() + entity.solidArea.y;
@@ -139,10 +157,10 @@ public class CollisionChecker {
             e.solidArea.y = e.getY() + e.solidArea.y;
 
             // Check if the two entities collide
-            switch (entity.direction){
+            switch (entity.direction) {
                 case "up":
                     entity.solidArea.y -= entity.speed;
-                    if(entity.solidArea.intersects(e.solidArea)){
+                    if (entity.solidArea.intersects(e.solidArea)) {
                         i = target.indexOf(e);
                         entity.collisionOn = true;
                     }
@@ -150,7 +168,7 @@ public class CollisionChecker {
 
                 case "down":
                     entity.solidArea.y += entity.speed;
-                    if(entity.solidArea.intersects(e.solidArea)){
+                    if (entity.solidArea.intersects(e.solidArea)) {
                         i = target.indexOf(e);
                         entity.collisionOn = true;
                     }
@@ -158,7 +176,7 @@ public class CollisionChecker {
 
                 case "left":
                     entity.solidArea.x -= entity.speed;
-                    if(entity.solidArea.intersects(e.solidArea)){
+                    if (entity.solidArea.intersects(e.solidArea)) {
                         i = target.indexOf(e);
                         entity.collisionOn = true;
                     }
@@ -166,12 +184,11 @@ public class CollisionChecker {
 
                 case "right":
                     entity.solidArea.x += entity.speed;
-                    if(entity.solidArea.intersects(e.solidArea)){
+                    if (entity.solidArea.intersects(e.solidArea)) {
                         i = target.indexOf(e);
                         entity.collisionOn = true;
                     }
                     break;
-
             }
             entity.solidArea.x = entity.solidAreaDefaultX;
             entity.solidArea.y = entity.solidAreaDefaultY;
@@ -181,16 +198,16 @@ public class CollisionChecker {
         return i;
     }
 
-    public void checkEntityToEntity(Entity entity){
+    public void checkEntityToEntity(Entity entity) {
         ArrayList<Entity> entities = new ArrayList<>();
-        if(entity instanceof Player){
+        if (entity instanceof Player) {
             entities.addAll(game.players);
-        }else if(entity instanceof Monster) {
+        } else if (entity instanceof Monster) {
             entities.addAll(game.monsters);
         }
 
-        for(Entity e : entities){
-            if(e != entity){
+        for (Entity e : entities) {
+            if (e != entity) {
                 // Get entity's position on the map
                 entity.solidArea.x = entity.getX() + entity.solidArea.x;
                 entity.solidArea.y = entity.getY() + entity.solidArea.y;
@@ -200,35 +217,34 @@ public class CollisionChecker {
                 e.solidArea.y = e.getY() + e.solidArea.y;
 
                 // Check if the two entities collide
-                switch (entity.direction){
+                switch (entity.direction) {
                     case "up":
                         entity.solidArea.y -= entity.speed;
-                        if(entity.solidArea.intersects(e.solidArea)){
+                        if (entity.solidArea.intersects(e.solidArea)) {
                             entity.collisionOn = true;
                         }
                         break;
 
                     case "down":
                         entity.solidArea.y += entity.speed;
-                        if(entity.solidArea.intersects(e.solidArea)){
+                        if (entity.solidArea.intersects(e.solidArea)) {
                             entity.collisionOn = true;
                         }
                         break;
 
                     case "left":
                         entity.solidArea.x -= entity.speed;
-                        if(entity.solidArea.intersects(e.solidArea)){
+                        if (entity.solidArea.intersects(e.solidArea)) {
                             entity.collisionOn = true;
                         }
                         break;
 
                     case "right":
                         entity.solidArea.x += entity.speed;
-                        if(entity.solidArea.intersects(e.solidArea)){
+                        if (entity.solidArea.intersects(e.solidArea)) {
                             entity.collisionOn = true;
                         }
                         break;
-
                 }
                 entity.solidArea.x = entity.solidAreaDefaultX;
                 entity.solidArea.y = entity.solidAreaDefaultY;
@@ -238,7 +254,7 @@ public class CollisionChecker {
         }
     }
 
-    public void checkMonsterToPlayer(Monster monster){
+    public void checkMonsterToPlayer(Monster monster) {
         for (Player p : game.players) {
             monster.solidArea.x = monster.getX() + monster.solidArea.x;
             monster.solidArea.y = monster.getY() + monster.solidArea.y;
@@ -280,7 +296,7 @@ public class CollisionChecker {
             monster.solidArea.y = monster.solidAreaDefaultY;
 
             p.shouldBeRemoved = playerDies;
-            if(!playerDies){
+            if (!playerDies) {
                 p.solidArea.x = p.solidAreaDefaultX;
                 p.solidArea.y = p.solidAreaDefaultY;
             }

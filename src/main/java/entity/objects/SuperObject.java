@@ -17,20 +17,20 @@ public class SuperObject {
     public int solidAreaDefaultX = 0;
     public int solidAreaDefaultY = 0;
 
-    public SuperObject(Point position, Game game){
+    public SuperObject(Point position, Game game) {
         this.position = position;
         this.game = game;
     }
-    public int getX(){
+
+    public int getX() {
         return position.getX();
     }
 
-    public int getY(){
+    public int getY() {
         return position.getY();
     }
 
-    public void draw(Graphics2D g2d){
-        g2d.drawImage(image, getX(), getY(), game.tileSize, game.tileSize,null);
-
+    public void draw(Graphics2D g2d) {
+        g2d.drawImage(image, getX(), getY(), game.tileSize, game.tileSize, null);
     }
 }

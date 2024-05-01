@@ -7,9 +7,9 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.Random;
 
-
 public class GhostMonster extends Monster {
     private final Game game;
+
     public GhostMonster(Game gp, int id, Point position) {
         super(gp, id, position);
         this.game = gp;
@@ -17,20 +17,8 @@ public class GhostMonster extends Monster {
     }
 
     @Override
-    public void getMonsterImage() {
-        String basePath = "/resources/monsters/ghost_monster/gm_";
-        try {
-            up1 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_2.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    protected String getMonsterType() {
+        return "ghost_monster";
     }
 
     @Override
@@ -70,7 +58,6 @@ public class GhostMonster extends Monster {
         int mapHeight = game.screenHeight;
         int tileSize = game.tileSize;
 
-
         // Right edge
         if (position.getX() >= mapWidth - 2 * tileSize && direction.equals("right")) {
             direction = "left";
@@ -89,10 +76,8 @@ public class GhostMonster extends Monster {
         }
     }
 
-
     private boolean shouldChangeDirection() {
         Random random = new Random();
         return random.nextInt(100) < 5;
     }
-
 }

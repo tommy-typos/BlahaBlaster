@@ -67,23 +67,34 @@ public class Player extends Entity {
             left2 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_2.png"));
             right1 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_1.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_2.png"));
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // Getters and setters
+    public Point getPosition() {
+        return position;
+    }
 
+    public KeyHandler getKeyHandler() {
+        return keyHandler;
+    }
+
+    public void setPosition(Point position) {
+        this.position = position;
+    }
 
     public void update() {
         if (playerNumber == 1) {
-            if(keyHandler.e) {
+            if (keyHandler.e) {
                 plantBomb();
                 keyHandler.e = false;
             }
             movePlayer(keyHandler.w, keyHandler.s, keyHandler.a, keyHandler.d);
         }
         if (playerNumber == 2) {
-            if(keyHandler.plantBomb) {
+            if (keyHandler.plantBomb) {
                 plantBomb();
                 keyHandler.plantBomb = false;
             }
@@ -91,7 +102,7 @@ public class Player extends Entity {
         }
 
         if (playerNumber == 3) {
-            if(keyHandler.num_plant) {
+            if (keyHandler.num_plant) {
                 plantBomb();
                 keyHandler.num_plant = false;
             }
@@ -176,7 +187,7 @@ public class Player extends Entity {
 
             adjustMovementAtMapEdges();
 
-            // if the player has a Detona
+            // if the player has a Detonator
             if(!collisionOn || ghostDuration > 0) { // || ghostDuration > 0  -->  if the player is a ghost, they can move through obstacles
                 switch(direction){
                     case "up":
