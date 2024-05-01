@@ -60,7 +60,7 @@ public abstract class Effect {
         this.position = position;
         this.game = game;
         try{
-            this.image = new ImageIcon(getClass().getResource("/objects/effect.gif"));
+            this.image = new ImageIcon(getClass().getResource("/resources/objects/effect.gif"));
         } catch (Exception e){
             e.printStackTrace();
         }

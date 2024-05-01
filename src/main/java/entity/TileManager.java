@@ -24,12 +24,12 @@ public class TileManager {
 
     public void getTileImages(){
         try{
-            tile.put("grass", new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/grass.png")), false));
+            tile.put("grass", new Tile(ImageIO.read(getClass().getResourceAsStream("/resources/tiles/grass.png")), false));
 
-            tile.put("wall", new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png")), true));
+            tile.put("wall", new Tile(ImageIO.read(getClass().getResourceAsStream("/resources/tiles/wall.png")), true));
 
-            tile.put("brick", new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/brick.png")), true));
-            tile.put("explosion", new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/explosion.gif")), false));
+            tile.put("brick", new Tile(ImageIO.read(getClass().getResourceAsStream("/resources/tiles/brick.png")), true));
+            tile.put("explosion", new Tile(ImageIO.read(getClass().getResourceAsStream("/resources/tiles/explosion.gif")), false));
 
         }catch (IOException e){
             e.printStackTrace();

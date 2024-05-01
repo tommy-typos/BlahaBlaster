@@ -57,7 +57,7 @@ public class Player extends Entity {
     }
 
     public void getPlayerImage(){
-        String basePath = "/player" + playerNumber + "/player_";
+        String basePath = "/resources/player" + playerNumber + "/player_";
         try{
             up1 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_1.png"));
             up2 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_2.png"));

@@ -16,7 +16,7 @@ public class ExplosionObject {
         this.position = position;
         this.game = game;
         try{
-            this.image = new ImageIcon(getClass().getResource("/tiles/explosion.gif"));
+            this.image = new ImageIcon(getClass().getResource("/resources/tiles/explosion.gif"));
         } catch (Exception e){
             e.printStackTrace();
         }

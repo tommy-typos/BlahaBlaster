@@ -26,7 +26,7 @@ public class TipsyMonster extends Monster {
 
     @Override
     public void getMonsterImage() {
-        String basePath = "/monsters/tipsy_monster/tm_";
+        String basePath = "/resources/monsters/tipsy_monster/tm_";
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_1.png"));
             up2 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_2.png"));

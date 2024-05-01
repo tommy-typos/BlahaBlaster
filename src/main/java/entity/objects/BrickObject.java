@@ -14,7 +14,7 @@ public class BrickObject extends SuperObject {
         super(position, game);
         this.name = "brick";
         try{
-            this.image = ImageIO.read(getClass().getResourceAsStream("/tiles/brick.png"));
+            this.image = ImageIO.read(getClass().getResourceAsStream("/resources/tiles/brick.png"));
         }catch (IOException e){
             e.printStackTrace();
         }

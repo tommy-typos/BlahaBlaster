@@ -21,7 +21,7 @@ public class BombObject extends SuperObject {
         this.owner = owner.name;
         this.blowRadius = blowRadius;
         try{
-            this.image = ImageIO.read(getClass().getResourceAsStream("/objects/bomb.png"));
+            this.image = ImageIO.read(getClass().getResourceAsStream("/resources/objects/bomb.png"));
         }catch (IOException e){
             e.printStackTrace();
         }

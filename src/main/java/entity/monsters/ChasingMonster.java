@@ -23,7 +23,7 @@ public class ChasingMonster extends Monster {
 
     @Override
     public void getMonsterImage() {
-        String basePath = "/monsters/chasing_monster/cm_";
+        String basePath = "/resources/monsters/chasing_monster/cm_";
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_1.png"));
             up2 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_2.png"));

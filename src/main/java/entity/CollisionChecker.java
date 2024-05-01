@@ -8,6 +8,7 @@ import main.java.entity.objects.SuperObject;
 import main.java.gui.Game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CollisionChecker {
 
@@ -125,7 +126,7 @@ public class CollisionChecker {
         entity.collisionOn = game.tileManager.isTileCollision(tile1) || game.tileManager.isTileCollision(tile2);
     }
 
-    public int checkEntityToMonsters(Entity entity, ArrayList<Monster> target){
+    public int checkEntityToMonsters(Entity entity, List<Monster> target){
         int i = 999;
 
         for(Entity e : target){
