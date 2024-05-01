@@ -1,7 +1,7 @@
-package gui;
+package main.java.gui;
 
-import custom.CustomButton;
-import custom.Slate;
+import main.java.custom.CustomButton;
+import main.java.custom.Slate;
 import java.awt.*;
 import javax.swing.*;
 

@@ -1,8 +1,8 @@
-package entity.monsters;
+package main.java.entity.monsters;
 
-import entity.Entity;
-import entity.Point;
-import gui.Game;
+import main.java.entity.Entity;
+import main.java.entity.Point;
+import main.java.gui.Game;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

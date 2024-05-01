@@ -1,10 +1,10 @@
-package entity.monsters;
+package main.java.entity.monsters;
 
-import entity.Player;
-import entity.Point;
-import entity.objects.BombObject;
-import entity.objects.SuperObject;
-import gui.Game;
+import main.java.entity.Player;
+import main.java.entity.Point;
+import main.java.entity.objects.BombObject;
+import main.java.entity.objects.SuperObject;
+import main.java.gui.Game;
 
 import java.util.List;
 import java.util.Random;

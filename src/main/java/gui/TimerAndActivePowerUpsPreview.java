@@ -1,6 +1,6 @@
-package gui;
+package main.java.gui;
 
-import custom.Slate;
+import main.java.custom.Slate;
 
 import javax.swing.*;
 

@@ -1,8 +1,8 @@
-package handler;
+package main.java.handler;
 
-import gui.CustomControl;
-import gui.CustomControlsJson;
-import gui.Game;
+import main.java.gui.CustomControl;
+import main.java.gui.CustomControlsJson;
+import main.java.gui.Game;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

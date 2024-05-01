@@ -1,4 +1,4 @@
-package gui;
+package main.java.gui;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

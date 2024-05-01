@@ -1,7 +1,7 @@
-package gui;
+package main.java.gui;
 
-import custom.Slate;
-import entity.GameMap;
+import main.java.custom.Slate;
+import main.java.entity.GameMap;
 import java.awt.*;
 import javax.swing.*;
 

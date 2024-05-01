@@ -1,13 +1,13 @@
-package gui;
+package main.java.gui;
 
-import custom.Slate;
-import entity.*;
-import entity.Point;
-import entity.monsters.*;
-import entity.objects.BombObject;
-import entity.objects.ChestObject;
-import entity.objects.SuperObject;
-import handler.KeyHandler;
+import main.java.custom.Slate;
+import main.java.entity.*;
+import main.java.entity.Point;
+import main.java.entity.monsters.*;
+import main.java.entity.objects.BombObject;
+import main.java.entity.objects.ChestObject;
+import main.java.entity.objects.SuperObject;
+import main.java.handler.KeyHandler;
 
 import java.awt.*;
 import java.util.ArrayList;

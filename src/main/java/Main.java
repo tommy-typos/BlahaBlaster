@@ -1,6 +1,6 @@
-import gui.MainJFrame;
-import gui.MainJPanel;
-import gui.ScreenNavigator;
+import main.java.gui.MainJFrame;
+import main.java.gui.MainJPanel;
+import main.java.gui.ScreenNavigator;
 import java.awt.*;
 import javax.swing.*;
 

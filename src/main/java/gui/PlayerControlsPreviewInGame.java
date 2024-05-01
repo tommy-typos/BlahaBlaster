@@ -1,7 +1,7 @@
-package gui;
+package main.java.gui;
 
-import custom.CustomLabel;
-import custom.Slate;
+import main.java.custom.CustomLabel;
+import main.java.custom.Slate;
 
 import javax.swing.*;
 import java.awt.*;

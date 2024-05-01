@@ -1,9 +1,9 @@
-package entity;
+package main.java.entity;
 
-import entity.monsters.Monster;
-import entity.objects.BombObject;
-import entity.objects.SuperObject;
-import gui.Game;
+import main.java.entity.monsters.Monster;
+import main.java.entity.objects.BombObject;
+import main.java.entity.objects.SuperObject;
+import main.java.gui.Game;
 
 import java.util.ArrayList;
 

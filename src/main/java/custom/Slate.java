@@ -1,4 +1,4 @@
-package custom;
+package main.java.custom;
 
 import java.awt.*;
 

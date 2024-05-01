@@ -3,11 +3,11 @@ package entity;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import entity.monsters.BasicMonster;
-import entity.monsters.ChasingMonster;
-import entity.monsters.GhostMonster;
-import entity.monsters.Monster;
-import gui.Game;
+import main.java.entity.monsters.BasicMonster;
+import main.java.entity.monsters.ChasingMonster;
+import main.java.entity.monsters.GhostMonster;
+import main.java.entity.monsters.Monster;
+import main.java.gui.Game;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

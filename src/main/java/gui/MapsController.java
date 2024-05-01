@@ -1,8 +1,8 @@
-package gui;
+package main.java.gui;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import entity.GameMap;
+import main.java.entity.GameMap;
 import java.io.*;
 
 class MapsController {

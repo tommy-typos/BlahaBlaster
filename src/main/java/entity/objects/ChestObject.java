@@ -1,7 +1,7 @@
-package entity.objects;
+package main.java.entity.objects;
 
-import entity.Point;
-import gui.Game;
+import main.java.entity.Point;
+import main.java.gui.Game;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 

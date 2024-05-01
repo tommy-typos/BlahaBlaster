@@ -1,7 +1,7 @@
-package entity;
+package main.java.entity;
 
-import entity.objects.BombObject;
-import entity.objects.SuperObject;
+import main.java.entity.objects.BombObject;
+import main.java.entity.objects.SuperObject;
 import gui.Game;
 import handler.KeyHandler;
 

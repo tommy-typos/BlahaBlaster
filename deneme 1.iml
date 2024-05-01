@@ -10,4 +10,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="google.code.gson" level="project" />
   </component>
+  <component name="SonarLintModuleSettings">
+    <option name="uniqueId" value="83f8fd31-cc0d-45f4-8ff9-ec153d0ab41f" />
+  </component>
 </module>

@@ -1,7 +1,7 @@
-package entity.monsters;
+package main.java.entity.monsters;
 
-import entity.Point;
-import gui.Game;
+import main.java.entity.Point;
+import main.java.gui.Game;
 
 import java.util.Random;
 
