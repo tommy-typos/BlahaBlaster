@@ -1,153 +1,148 @@
-package main.java.entity.monsters;
+package entity.monsters;
 
-import main.java.entity.Player;
-import main.java.entity.Point;
-import main.java.entity.objects.BombObject;
-import main.java.entity.objects.SuperObject;
-import main.java.gui.Game;
-
-import java.io.IOException;
-import java.util.ArrayList;
+import entity.Player;
+import entity.Point;
+import entity.objects.BombObject;
+import entity.objects.SuperObject;
+import gui.Game;
 import java.util.List;
 import java.util.Random;
-import javax.imageio.ImageIO;
-
 
 public class TipsyMonster extends Monster {
-    private final Game game;
-    private final List<Player> players;
-    private final Random random;
+  private final Game game;
+  private final List<Player> players;
+  private final Random random;
 
-    public TipsyMonster(Game gp, List<Player> players, int id, Point position) {
-        super(gp, id, position);
-        this.game = gp;
-        this.players = players;
-        speed = 2;
-        random = new Random();
-    }
+  public TipsyMonster(Game gp, List<Player> players, int id, Point position) {
+    super(gp, id, position);
+    this.game = gp;
+    this.players = players;
+    speed = 2;
+    random = new Random();
+  }
 
-    @Override
-    protected String getMonsterType() {
-        return "tipsy_monster";
-    }
+  @Override
+  protected String getMonsterType() {
+    return "tipsy_monster";
+  }
 
-    @Override
-    public void update() {
-        setAction();
-    }
+  @Override
+  public void update() {
+    setAction();
+  }
 
-    @Override
-    public void setAction() {
-        actionLockCounter++;
-        if (actionLockCounter == 60 || collisionOn) {
-            if (!isNearBomb()) {
-                Point closestPlayerPosition = findClosestPlayer();
-                boolean movedTowardsPlayer = false;
+  @Override
+  public void setAction() {
+    actionLockCounter++;
+    if (actionLockCounter == 60 || collisionOn) {
+      if (!isNearBomb()) {
+        Point closestPlayerPosition = findClosestPlayer();
+        boolean movedTowardsPlayer = false;
 
-                if (closestPlayerPosition != null) {
-                    Point nextMove = calculateNextMoveTowardsPlayer(closestPlayerPosition);
+        if (closestPlayerPosition != null) {
+          Point nextMove = calculateNextMoveTowardsPlayer(closestPlayerPosition);
 
-                    if (random.nextInt(100) < 20) { // 20% chance to make a wrong move
-                        nextMove = calculateRandomMove(); // Choose a random direction instead
-                    }
+          if (random.nextInt(100) < 20) { // 20% chance to make a wrong move
+            nextMove = calculateRandomMove(); // Choose a random direction instead
+          }
 
-                    adjustDirectionBasedOnNextMove(nextMove);
-                    collisionOn = false;
-                    gp.collisionChecker.checkTile(this);
-                    gp.collisionChecker.checkEntityToEntity(this);
-                    gp.collisionChecker.checkMonsterToPlayer(this);
+          adjustDirectionBasedOnNextMove(nextMove);
+          collisionOn = false;
+          gp.collisionChecker.checkTile(this);
+          gp.collisionChecker.checkEntityToEntity(this);
+          gp.collisionChecker.checkMonsterToPlayer(this);
 
-                    if (!collisionOn) {
-                        movedTowardsPlayer = true;
-                    }
-                }
-
-                if (!movedTowardsPlayer) {
-                    adjustDirectionBasedOnNextMove(calculateRandomMove());
-                }
-                actionLockCounter = 0;
-            }
+          if (!collisionOn) {
+            movedTowardsPlayer = true;
+          }
         }
-        collisionOn = false;
-        gp.collisionChecker.checkTile(this);
-        gp.collisionChecker.checkObject(this);  // This  was removed in master version during the merge
-        gp.collisionChecker.checkEntityToEntity(this);
-        gp.collisionChecker.checkMonsterToPlayer(this);
 
-        if (!collisionOn) {
-            move();
+        if (!movedTowardsPlayer) {
+          adjustDirectionBasedOnNextMove(calculateRandomMove());
         }
-        updateSpriteImage();
+        actionLockCounter = 0;
+      }
     }
+    collisionOn = false;
+    gp.collisionChecker.checkTile(this);
+    gp.collisionChecker.checkObject(this); // This  was removed in master version during the merge
+    gp.collisionChecker.checkEntityToEntity(this);
+    gp.collisionChecker.checkMonsterToPlayer(this);
 
-    private boolean isNearBomb() {
-        for (SuperObject obj : game.getObjects()) {
-            if (obj instanceof BombObject) {
-                BombObject bomb = (BombObject) obj;
-                if (position.distance(bomb.position) <= bomb.blowRadius * game.tileSize) {
-                    return true;
-                }
-            }
+    if (!collisionOn) {
+      move();
+    }
+    updateSpriteImage();
+  }
+
+  private boolean isNearBomb() {
+    for (SuperObject obj : game.getObjects()) {
+      if (obj instanceof BombObject) {
+        BombObject bomb = (BombObject) obj;
+        if (position.distance(bomb.position) <= bomb.blowRadius * game.tileSize) {
+          return true;
         }
-        return false;
+      }
     }
+    return false;
+  }
 
-    private Point calculateNextMoveTowardsPlayer(Point playerPosition) {
-        int diffX = playerPosition.getX() - position.getX();
-        int diffY = playerPosition.getY() - position.getY();
+  private Point calculateNextMoveTowardsPlayer(Point playerPosition) {
+    int diffX = playerPosition.getX() - position.getX();
+    int diffY = playerPosition.getY() - position.getY();
 
-        int moveX = 0, moveY = 0;
+    int moveX = 0, moveY = 0;
 
-        if (diffX > 0) moveX = speed;
-        else if (diffX < 0) moveX = -speed;
+    if (diffX > 0) moveX = speed;
+    else if (diffX < 0) moveX = -speed;
 
-        if (diffY > 0) moveY = speed;
-        else if (diffY < 0) moveY = -speed;
+    if (diffY > 0) moveY = speed;
+    else if (diffY < 0) moveY = -speed;
 
-        if (Math.abs(diffX) > Math.abs(diffY)) {
-            return new Point(position.getX() + moveX, position.getY());
-        } else {
-            // Otherwise, prioritize vertical movement
-            return new Point(position.getX(), position.getY() + moveY);
-        }
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      return new Point(position.getX() + moveX, position.getY());
+    } else {
+      // Otherwise, prioritize vertical movement
+      return new Point(position.getX(), position.getY() + moveY);
     }
+  }
 
-    private Point calculateRandomMove() {
-        int i = random.nextInt(4) + 1;
-        switch (i) {
-            case 1:
-                return new Point(position.getX(), position.getY() - speed); // Move up
-            case 2:
-                return new Point(position.getX(), position.getY() + speed); // Move down
-            case 3:
-                return new Point(position.getX() - speed, position.getY()); // Move left
-            default:
-                return new Point(position.getX() + speed, position.getY()); // Move right
-        }
+  private Point calculateRandomMove() {
+    int i = random.nextInt(4) + 1;
+    switch (i) {
+      case 1:
+        return new Point(position.getX(), position.getY() - speed); // Move up
+      case 2:
+        return new Point(position.getX(), position.getY() + speed); // Move down
+      case 3:
+        return new Point(position.getX() - speed, position.getY()); // Move left
+      default:
+        return new Point(position.getX() + speed, position.getY()); // Move right
     }
+  }
 
-    private void adjustDirectionBasedOnNextMove(Point nextMove) {
-        int diffX = nextMove.getX() - position.getX();
-        int diffY = nextMove.getY() - position.getY();
+  private void adjustDirectionBasedOnNextMove(Point nextMove) {
+    int diffX = nextMove.getX() - position.getX();
+    int diffY = nextMove.getY() - position.getY();
 
-        if (Math.abs(diffX) > Math.abs(diffY)) {
-            direction = diffX > 0 ? "right" : "left";
-        } else if (Math.abs(diffY) > 0) {
-            direction = diffY > 0 ? "down" : "up";
-        }
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      direction = diffX > 0 ? "right" : "left";
+    } else if (Math.abs(diffY) > 0) {
+      direction = diffY > 0 ? "down" : "up";
     }
+  }
 
-    private Point findClosestPlayer() {
-        double minDistance = Double.MAX_VALUE;
-        Point closestPlayerPosition = null;
-        for (Player player : players) {
-            Point playerPosition = player.position;
-            double distance = this.position.distance(playerPosition);
-            if (distance < minDistance) {
-                minDistance = distance;
-                closestPlayerPosition = playerPosition;
-            }
-        }
-        return closestPlayerPosition;
+  private Point findClosestPlayer() {
+    double minDistance = Double.MAX_VALUE;
+    Point closestPlayerPosition = null;
+    for (Player player : players) {
+      Point playerPosition = player.position;
+      double distance = this.position.distance(playerPosition);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestPlayerPosition = playerPosition;
+      }
     }
+    return closestPlayerPosition;
+  }
 }

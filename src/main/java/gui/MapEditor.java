@@ -1,9 +1,9 @@
-package main.java.gui;
+package gui;
 
-import main.java.custom.CustomButton;
-import main.java.custom.CustomLabel;
-import main.java.custom.Slate;
-import main.java.entity.GameMap;
+import custom.CustomButton;
+import custom.CustomLabel;
+import custom.Slate;
+import entity.GameMap;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

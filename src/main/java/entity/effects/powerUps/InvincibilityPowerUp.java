@@ -1,25 +1,27 @@
-package main.java.entity.effects.powerUps;
+package entity.effects.powerUps;
 
-import main.java.entity.Player;
-import main.java.entity.Point;
-import main.java.gui.Game;
-import main.java.entity.effects.Effect;
+import entity.Player;
+import entity.Point;
+import entity.effects.Effect;
+import gui.Game;
 
 public class InvincibilityPowerUp extends Effect {
 
-    private int invincibilityModeDuration = 15;
+  private int invincibilityModeDuration = 15;
 
-    public InvincibilityPowerUp(Point position, Game game) {
-        super(position, game);
-    }
+  public InvincibilityPowerUp(Point position, Game game) {
+    super(position, game);
+  }
 
-    @Override
-    public boolean isInvincibilityPowerUp() {
-        return true;
-    }
+  @Override
+  public boolean isInvincibilityPowerUp() {
+    return true;
+  }
 
-    @Override
-    public void applyEffect(Player player) {
-        player.invincibilityDuration = invincibilityModeDuration;
-    }
+  @Override
+  public void applyEffect(Player player) {
+
+    player.invincibilityDuration = invincibilityModeDuration;
+    player.activateInvincibilityPowerUp(player.invincibilityDuration);
+  }
 }

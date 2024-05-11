@@ -1,8 +1,8 @@
-package main.java.gui;
+package gui;
 
-import main.java.custom.CustomButton;
-import main.java.custom.CustomLabel;
-import main.java.custom.Slate;
+import custom.CustomButton;
+import custom.CustomLabel;
+import custom.Slate;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -298,7 +298,6 @@ class PlayerControl extends JPanel {
     this.button_brick.setForeground(color);
     this.button_brick.setPreferredSize(new Dimension(200, 25));
     p2_brick.add(this.button_brick);
-
 
     button_up.addActionListener(
         e -> {

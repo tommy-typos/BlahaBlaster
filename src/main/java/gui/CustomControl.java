@@ -1,4 +1,4 @@
-package main.java.gui;
+package gui;
 
 import java.awt.event.KeyEvent;
 
@@ -12,7 +12,13 @@ public class CustomControl {
   public int place_brick;
 
   public CustomControl(
-      String id, int go_up, int go_left, int go_down, int go_right, int place_bomb, int place_brick) {
+      String id,
+      int go_up,
+      int go_left,
+      int go_down,
+      int go_right,
+      int place_bomb,
+      int place_brick) {
     this.id = id;
     this.go_up = go_up;
     this.go_left = go_left;

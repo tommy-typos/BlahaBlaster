@@ -1,24 +1,24 @@
-package main.java.entity.effects.powerUps;
+package entity.effects.powerUps;
 
-import main.java.entity.Player;
-import main.java.entity.Point;
-import main.java.gui.Game;
-import main.java.entity.effects.Effect;
+import entity.Player;
+import entity.Point;
+import entity.effects.Effect;
+import gui.Game;
 
 public class BombSlotIncreasePowerUp extends Effect {
 
-    private int bombSlotIncrease = 1;
+  private int bombSlotIncrease = 1;
 
-    public BombSlotIncreasePowerUp(Point position, Game game) {
-        super(position, game);
-    }
+  public BombSlotIncreasePowerUp(Point position, Game game) {
+    super(position, game);
+  }
 
-    @Override
-    public boolean isBombSlotIncreasePowerUp() {
-        return true;
-    }
+  @Override
+  public boolean isBombSlotIncreasePowerUp() {
+    return true;
+  }
 
-    public void applyEffect(Player player) {
-        player.bombsNum += bombSlotIncrease;
-    }
+  public void applyEffect(Player player) {
+    player.bombsNum += bombSlotIncrease;
+  }
 }

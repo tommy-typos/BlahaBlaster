@@ -1,17 +1,17 @@
-package main.java.entity.effects.curses;
+package entity.effects.curses;
 
-import main.java.entity.Point;
-import main.java.gui.Game;
-import main.java.entity.effects.Effect;
+import entity.Point;
+import entity.effects.Effect;
+import gui.Game;
 
 public class SlowerCurse extends Effect {
 
-    @Override
-    public boolean isSlowerCurse() {
-        return true;
-    }
+  @Override
+  public boolean isSlowerCurse() {
+    return true;
+  }
 
-    protected SlowerCurse(Point position, Game game) {
-        super(position, game);
-    }
+  protected SlowerCurse(Point position, Game game) {
+    super(position, game);
+  }
 }

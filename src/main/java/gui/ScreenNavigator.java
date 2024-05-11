@@ -1,12 +1,8 @@
-package main.java.gui;
+package gui;
 
-import main.java.custom.CustomButton;
-import main.java.custom.CustomLabel;
-import main.java.custom.Slate;
-
-import javax.swing.*;
+import custom.Slate;
 import java.awt.*;
-import java.awt.event.KeyEvent;
+import javax.swing.*;
 
 public class ScreenNavigator {
   MainJFrame frame;
@@ -133,20 +129,20 @@ public class ScreenNavigator {
 
     GridBagConstraints gbc = new GridBagConstraints();
 
-    //==== left side
+    // ==== left side
     gbc.gridx = 0;
     gbc.gridy = 0;
     gbc.weightx = 0; // 1st column width
     gbc.fill = GridBagConstraints.HORIZONTAL;
 
-    PlayerControlsPreviewInGame leftSide = new PlayerControlsPreviewInGame(player1_name, player2_name, player_name3, threePlayers);
+    PlayerControlsPreviewInGame leftSide =
+        new PlayerControlsPreviewInGame(player1_name, player2_name, player_name3, threePlayers);
 
     leftSide.setPreferredSize(new Dimension(237, 575));
 
     gameWrapper.add(leftSide, gbc);
 
-
-    //==== game
+    // ==== game
     gbc.gridx = 1;
     gbc.weightx = 1; // 2nd column width
     gbc.fill = GridBagConstraints.BOTH;
@@ -164,8 +160,7 @@ public class ScreenNavigator {
             hindering_curses);
     gameWrapper.add(game, gbc);
 
-
-    //==== right side
+    // ==== right side
     gbc.gridx = 2;
     gbc.weightx = 0; // 3rd column width
     gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -173,7 +168,6 @@ public class ScreenNavigator {
     TimerAndActivePowerUpsPreview rightSide = new TimerAndActivePowerUpsPreview();
     rightSide.setPreferredSize(new Dimension(237, 575));
     gameWrapper.add(rightSide, gbc);
-
 
     mainPanel.add(gameWrapper, BorderLayout.CENTER);
 
@@ -189,5 +183,3 @@ public class ScreenNavigator {
     game.startGameThread();
   }
 }
-
-

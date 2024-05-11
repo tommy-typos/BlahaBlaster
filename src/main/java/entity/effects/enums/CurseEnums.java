@@ -1,9 +1,9 @@
-package main.java.entity.effects.enums;
+package entity.effects.enums;
 
 public enum CurseEnums {
-    // CURSES
-    SHORTBLAST,
-    SLOWER,
-    BOMBFREEZE,
-    BOMBPLACEMENTTIMELIMIT
+  // CURSES
+  SHORTBLAST,
+  SLOWER,
+  BOMBFREEZE,
+  BOMBPLACEMENTTIMELIMIT
 }

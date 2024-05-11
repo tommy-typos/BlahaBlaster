@@ -1,26 +1,25 @@
-package main.java.entity.effects.powerUps;
+package entity.effects.powerUps;
 
-import main.java.entity.Player;
-import main.java.entity.Point;
-import main.java.gui.Game;
-import main.java.entity.effects.Effect;
+import entity.Player;
+import entity.Point;
+import entity.effects.Effect;
+import gui.Game;
 
 public class RollerSkatePowerUp extends Effect {
 
-//    private int speedIncrease = 2;
+  //    private int speedIncrease = 2;
 
-    public RollerSkatePowerUp(Point position, Game game) {
-        super(position, game);
-    }
+  public RollerSkatePowerUp(Point position, Game game) {
+    super(position, game);
+  }
 
-    @Override
-    public boolean isRollerSkatePowerUp() {
-        return true;
-    }
+  @Override
+  public boolean isRollerSkatePowerUp() {
+    return true;
+  }
 
-    public void applyEffect(Player player) {
-//        player.speed += speedIncrease;
-        player.activateRollerSkatePowerUp();
-
-    }
+  public void applyEffect(Player player) {
+    //        player.speed += speedIncrease;
+    player.activateRollerSkatePowerUp();
+  }
 }

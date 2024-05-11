@@ -1,23 +1,22 @@
-package main.java.entity.effects.powerUps;
+package entity.effects.powerUps;
 
-import main.java.entity.Player;
-import main.java.entity.Point;
-import main.java.gui.Game;
-import main.java.entity.effects.Effect;
+import entity.Player;
+import entity.Point;
+import entity.effects.Effect;
+import gui.Game;
 
 public class ObstaclePowerUp extends Effect {
 
-    public ObstaclePowerUp(Point position, Game game) {
-        super(position, game);
-    }
+  public ObstaclePowerUp(Point position, Game game) {
+    super(position, game);
+  }
 
-    @Override
-    public boolean isObstaclePowerUp() {
-        return true;
-    }
+  @Override
+  public boolean isObstaclePowerUp() {
+    return true;
+  }
 
-    public void applyEffect(Player player) {
-        player.canPutObstacles = true;
-    }
-
+  public void applyEffect(Player player) {
+    player.canPutObstacles = true;
+  }
 }

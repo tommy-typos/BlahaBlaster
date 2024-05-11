@@ -1,8 +1,8 @@
-package main.java.handler;
+package handler;
 
-import main.java.gui.CustomControl;
-import main.java.gui.CustomControlsJson;
-import main.java.gui.Game;
+import gui.CustomControl;
+import gui.CustomControlsJson;
+import gui.Game;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -74,7 +74,7 @@ public class KeyHandler implements KeyListener {
       if (key == p1Controls.place_bomb) {
         e = true;
       }
-      if(key == p1Controls.place_brick){
+      if (key == p1Controls.place_brick) {
         f = true;
       }
 
