@@ -9,12 +9,23 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+/**
+ * The Monster class represents the base class for all monsters in the game.
+ * It extends the Entity class and implements common functionality for monsters.
+ */
 public abstract class Monster extends Entity {
     protected BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     protected int spriteCounter;
     protected int spriteNum;
     public int id;
 
+    /**
+     * Constructs a Monster object.
+     *
+     * @param gp       The Game object associated with the monster.
+     * @param id       The ID of the monster.
+     * @param position The initial position of the monster.
+     */
     public Monster(Game gp, int id, Point position) {
         super(gp);
         this.id = id;
@@ -23,6 +34,9 @@ public abstract class Monster extends Entity {
         loadMonsterImages();
     }
 
+    /**
+     * Loads the images for the monster.
+     */
     protected void loadMonsterImages() {
         String basePath = "/monsters/" + getMonsterType() + "/";
         try {
@@ -39,8 +53,18 @@ public abstract class Monster extends Entity {
         }
     }
 
+    /**
+     * Gets the type of the monster.
+     *
+     * @return The type of the monster.
+     */
     protected abstract String getMonsterType();
 
+    /**
+     * Draws the monster on the screen.
+     *
+     * @param g2d The graphics context.
+     */
     @Override
     public void draw(Graphics2D g2d) {
         BufferedImage img = null;
@@ -63,10 +87,16 @@ public abstract class Monster extends Entity {
         super.draw(g2d);
     }
 
+    /**
+     * Moves the monster in its current direction.
+     */
     public void move() {
         move(direction);
     }
 
+    /**
+     * Updates the sprite image of the monster.
+     */
     protected void updateSpriteImage() {
         spriteCounter++;
         if (spriteCounter > 12) {
