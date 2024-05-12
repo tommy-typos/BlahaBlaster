@@ -54,7 +54,7 @@ public class Game extends JPanel implements Runnable {
 
   public ArrayList<Effect> effects = new ArrayList<>();
   public ArrayList<ExplosionObject> activeExplosions = new ArrayList<>();
-  private int maxPowerUps = 10;
+  private final int maxPowerUps = 10;
   private int currentPowerUps = 0;
   private final Random random = new Random();
 
@@ -177,7 +177,7 @@ public class Game extends JPanel implements Runnable {
 //    obj.add(new BrickObject(new Point(tileSize, tileSize), this));
 //    obj.add(new BrickObject(new Point(3 * tileSize, 3 * tileSize), this));
 
-//    monsters.add(new BasicMonster(this, 1, new Point(11 * tileSize, tileSize)));
+    monsters.add(new BasicMonster(this, 1, new Point(11 * tileSize, tileSize)));
     if (intelligent_monsters) {
       monsters.add(new GhostMonster(this, 2, new Point(7 * tileSize, 8 * tileSize)));
       monsters.add(new ChasingMonster(this, players, 3, new Point(8 * tileSize, 9 * tileSize)));
@@ -437,7 +437,7 @@ public class Game extends JPanel implements Runnable {
               for (Rectangle blowTile : blowList) {
                 if (blowTile.intersects(otherBombRect)) {
                   otherBomb.blowTime =
-                      System.currentTimeMillis(); // Set blowTime to now to trigger it immediately
+                      System.currentTimeMillis(); // Set blowTime to trigger it immediately
                   break;
                 }
               }
@@ -535,23 +535,23 @@ public class Game extends JPanel implements Runnable {
   }
 
   // Method to replace a ChestObject with an Effect (PowerUp or Curse)
-  public void replaceObjectWithEffect(Point position) {
-    // Ensure not to exceed the maximum number of power-ups
-    if (currentPowerUps >= maxPowerUps) {
-      return;
-    }
-
-    // Remove the BrickObject first
-    obj.removeIf(
-        superObject -> superObject instanceof BrickObject && superObject.position.equals(position));
-
-    // Randomly select a power-up to create
-    Effect effect = getRandomPowerUp(position);
-    if (effect != null) {
-      effects.add(effect); // Add to the effects to be drawn and interacted with
-      currentPowerUps++; // Increment the count of active power-ups
-    }
-  }
+//  public void replaceObjectWithEffect(Point position) {
+//    // Ensure not to exceed the maximum number of power-ups
+//    if (currentPowerUps >= maxPowerUps) {
+//      return;
+//    }
+//
+//    // Remove the BrickObject first
+//    obj.removeIf(
+//        superObject -> superObject instanceof BrickObject && superObject.position.equals(position));
+//
+//    // Randomly select a power-up to create
+//    Effect effect = getRandomPowerUp(position);
+//    if (effect != null) {
+//      effects.add(effect); // Add to the effects to be drawn and interacted with
+//      currentPowerUps++; // Increment the count of active power-ups
+//    }
+//  }
 
   private Effect getRandomPowerUp(Point position) {
     int pick = random.nextInt(7); // Adjust this based on the number of power-up types
