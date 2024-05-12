@@ -5,7 +5,9 @@ import gui.Game;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-// Superclass for player and monster
+/**
+ * The Entity class represents a game entity, which can be a player or a monster.
+ */
 public class Entity {
 
     protected Game gp;
@@ -26,25 +28,51 @@ public class Entity {
     public Rectangle solidArea = new Rectangle(solidAreaDefaultX, solidAreaDefaultY, width, height);
     public boolean shouldBeRemoved = false;
 
+    /**
+     * Gets the x-coordinate of the entity.
+     *
+     * @return The x-coordinate of the entity.
+     */
     public int getX() {
         return position.getX();
     }
 
+    /**
+     * Gets the y-coordinate of the entity.
+     *
+     * @return The y-coordinate of the entity.
+     */
     public int getY() {
         return position.getY();
     }
 
+    /**
+     * Constructs an Entity object.
+     *
+     * @param gp The Game object associated with the entity.
+     */
     public Entity(Game gp) {
         this.gp = gp;
     }
 
+    /**
+     * Sets the action of the entity. This method should be overridden by subclasses.
+     */
     public void setAction() {
     }
 
+    /**
+     * Updates the entity. This method should be overridden by subclasses.
+     */
     public void update() {
         setAction();
     }
 
+    /**
+     * Draws the entity on the screen.
+     *
+     * @param g2d The graphics context used for drawing.
+     */
     public void draw(Graphics2D g2d) {
         BufferedImage img = null;
         switch (direction) {
@@ -65,6 +93,11 @@ public class Entity {
         g2d.drawRect(solidArea.x + getX(), solidArea.y + getY(), solidArea.width, solidArea.height);
     }
 
+    /**
+     * Moves the entity in the specified direction.
+     *
+     * @param direction The direction in which to move the entity.
+     */
     protected void move(String direction) {
         if (!collisionOn) {
             switch (direction) {

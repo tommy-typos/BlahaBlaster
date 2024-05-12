@@ -6,6 +6,10 @@ import gui.Game;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+/**
+ * The BombObject class represents a bomb object in the game.
+ * It extends the SuperObject class and initializes bomb properties.
+ */
 public class BombObject extends SuperObject {
 
     public String owner;
@@ -14,6 +18,13 @@ public class BombObject extends SuperObject {
 
     public int blowRadius = 2;
 
+    /**
+     * Constructs a BombObject object.
+     *
+     * @param position The position of the bomb.
+     * @param game     The Game object associated with the bomb.
+     * @param owner    The owner of the bomb.
+     */
     public BombObject(Point position, Game game, String owner) {
         super(position, game);
         this.name = "bomb";

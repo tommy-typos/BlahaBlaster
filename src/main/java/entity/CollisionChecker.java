@@ -7,14 +7,28 @@ import gui.Game;
 
 import java.util.ArrayList;
 
+/**
+ * The CollisionChecker class handles collision detection between entities and objects in the game.
+ * It provides methods to check collisions with tiles, objects, and other entities.
+ */
 public class CollisionChecker {
 
     Game game;
 
+    /**
+     * Constructs a CollisionChecker object.
+     *
+     * @param game The Game object associated with the collision checker.
+     */
     public CollisionChecker(Game game) {
         this.game = game;
     }
 
+    /**
+     * Checks collision with tiles for a given entity.
+     *
+     * @param entity The entity to check collision for.
+     */
     public void checkTile(Entity entity) {
         int entityLeftX = entity.getX() + entity.solidArea.x;
         int entityRightX = entityLeftX + entity.solidArea.width;
@@ -53,6 +67,12 @@ public class CollisionChecker {
         checkCollision(tile1, tile2, entity);
     }
 
+    /**
+     * Checks collision with objects for a given entity.
+     *
+     * @param entity The entity to check collision for.
+     * @return The index of the collided object, or 999 if no collision occurred.
+     */
     public int checkObject(Entity entity) {
         int index = 999;
 
@@ -116,11 +136,25 @@ public class CollisionChecker {
         return index;
     }
 
+    /**
+    * Checks collision with tiles and objects for a given entity.
+    *
+    * @param tile1 The first tile to check collision for.
+    * @param tile2 The second tile to check collision for.
+    * @param entity The entity to check collision for.
+    */
     private void checkCollision(String tile1, String tile2, Entity entity) {
         entity.collisionOn =
                 game.tileManager.isTileCollision(tile1) || game.tileManager.isTileCollision(tile2);
     }
 
+    /**
+     * Checks collision between an entity and a list of monsters.
+     *
+     * @param entity The entity to check collision for.
+     * @param target The list of monsters to check collision with.
+     * @return The index of the collided monster, or 999 if no collision occurred.
+     */
     public int checkEntityToMonsters(Entity entity, ArrayList<Monster> target) {
         int i = 999;
 
@@ -175,6 +209,11 @@ public class CollisionChecker {
         return i;
     }
 
+    /**
+     * Checks collision between entities.
+     *
+     * @param entity The entity to check collision for.
+     */
     public void checkEntityToEntity(Entity entity) {
         ArrayList<Entity> entities = new ArrayList<>();
         if (entity instanceof Player) {
@@ -231,6 +270,11 @@ public class CollisionChecker {
         }
     }
 
+    /**
+     * Checks collision between monsters and players.
+     *
+     * @param monster The monster to check collision for.
+     */
     public void checkMonsterToPlayer(Monster monster) {
         for (Player p : game.players) {
             monster.solidArea.x = monster.getX() + monster.solidArea.x;
