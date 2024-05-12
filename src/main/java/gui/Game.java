@@ -546,6 +546,7 @@ public class Game extends JPanel implements Runnable {
         superObject -> superObject instanceof BrickObject && superObject.position.equals(position));
 
     // Randomly select a power-up to create
+    // this is a comment for commit
     Effect effect = getRandomPowerUp(position);
     if (effect != null) {
       effects.add(effect); // Add to the effects to be drawn and interacted with
