@@ -399,4 +399,10 @@ public class Player extends Entity {
   public void activateRollerSkatePowerUp() {
     this.speedBoosted = true;
   }
+
+
+  // get Powerups
+  public ArrayList<Effect> getPowerUps() {
+    return activeEffects;
+  }
 }

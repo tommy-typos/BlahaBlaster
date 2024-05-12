@@ -613,4 +613,8 @@ public class Game extends JPanel implements Runnable {
   public Object getTileSize() {
     return tileSize;
   }
+
+  public List<Player> getPlayers() {
+    return players;
+  }
 }
