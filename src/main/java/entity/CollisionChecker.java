@@ -336,6 +336,7 @@ public class CollisionChecker {
 
       // Apply the effect if there is a collision
       if (player.solidArea.intersects(effect.solidArea)) {
+        player.activeEffects.add(effect);
         game.effects.remove(effect);
         effect.applyEffect(player);
         System.out.println(

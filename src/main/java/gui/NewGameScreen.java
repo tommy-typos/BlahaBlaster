@@ -196,6 +196,7 @@ public class NewGameScreen extends JPanel {
           boolean advanced_powerups = advancedpowerups_checkbox.isSelected();
           boolean hindering_curses = hinderingcurse_checkbox.isSelected();
 
+
           if (p1_name.length() < 1 || p2_name.length() < 1) {
             JOptionPane.showMessageDialog(this, "Player names cannot be empty");
           } else {

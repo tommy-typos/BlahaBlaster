@@ -1,5 +1,7 @@
 package entity;
 
+import entity.effects.Effect;
+import entity.effects.powerUps.GhostPowerUp;
 import entity.objects.BombObject;
 import entity.objects.BrickObject;
 import entity.objects.SuperObject;
@@ -36,6 +38,7 @@ public class Player extends Entity {
 
   public long invincibilityDuration = 60;
   private long invincibilityEffectStartTime = 0;
+  public ArrayList<Effect> activeEffects = new ArrayList<>();
 
   public Player(Game gp, KeyHandler keyHandler, Point position, String name, int playerNumber) {
     super(gp);
@@ -128,24 +131,15 @@ public class Player extends Entity {
       long currentTime = System.currentTimeMillis();
       long elapsedTimeInSeconds = (currentTime - ghostEffectStartTime) / 1000;
       ghostDuration = 15 - elapsedTimeInSeconds;
-      System.out.println("Player ghostDuration: " + ghostDuration);
+//      System.out.println("Player ghostDuration: " + ghostDuration);
     }
-
-//    // Invincibility duration handling
-//    if (invincibilityDuration > 0) {
-//      long currentTime = System.currentTimeMillis();
-//      if (currentTime >= invincibilityEffectStartTime + invincibilityDuration * 1000) {
-//        invincibilityDuration = 0;  // Reset the invincibility when the time expires
-//      }
-//    }
 
     // Invincibility check
     if (invincibilityDuration > 0) {
       long currentTime = System.currentTimeMillis();
       long elapsedTimeInSeconds = (currentTime - invincibilityEffectStartTime) / 1000;
-      System.out.println("Elapsed time in seconds: " + elapsedTimeInSeconds);
       invincibilityDuration = 15 - elapsedTimeInSeconds;
-        System.out.println("Invincibility duration: " + invincibilityDuration);
+//        System.out.println("Invincibility duration: " + invincibilityDuration);
     }
 
 
@@ -182,7 +176,13 @@ public class Player extends Entity {
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
         gp.collisionChecker.checkEntityToEntity(this);
-        int objIndex = gp.collisionChecker.checkObject(this);
+//        int objIndex = gp.collisionChecker.checkObject(this);
+
+        // remove the effect ghostPowerUp from the activeEffects array if ghostDuration is over
+        if (this.hasGhostPowerUp && this.ghostDuration <= 0) {
+          this.hasGhostPowerUp = false;
+          activeEffects.remove(GhostPowerUp.class);
+        }
 
         if (invincibilityDuration <= 0) {
           int npcIndex = gp.collisionChecker.checkEntityToMonsters(this, gp.monsters);
