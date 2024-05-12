@@ -165,9 +165,9 @@ public class ScreenNavigator {
     gbc.weightx = 0; // 3rd column width
     gbc.fill = GridBagConstraints.HORIZONTAL;
 
-    TimerAndActivePowerUpsPreview rightSide = new TimerAndActivePowerUpsPreview();
-    rightSide.setPreferredSize(new Dimension(237, 575));
-    gameWrapper.add(rightSide, gbc);
+//    TimerAndActivePowerUpsPreview rightSide = new TimerAndActivePowerUpsPreview();
+//    rightSide.setPreferredSize(new Dimension(237, 575));
+//    gameWrapper.add(rightSide, gbc);
 
     mainPanel.add(gameWrapper, BorderLayout.CENTER);
 

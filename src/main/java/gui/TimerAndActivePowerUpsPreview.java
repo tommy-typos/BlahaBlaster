@@ -21,7 +21,7 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     super();
     this.setLayout(new BorderLayout());
     this.setBackground(Slate._950);
-    this.initializeComponents(numberOfPlayers);
+    this.initializeComponents(players.length);
   }
 
   private void initializeComponents(int numberOfPlayers) {
