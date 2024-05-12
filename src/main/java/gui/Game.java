@@ -535,23 +535,23 @@ public class Game extends JPanel implements Runnable {
   }
 
   // Method to replace a ChestObject with an Effect (PowerUp or Curse)
-//  public void replaceObjectWithEffect(Point position) {
-//    // Ensure not to exceed the maximum number of power-ups
-//    if (currentPowerUps >= maxPowerUps) {
-//      return;
-//    }
-//
-//    // Remove the BrickObject first
-//    obj.removeIf(
-//        superObject -> superObject instanceof BrickObject && superObject.position.equals(position));
-//
-//    // Randomly select a power-up to create
-//    Effect effect = getRandomPowerUp(position);
-//    if (effect != null) {
-//      effects.add(effect); // Add to the effects to be drawn and interacted with
-//      currentPowerUps++; // Increment the count of active power-ups
-//    }
-//  }
+  public void replaceObjectWithEffect(Point position) {
+    // Ensure not to exceed the maximum number of power-ups
+    if (currentPowerUps >= maxPowerUps) {
+      return;
+    }
+
+    // Remove the BrickObject first
+    obj.removeIf(
+        superObject -> superObject instanceof BrickObject && superObject.position.equals(position));
+
+    // Randomly select a power-up to create
+    Effect effect = getRandomPowerUp(position);
+    if (effect != null) {
+      effects.add(effect); // Add to the effects to be drawn and interacted with
+      currentPowerUps++; // Increment the count of active power-ups
+    }
+  }
 
   private Effect getRandomPowerUp(Point position) {
     int pick = random.nextInt(7); // Adjust this based on the number of power-up types
