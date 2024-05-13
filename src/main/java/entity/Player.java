@@ -15,6 +15,9 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 import javax.imageio.ImageIO;
 
+/**
+ * Represents a player entity in the game.
+ */
 public class Player extends Entity {
   KeyHandler keyHandler;
   public int bombsNum = 1;
@@ -48,7 +51,14 @@ public class Player extends Entity {
 
 
 
-
+    /**
+     * Constructs a player object.
+     * @param gp The game instance.
+     * @param keyHandler The key handler for player input.
+     * @param position The initial position of the player.
+     * @param name The name of the player.
+     * @param playerNumber The player number.
+     */
   public Player(Game gp, KeyHandler keyHandler, Point position, String name, int playerNumber) {
     super(gp);
     this.speed = 3;
@@ -56,48 +66,57 @@ public class Player extends Entity {
     this.name = name;
     this.playerNumber = playerNumber;
 
-    this.position = position;
-    this.direction = "down";
-    getPlayerImage();
-//    activeEffects.add(new GhostPowerUp(position, gp));
-//    activeEffects.add(new RollerSkatePowerUp(position, gp));
-//    activeEffects.add(new BlastRangePowerUp(position, gp));
-//    activeEffects.add(new BombSlotIncreasePowerUp(position, gp));
-//    activeEffects.add(new ObstaclePowerUp(position, gp));
-//    activeEffects.add(new InvincibilityPowerUp(position, gp));
-//    activeEffects.add(new DetonatorPowerUp(position, gp));
-
-  }
-
-  public void getPlayerImage() {
-    String basePath = "/player" + playerNumber + "/player_";
-    try {
-      up1 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_1.png"));
-      up2 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_2.png"));
-      down1 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_1.png"));
-      down2 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_2.png"));
-      left1 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_1.png"));
-      left2 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_2.png"));
-      right1 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_1.png"));
-      right2 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_2.png"));
-    } catch (IOException e) {
-      e.printStackTrace();
+        this.position = position;
+        this.direction = "down";
+        getPlayerImage();
     }
-  }
 
-  // Getters and setters
-  public Point getPosition() {
-    return position;
-  }
+    /**
+     * Loads the player's image based on the player number.
+     */
+    public void getPlayerImage() {
+        String basePath = "/player" + playerNumber + "/player_";
+        try {
+            up1 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_2.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-  public KeyHandler getKeyHandler() {
-    return keyHandler;
-  }
+    /**
+     * Gets the position of the player.
+     * @return The position of the player.
+     */
+    public Point getPosition() {
+        return position;
+    }
 
-  public void setPosition(Point position) {
-    this.position = position;
-  }
+    /**
+     * Gets the key handler associated with the player.
+     * @return The key handler.
+     */
+    public KeyHandler getKeyHandler() {
+        return keyHandler;
+    }
 
+    /**
+     * Sets the position of the player.
+     * @param position The new position of the player.
+     */
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
+    /**
+     * Updates the player's state based on player input and game logic.
+     */
   public void update() {
     if (playerNumber == 1) {
       if (keyHandler.e) {
@@ -166,20 +185,28 @@ public class Player extends Entity {
     }
   }
 
-  private void movePlayer(boolean up, boolean down, boolean left, boolean right) {
-    if (up || down || left || right) {
-      if (up) {
-        direction = "up";
-      }
-      if (down) {
-        direction = "down";
-      }
-      if (left) {
-        direction = "left";
-      }
-      if (right) {
-        direction = "right";
-      }
+
+    /**
+     * Moves the player based on input from the key handler.
+     * @param up Whether the up arrow key is pressed.
+     * @param down Whether the down arrow key is pressed.
+     * @param left Whether the left arrow key is pressed.
+     * @param right Whether the right arrow key is pressed.
+     */
+    private void movePlayer(boolean up, boolean down, boolean left, boolean right) {
+        if (up || down || left || right) {
+            if (up) {
+                direction = "up";
+            }
+            if (down) {
+                direction = "down";
+            }
+            if (left) {
+                direction = "left";
+            }
+            if (right) {
+                direction = "right";
+            }
 
       if (ghostDuration > 0) {
         if (invincibilityDuration <= 0) {
@@ -260,15 +287,22 @@ public class Player extends Entity {
       position.setY(tileSize);
     }
   }
-
+    /**
+     * Handles interaction with a monster.
+     * @param npcIndex The index of the monster in the list of monsters.
+     */
   private void interactWithMonster(int npcIndex) {
     if (npcIndex != 999) {
       shouldBeRemoved = true;
     }
   }
 
+    /**
+     * Plants a bomb at the player's current position.
+     */
   private void plantBomb() {
-    int bombsPlanted = 0;
+      // check if user can plant more bombs
+      int bombsPlanted = 0;
     for (SuperObject superObject : gp.obj) {
       if (superObject instanceof BombObject && ((BombObject) superObject).owner.equals(this.name)) {
         bombsPlanted++;
@@ -361,7 +395,10 @@ public class Player extends Entity {
     gp.gameMap.mapCells[coordY / gp.tileSize][coordX / gp.tileSize] = "brick";
   }
 
-  private void updateSpriteImage() {
+    /**
+     * Updates the player's sprite image for animation.
+     */
+    public void updateSpriteImage() {
     spriteCounter++;
     if (spriteCounter > 12) {
       if (spriteNum == 1) spriteNum = 2;

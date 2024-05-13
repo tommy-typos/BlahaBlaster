@@ -6,58 +6,79 @@ import entity.objects.BombObject;
 import entity.objects.BrickObject;
 import entity.objects.SuperObject;
 import gui.Game;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * The CollisionChecker class handles collision detection between entities and objects in the game.
+ * It provides methods to check collisions with tiles, objects, and other entities.
+ */
 public class CollisionChecker {
 
-  Game game;
+    Game game;
 
-  public CollisionChecker(Game game) {
-    this.game = game;
-  }
-
-  public void checkTile(Entity entity) {
-    int entityLeftX = entity.getX() + entity.solidArea.x;
-    int entityRightX = entityLeftX + entity.solidArea.width;
-    int entityTopY = entity.getY() + entity.solidArea.y;
-    int entityBottomY = entityTopY + entity.solidArea.height;
-
-    int leftCol = entityLeftX / game.tileSize;
-    int rightCol = entityRightX / game.tileSize;
-    int topRow = entityTopY / game.tileSize;
-    int bottomRow = entityBottomY / game.tileSize;
-
-    String tile1 = null, tile2 = null;
-
-    switch (entity.direction) {
-      case "up":
-        topRow = (entityTopY - entity.speed) / game.tileSize;
-        tile1 = game.gameMap.mapCells[topRow][leftCol];
-        tile2 = game.gameMap.mapCells[topRow][rightCol];
-        break;
-      case "down":
-        bottomRow = (entityBottomY + entity.speed) / game.tileSize;
-        tile1 = game.gameMap.mapCells[bottomRow][leftCol];
-        tile2 = game.gameMap.mapCells[bottomRow][rightCol];
-        break;
-      case "left":
-        leftCol = (entityLeftX - entity.speed) / game.tileSize;
-        tile1 = game.gameMap.mapCells[topRow][leftCol];
-        tile2 = game.gameMap.mapCells[bottomRow][leftCol];
-        break;
-      case "right":
-        rightCol = (entityRightX + entity.speed) / game.tileSize;
-        tile1 = game.gameMap.mapCells[topRow][rightCol];
-        tile2 = game.gameMap.mapCells[bottomRow][rightCol];
-        break;
+    /**
+     * Constructs a CollisionChecker object.
+     *
+     * @param game The Game object associated with the collision checker.
+     */
+    public CollisionChecker(Game game) {
+        this.game = game;
     }
-    checkCollision(tile1, tile2, entity);
-  }
 
-  public int checkObject(Entity entity) {
-    int index = 999;
+    /**
+     * Checks collision with tiles for a given entity.
+     *
+     * @param entity The entity to check collision for.
+     */
+    public void checkTile(Entity entity) {
+        int entityLeftX = entity.getX() + entity.solidArea.x;
+        int entityRightX = entityLeftX + entity.solidArea.width;
+        int entityTopY = entity.getY() + entity.solidArea.y;
+        int entityBottomY = entityTopY + entity.solidArea.height;
+
+        int leftCol = entityLeftX / game.tileSize;
+        int rightCol = entityRightX / game.tileSize;
+        int topRow = entityTopY / game.tileSize;
+        int bottomRow = entityBottomY / game.tileSize;
+
+        String tile1 = null, tile2 = null;
+
+        switch (entity.direction) {
+            case "up":
+                topRow = (entityTopY - entity.speed) / game.tileSize;
+                tile1 = game.gameMap.mapCells[topRow][leftCol];
+                tile2 = game.gameMap.mapCells[topRow][rightCol];
+                break;
+            case "down":
+                bottomRow = (entityBottomY + entity.speed) / game.tileSize;
+                tile1 = game.gameMap.mapCells[bottomRow][leftCol];
+                tile2 = game.gameMap.mapCells[bottomRow][rightCol];
+                break;
+            case "left":
+                leftCol = (entityLeftX - entity.speed) / game.tileSize;
+                tile1 = game.gameMap.mapCells[topRow][leftCol];
+                tile2 = game.gameMap.mapCells[bottomRow][leftCol];
+                break;
+            case "right":
+                rightCol = (entityRightX + entity.speed) / game.tileSize;
+                tile1 = game.gameMap.mapCells[topRow][rightCol];
+                tile2 = game.gameMap.mapCells[bottomRow][rightCol];
+                break;
+        }
+        checkCollision(tile1, tile2, entity);
+    }
+
+    /**
+     * Checks collision with objects for a given entity.
+     *
+     * @param entity The entity to check collision for.
+     * @return The index of the collided object, or 999 if no collision occurred.
+     */
+    public int checkObject(Entity entity) {
+        int index = 999;
 
     for (SuperObject obj : game.obj) {
       if (obj != null) {
@@ -83,34 +104,33 @@ public class CollisionChecker {
         entity.solidArea.x = entity.getX() + entity.solidArea.x;
         entity.solidArea.y = entity.getY() + entity.solidArea.y;
 
-        obj.solidArea.x = obj.getX() + obj.solidArea.x;
-        obj.solidArea.y = obj.getY() + obj.solidArea.y;
+                obj.solidArea.x = obj.getX() + obj.solidArea.x;
+                obj.solidArea.y = obj.getY() + obj.solidArea.y;
 
-        switch (entity.direction) {
-          case "up":
-            entity.solidArea.y -= entity.speed;
-            if (entity.solidArea.intersects(obj.solidArea)) {
-              index = game.obj.indexOf(obj);
-              entity.collisionOn = true;
-            } // If block here and in cases below were not here in powerups before the merge with
-            // master
-            break;
+                switch (entity.direction) {
+                    case "up":
+                        entity.solidArea.y -= entity.speed;
+                        if (entity.solidArea.intersects(obj.solidArea)) {
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }
+                        break;
 
-          case "down":
-            entity.solidArea.y += entity.speed;
-            if (entity.solidArea.intersects(obj.solidArea)) {
-              index = game.obj.indexOf(obj);
-              entity.collisionOn = true;
-            }
-            break;
+                    case "down":
+                        entity.solidArea.y += entity.speed;
+                        if (entity.solidArea.intersects(obj.solidArea)) {
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }
+                        break;
 
-          case "left":
-            entity.solidArea.x -= entity.speed;
-            if (entity.solidArea.intersects(obj.solidArea)) {
-              index = game.obj.indexOf(obj);
-              entity.collisionOn = true;
-            }
-            break;
+                    case "left":
+                        entity.solidArea.x -= entity.speed;
+                        if (entity.solidArea.intersects(obj.solidArea)) {
+                            index = game.obj.indexOf(obj);
+                            entity.collisionOn = true;
+                        }
+                        break;
 
           case "right":
             entity.solidArea.x += entity.speed;
@@ -136,132 +156,156 @@ public class CollisionChecker {
       }
     }
 
-    return index; // Return index of the object with which collision is detected
-  }
-
-  private void checkCollision(String tile1, String tile2, Entity entity) {
-    entity.collisionOn =
-        game.tileManager.isTileCollision(tile1) || game.tileManager.isTileCollision(tile2);
-  }
-
-  public int checkEntityToMonsters(Entity entity, List<Monster> target) {
-    int i = 999;
-
-    for (Entity e : target) {
-      // Get entity's position on the map
-      entity.solidArea.x = entity.getX() + entity.solidArea.x;
-      entity.solidArea.y = entity.getY() + entity.solidArea.y;
-
-      // Get target's position on the map
-      e.solidArea.x = e.getX() + e.solidArea.x;
-      e.solidArea.y = e.getY() + e.solidArea.y;
-
-      // Check if the two entities collide
-      switch (entity.direction) {
-        case "up":
-          entity.solidArea.y -= entity.speed;
-          if (entity.solidArea.intersects(e.solidArea)) {
-            i = target.indexOf(e);
-            entity.collisionOn = true;
-          }
-          break;
-
-        case "down":
-          entity.solidArea.y += entity.speed;
-          if (entity.solidArea.intersects(e.solidArea)) {
-            i = target.indexOf(e);
-            entity.collisionOn = true;
-          }
-          break;
-
-        case "left":
-          entity.solidArea.x -= entity.speed;
-          if (entity.solidArea.intersects(e.solidArea)) {
-            i = target.indexOf(e);
-            entity.collisionOn = true;
-          }
-          break;
-
-        case "right":
-          entity.solidArea.x += entity.speed;
-          if (entity.solidArea.intersects(e.solidArea)) {
-            i = target.indexOf(e);
-            entity.collisionOn = true;
-          }
-          break;
-      }
-      entity.solidArea.x = entity.solidAreaDefaultX;
-      entity.solidArea.y = entity.solidAreaDefaultY;
-      e.solidArea.x = e.solidAreaDefaultX;
-      e.solidArea.y = e.solidAreaDefaultY;
-    }
-    return i;
-  }
-
-  public void checkEntityToEntity(Entity entity) {
-    ArrayList<Entity> entities = new ArrayList<>();
-    if (entity instanceof Player) {
-      entities.addAll(game.players);
-    } else if (entity instanceof Monster) {
-      entities.addAll(game.monsters);
+        return index;
     }
 
-    for (Entity e : entities) {
-      if (e != entity) {
-        // Get entity's position on the map
-        entity.solidArea.x = entity.getX() + entity.solidArea.x;
-        entity.solidArea.y = entity.getY() + entity.solidArea.y;
+    /**
+    * Checks collision with tiles and objects for a given entity.
+    *
+    * @param tile1 The first tile to check collision for.
+    * @param tile2 The second tile to check collision for.
+    * @param entity The entity to check collision for.
+    */
+    private void checkCollision(String tile1, String tile2, Entity entity) {
+        entity.collisionOn =
+                game.tileManager.isTileCollision(tile1) || game.tileManager.isTileCollision(tile2);
+    }
 
-        // Get target's position on the map
-        e.solidArea.x = e.getX() + e.solidArea.x;
-        e.solidArea.y = e.getY() + e.solidArea.y;
+    /**
+     * Checks collision between an entity and a list of monsters.
+     *
+     * @param entity The entity to check collision for.
+     * @param target The list of monsters to check collision with.
+     * @return The index of the collided monster, or 999 if no collision occurred.
+     */
+    public int checkEntityToMonsters(Entity entity, ArrayList<Monster> target) {
+        int i = 999;
 
-        // Check if the two entities collide
-        switch (entity.direction) {
-          case "up":
-            entity.solidArea.y -= entity.speed;
-            if (entity.solidArea.intersects(e.solidArea)) {
-              entity.collisionOn = true;
+        for (Entity e : target) {
+            // Get entity's position on the map
+            entity.solidArea.x = entity.getX() + entity.solidArea.x;
+            entity.solidArea.y = entity.getY() + entity.solidArea.y;
+
+            // Get target's position on the map
+            e.solidArea.x = e.getX() + e.solidArea.x;
+            e.solidArea.y = e.getY() + e.solidArea.y;
+
+            // Check if the two entities collide
+            switch (entity.direction) {
+                case "up":
+                    entity.solidArea.y -= entity.speed;
+                    if (entity.solidArea.intersects(e.solidArea)) {
+                        i = target.indexOf(e);
+                        entity.collisionOn = true;
+                    }
+                    break;
+
+                case "down":
+                    entity.solidArea.y += entity.speed;
+                    if (entity.solidArea.intersects(e.solidArea)) {
+                        i = target.indexOf(e);
+                        entity.collisionOn = true;
+                    }
+                    break;
+
+                case "left":
+                    entity.solidArea.x -= entity.speed;
+                    if (entity.solidArea.intersects(e.solidArea)) {
+                        i = target.indexOf(e);
+                        entity.collisionOn = true;
+                    }
+                    break;
+
+                case "right":
+                    entity.solidArea.x += entity.speed;
+                    if (entity.solidArea.intersects(e.solidArea)) {
+                        i = target.indexOf(e);
+                        entity.collisionOn = true;
+                    }
+                    break;
             }
-            break;
-
-          case "down":
-            entity.solidArea.y += entity.speed;
-            if (entity.solidArea.intersects(e.solidArea)) {
-              entity.collisionOn = true;
-            }
-            break;
-
-          case "left":
-            entity.solidArea.x -= entity.speed;
-            if (entity.solidArea.intersects(e.solidArea)) {
-              entity.collisionOn = true;
-            }
-            break;
-
-          case "right":
-            entity.solidArea.x += entity.speed;
-            if (entity.solidArea.intersects(e.solidArea)) {
-              entity.collisionOn = true;
-            }
-            break;
+            entity.solidArea.x = entity.solidAreaDefaultX;
+            entity.solidArea.y = entity.solidAreaDefaultY;
+            e.solidArea.x = e.solidAreaDefaultX;
+            e.solidArea.y = e.solidAreaDefaultY;
         }
-        entity.solidArea.x = entity.solidAreaDefaultX;
-        entity.solidArea.y = entity.solidAreaDefaultY;
-        e.solidArea.x = e.solidAreaDefaultX;
-        e.solidArea.y = e.solidAreaDefaultY;
-      }
+        return i;
     }
-  }
 
-  public void checkMonsterToPlayer(Monster monster) {
-    for (Player p : game.players) {
-      monster.solidArea.x = monster.getX() + monster.solidArea.x;
-      monster.solidArea.y = monster.getY() + monster.solidArea.y;
+    /**
+     * Checks collision between entities.
+     *
+     * @param entity The entity to check collision for.
+     */
+    public void checkEntityToEntity(Entity entity) {
+        ArrayList<Entity> entities = new ArrayList<>();
+        if (entity instanceof Player) {
+            entities.addAll(game.players);
+        } else if (entity instanceof Monster) {
+            entities.addAll(game.monsters);
+        }
 
-      // Get target's position on the map
-      p.solidArea.x = p.getX() + p.solidArea.x;
-      p.solidArea.y = p.getY() + p.solidArea.y;
+        for (Entity e : entities) {
+            if (e != entity) {
+                // Get entity's position on the map
+                entity.solidArea.x = entity.getX() + entity.solidArea.x;
+                entity.solidArea.y = entity.getY() + entity.solidArea.y;
+
+                // Get target's position on the map
+                e.solidArea.x = e.getX() + e.solidArea.x;
+                e.solidArea.y = e.getY() + e.solidArea.y;
+
+                // Check if the two entities collide
+                switch (entity.direction) {
+                    case "up":
+                        entity.solidArea.y -= entity.speed;
+                        if (entity.solidArea.intersects(e.solidArea)) {
+                            entity.collisionOn = true;
+                        }
+                        break;
+
+                    case "down":
+                        entity.solidArea.y += entity.speed;
+                        if (entity.solidArea.intersects(e.solidArea)) {
+                            entity.collisionOn = true;
+                        }
+                        break;
+
+                    case "left":
+                        entity.solidArea.x -= entity.speed;
+                        if (entity.solidArea.intersects(e.solidArea)) {
+                            entity.collisionOn = true;
+                        }
+                        break;
+
+                    case "right":
+                        entity.solidArea.x += entity.speed;
+                        if (entity.solidArea.intersects(e.solidArea)) {
+                            entity.collisionOn = true;
+                        }
+                        break;
+                }
+                entity.solidArea.x = entity.solidAreaDefaultX;
+                entity.solidArea.y = entity.solidAreaDefaultY;
+                e.solidArea.x = e.solidAreaDefaultX;
+                e.solidArea.y = e.solidAreaDefaultY;
+            }
+        }
+    }
+
+    /**
+     * Checks collision between monsters and players.
+     *
+     * @param monster The monster to check collision for.
+     */
+    public void checkMonsterToPlayer(Monster monster) {
+        for (Player p : game.players) {
+            monster.solidArea.x = monster.getX() + monster.solidArea.x;
+            monster.solidArea.y = monster.getY() + monster.solidArea.y;
+
+            // Get target's position on the map
+            p.solidArea.x = p.getX() + p.solidArea.x;
+            p.solidArea.y = p.getY() + p.solidArea.y;
 
       boolean playerDies = false;
       switch (monster.direction) {
@@ -299,8 +343,8 @@ public class CollisionChecker {
           break;
       }
 
-      monster.solidArea.x = monster.solidAreaDefaultX;
-      monster.solidArea.y = monster.solidAreaDefaultY;
+            monster.solidArea.x = monster.solidAreaDefaultX;
+            monster.solidArea.y = monster.solidAreaDefaultY;
 
       p.shouldBeRemoved = playerDies;
       if (!playerDies) {
