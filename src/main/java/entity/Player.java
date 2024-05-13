@@ -19,6 +19,7 @@ public class Player extends Entity {
   KeyHandler keyHandler;
   public int bombsNum = 1;
   public String name;
+  public boolean isAlive = true;
   public int playerNumber;
 
   // PowerUp and Curse related variables
@@ -41,6 +42,8 @@ public class Player extends Entity {
   private ArrayList<Consumer<ArrayList<Effect>>> effectChangeListeners = new ArrayList<>();
   private ArrayList<PowerUpChangeListener> listeners = new ArrayList<>();
   private ArrayList<AttributeChangeListener> attributeListeners = new ArrayList<>();
+  private ArrayList<DeathListener> deathListeners = new ArrayList<>();
+
 
 
 
@@ -478,6 +481,7 @@ public class Player extends Entity {
   }
 
 
+
   public void addAttributeChangeListener(AttributeChangeListener listener) {
     attributeListeners.add(listener);
   }
@@ -489,6 +493,30 @@ public class Player extends Entity {
   public void notifyAttributeChange() {
     for (AttributeChangeListener listener : attributeListeners) {
       listener.onAttributeChange();
+    }
+  }
+
+  public void die() {
+    isAlive = false;
+    notifyDeath();
+  }
+
+  // Method to notify listeners about the player's death
+  public interface DeathListener {
+    void playerDied(Player player);
+  }
+
+  public void addDeathListener(DeathListener listener) {
+    deathListeners.add(listener);
+  }
+
+  public void removeDeathListener(DeathListener listener) {
+    deathListeners.remove(listener);
+  }
+
+  private void notifyDeath() {
+    for (DeathListener listener : deathListeners) {
+      listener.playerDied(this);
     }
   }
 

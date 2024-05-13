@@ -34,6 +34,17 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
       JPanel panel = createPlayerPanel(player);
       playersPanel.add(panel);
       playerPanels.add(panel); // Store the panel for dynamic updates
+
+
+      player.addDeathListener(deceasedPlayer -> {
+        SwingUtilities.invokeLater(() -> removePlayerPanel(panel));
+      });
+
+      if (!player.isAlive) {
+        removePlayerPanel(panel);
+      }
+
+
     }
 
     add(playersPanel, BorderLayout.LINE_START);
@@ -61,6 +72,9 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
       SwingUtilities.invokeLater(() -> updatePlayerPowerUps(panel, newPowerUps));
     });
 
+    player.addDeathListener(deceasedPlayer -> {
+      SwingUtilities.invokeLater(() -> removePlayerPanel(panel));
+    });
 //    player.removePowerUpChangeListener(removedPowerUps -> {
 //      SwingUtilities.invokeLater(() -> updatePlayerPowerUps(panel, removedPowerUps));
 //    });
@@ -78,6 +92,15 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     });
 
     return panel;
+  }
+
+
+  private void removePlayerPanel(JPanel panel) {
+    // Remove panel from UI
+    playerPanels.remove(panel);
+    this.remove(panel);
+    this.revalidate();
+    this.repaint();
   }
 
   private JLabel addStatusLabel(JPanel panel, String attribute, int value) {
