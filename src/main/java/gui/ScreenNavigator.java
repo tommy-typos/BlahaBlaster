@@ -116,8 +116,9 @@ public class ScreenNavigator {
       String player_name3,
       String selected_map_id,
       boolean intelligent_monsters,
-      boolean advanced_powerups,
-      boolean hindering_curses) {
+      boolean advanced_powerups
+//      boolean hindering_curses
+  ) {
     mainPanel.removeAll();
     frame.headerPanel.changeHeaderText("In Game Screen");
 
@@ -156,8 +157,9 @@ public class ScreenNavigator {
             player_name3,
             selected_map_id,
             intelligent_monsters,
-            advanced_powerups,
-            hindering_curses);
+            advanced_powerups
+//            hindering_curses
+        );
     gameWrapper.add(game, gbc);
 
     // ==== right side

@@ -40,7 +40,7 @@ public class Main {
     //            "default_map_unique_id",true, true, true);
     // 3 players
     navigator.goto_screen_ACTUAL_GAME(
-        "player1", "player2", true, "player3", "default_map_unique_id", true, true, true);
+        "player1", "player2", true, "player3", "default_map_unique_id", true, true);
 
     frame.setVisible(true);
   }

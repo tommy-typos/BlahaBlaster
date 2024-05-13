@@ -66,6 +66,10 @@ public class Game extends JPanel implements Runnable {
   public final int gameOverState = 3;
   public ScreenNavigator screenNavigator;
   public long timeToFinish;
+  private long gameStartTime;
+  public final long gameDuration = 5000; // 350,000 milliseconds = 5 minutes and 5 seconds
+  private boolean gameRunning = true;
+  TimerAndActivePowerUpsPreview timerAndActivePowerUpsPreview = new TimerAndActivePowerUpsPreview(this);
   private boolean intelligent_monsters, advanced_powerups, hindering_curses;
 
   public Game(
@@ -76,8 +80,9 @@ public class Game extends JPanel implements Runnable {
       String player_name3,
       String mapID,
       boolean intelligent_monsters,
-      boolean advanced_powerups,
-      boolean hindering_curses) {
+      boolean advanced_powerups
+//      boolean hindering_curses
+  ) {
     this.screenNavigator = screenNavigator;
     this.gameMap = MapsController.getMapById(mapID);
 
@@ -90,46 +95,6 @@ public class Game extends JPanel implements Runnable {
     this.tileManager = new TileManager(this, gameMap);
     this.ui = new UI(this);
 
-    //    The below was instead of some part of above and below.
-
-    //    KeyHandler keyHandler = new KeyHandler();
-    //    public ArrayList<SuperObject> obj = new ArrayList<>();
-    //    public ArrayList<Monster> monsters = new ArrayList<>();
-    //
-    //    public ArrayList<Player> players = new ArrayList<>();
-    //
-    //    public ArrayList<Effect> effects = new ArrayList<>();
-    //    public ArrayList<ExplosionObject> activeExplosions = new ArrayList<>();
-    //    private int maxPowerUps = 10;
-    //    private int currentPowerUps = 0;
-    //    private final Random random = new Random();
-    //
-    //
-    //
-    //
-    //    int FPS = 60;
-    //
-    //
-    //    public Game(ScreenNavigator screenNavigator, String player_name1, String player_name2,
-    // boolean threePlayers, String player_name3, String mapID, boolean p1AI, boolean p2AI, boolean
-    // p1Turn) {
-    //        players.add(new Player(this, keyHandler, new Point(tileSize*1, tileSize*3),
-    // player_name1, 1));
-    //        players.add(new Player(this, keyHandler, new Point(tileSize*4, tileSize*5),
-    // player_name2, 2));
-    //        if(threePlayers){
-    //            players.add(new Player(this, keyHandler, new Point(tileSize*1, tileSize*5),
-    // player_name3, 3));
-    //        }
-    //
-    //        this.gameMap = MapsController.getMapById(mapID);
-    //        this.screenWidth = gameMap.mapDimensions[1] * tileSize;
-    //        this.screenHeight = gameMap.mapDimensions[0] * tileSize;
-    //        this.tileManager = new TileManager(this, gameMap);
-    //
-    //
-    //
-
     this.setPreferredSize(new Dimension(screenWidth, screenHeight));
     this.setDoubleBuffered(true);
     this.addKeyListener(keyHandler);
@@ -138,7 +103,7 @@ public class Game extends JPanel implements Runnable {
 
     this.intelligent_monsters = intelligent_monsters;
     this.advanced_powerups = advanced_powerups;
-    this.hindering_curses = hindering_curses;
+//    this.hindering_curses = hindering_curses;
 
     this.playerNames.put("player1", player_name1);
     this.playerNames.put("player2", player_name2);
@@ -151,9 +116,6 @@ public class Game extends JPanel implements Runnable {
   }
 
   public void setUpGame() {
-    effects.add(new GhostPowerUp(new Point(1 * tileSize, 1 * tileSize), this));
-    effects.add(new InvincibilityPowerUp(new Point(3 * tileSize, 3 * tileSize), this));
-
 
     timeToFinish = 0;
     players.add(
@@ -185,7 +147,12 @@ public class Game extends JPanel implements Runnable {
     }
   }
 
+  public long getStartTime() {
+    return gameStartTime;
+  }
+
   public void startGameThread() {
+    gameStartTime = System.currentTimeMillis();
     gameThread = new Thread(this);
     gameThread.start();
   }
@@ -227,6 +194,9 @@ public class Game extends JPanel implements Runnable {
         playerIterator.remove();
       }
     }
+
+    checkGameOver();
+
 
     Iterator<Monster> monsterIterator = monsters.iterator();
     while (monsterIterator.hasNext()) {
@@ -587,19 +557,50 @@ public class Game extends JPanel implements Runnable {
   }
 
   private boolean shouldPlacePowerUp() {
-    return random.nextBoolean(); // 50% chance
+    if (!advanced_powerups) {
+      return false;
+    }
+//    return random.nextInt(100) < 30; // 30% chance to place a power-up
+    return random.nextBoolean(); // 50% chance to place a power-up
+
   }
 
   public void restart() {
     obj.clear();
     monsters.clear();
     players.clear();
+    effects.clear();
+    activeExplosions.clear();
+
     gameMap = MapsController.getMapById(gameMap.id);
     tileManager = new TileManager(this, gameMap);
-    this.setUpGame();
+    gameStartTime = System.currentTimeMillis();  // Reset the start time
+
+    gameState = playState;
+    setUpGame();
+
+    // Reset the timer in TimerAndActivePowerUpsPreview
+    if (timerAndActivePowerUpsPreview != null) {
+      timerAndActivePowerUpsPreview.resetTimer();
+    } else {
+        timerAndActivePowerUpsPreview = new TimerAndActivePowerUpsPreview(this);
+    }
+
+    if (gameThread == null || !gameThread.isAlive()) {
+      startGameThread();
+    }
   }
 
+
   public void checkGameOver() {
+    long currentTime = System.currentTimeMillis();
+
+
+    if (currentTime - gameStartTime > gameDuration) {
+      gameState = gameOverState;
+      return; // Ends the method execution here to prevent further checks if the time is up
+    }
+
     if (players.size() == 1) {
       if (timeToFinish == 0) {
         timeToFinish = System.currentTimeMillis() + 2000;

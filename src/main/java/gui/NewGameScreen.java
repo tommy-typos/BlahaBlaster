@@ -208,8 +208,9 @@ public class NewGameScreen extends JPanel {
                   p3_name,
                   selected_map_id,
                   intelligent_monsters,
-                  advanced_powerups,
-                  hindering_curses);
+                  advanced_powerups
+//                  hindering_curses
+              );
             } else {
               navigator.goto_screen_ACTUAL_GAME(
                   p1_name,
@@ -218,8 +219,9 @@ public class NewGameScreen extends JPanel {
                   "",
                   selected_map_id,
                   intelligent_monsters,
-                  advanced_powerups,
-                  hindering_curses);
+                  advanced_powerups
+//                  hindering_curses
+              );
             }
           }
         });

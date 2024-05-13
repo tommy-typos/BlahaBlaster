@@ -7,21 +7,35 @@ import entity.effects.Effect;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class TimerAndActivePowerUpsPreview extends JPanel {
 
+  Game game;
   private JLabel timerLabel;
-  private ArrayList<JPanel> playerPanels = new ArrayList<>(); // Better control over individual player panels
+  private ArrayList<JPanel> playerPanels = new ArrayList<>();
+  private Timer timer;
 
   public TimerAndActivePowerUpsPreview(Game game) {
     super(new BorderLayout());
+    this.game = game;
     setBackground(Slate._950);
     ArrayList<Player> players = game.getPlayers();
     initializeComponents(players);
+    startTimer();
   }
 
   private void initializeComponents(ArrayList<Player> players) {
+    if (game == null) {
+      throw new IllegalStateException("Game object must be initialized before initializing components.");
+    }
+
+    long elapsed = System.currentTimeMillis() - game.getStartTime();
+    long timeLeft = Math.max(game.gameDuration - elapsed, 0); // Ensure timeLeft is not negative
+
+    timerLabel = new JLabel(formatTime(timeLeft), SwingConstants.LEFT);
     timerLabel = new JLabel("Time: 00:00", SwingConstants.LEFT);
     timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
     timerLabel.setForeground(Color.WHITE);
@@ -160,40 +174,46 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     });
   }
 
+  public void resetTimer() {
+    // Stop the current timer if running
+    if (timer != null) {
+      timer.stop();
+    }
+    startTimer(); // Restart the timer with updated game start time
+  }
 
+  private void startTimer() {
+    int delay = 1000; // milliseconds
+    ActionListener taskPerformer = new ActionListener() {
+      public void actionPerformed(ActionEvent evt) {
+        long elapsed = System.currentTimeMillis() - game.getStartTime(); // Use updated start time
+        long timeLeft = game.gameDuration - elapsed;
+        if (timeLeft < 0) {
+          timeLeft = 0; // Prevent negative display
+          ((Timer) evt.getSource()).stop(); // Stop timer when time runs out
+        }
+        updateTimer(formatTime(timeLeft));
+      }
+    };
+    timer = new Timer(delay, taskPerformer);
+    timer.start();
+  }
 
+  private String formatTime(long millis) {
+    long seconds = (millis / 1000) % 60;
+    long minutes = (millis / (1000 * 60)) % 60;
+    long hours = (millis / (1000 * 60 * 60)) % 24;
+    // show hours only if it's greater than 0
+    if (hours > 0) {
+      return String.format("Time: %02d:%02d:%02d", hours, minutes, seconds);
+    } else {
+      return String.format("Time: %02d:%02d", minutes, seconds);
+    }
 
+  }
 
-
-
-//  private void updatePlayerPowerUps(JPanel panel, ArrayList<Effect> powerUps) {
-//    // First, remove the old icon panel if it exists
-//    if (panel.getComponentCount() > 2) {
-//      panel.remove(2); // Assuming the third component is the icon panel
-//    }
-//
-//    // Calculate the number of rows needed (4 icons per row)
-//    int rows = (int) Math.ceil(powerUps.size() / 4.0);
-//
-//    // Create a new panel for icons with grid layout, 4 icons per row
-//    JPanel iconPanel = new JPanel(new GridLayout(rows, 4, 0, 0));
-//    iconPanel.setBackground(panel.getBackground()); // Match the background color
-//
-//    for (Effect effect : powerUps) {
-//      ImageIcon icon = new ImageIcon(effect.getPowerupIcon().getScaledInstance(36, 36, Image.SCALE_SMOOTH));
-//      JLabel label = new JLabel(icon);
-//      iconPanel.add(label);
-//    }
-//
-//    // Fill remaining grid cells if there are fewer icons than cells in the last row
-//    int remainingCells = (rows * 4) - powerUps.size();
-//    for (int i = 0; i < remainingCells; i++) {
-//      iconPanel.add(new JLabel()); // Add empty labels to balance the grid if necessary
-//    }
-//
-//    panel.add(iconPanel);
-//    panel.revalidate();
-//    panel.repaint();
+//  public void resetTimer() {
+//    startTimer(); // Restart the timer
 //  }
 
 

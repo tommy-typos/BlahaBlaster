@@ -28,7 +28,7 @@ public class Player extends Entity {
   // PowerUp and Curse related variables
   public boolean hasDetonator = false;
   public ArrayList<BombObject> plantedBombs = new ArrayList<>();
-  public boolean canPutObstacles = true;
+  public boolean canPutObstacles = false;
   public int maxObstacles = 5;
 
   public long ghostDuration = 0;
