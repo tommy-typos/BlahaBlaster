@@ -36,7 +36,6 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     long timeLeft = Math.max(game.gameDuration - elapsed, 0); // Ensure timeLeft is not negative
 
     timerLabel = new JLabel(formatTime(timeLeft), SwingConstants.LEFT);
-    timerLabel = new JLabel("Time: 00:00", SwingConstants.LEFT);
     timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
     timerLabel.setForeground(Color.WHITE);
     add(timerLabel, BorderLayout.NORTH);
