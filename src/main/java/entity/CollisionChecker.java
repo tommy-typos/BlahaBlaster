@@ -7,6 +7,7 @@ import entity.objects.BrickObject;
 import entity.objects.SuperObject;
 import gui.Game;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class CollisionChecker {
@@ -310,15 +311,18 @@ public class CollisionChecker {
   }
 
   public void checkPlayerToEffect(Player player) {
-    for (Effect effect :
-        game.effects) { // Assuming 'game.effects' is your list of all effects on the game map.
+    Iterator<Effect> effectIterator = game.effects.iterator();
+    while (effectIterator.hasNext()) {
+      Effect effect = effectIterator.next();
+
+      // Adjusting solid areas for collision detection
       effect.solidArea.x = effect.position.getX() + effect.solidArea.x;
       effect.solidArea.y = effect.position.getY() + effect.solidArea.y;
 
       player.solidArea.x = player.getX() + player.solidArea.x;
       player.solidArea.y = player.getY() + player.solidArea.y;
 
-      // Check if the player collides with an effect in any direction.
+      // Check if the player collides with an effect
       switch (player.direction) {
         case "up":
           player.solidArea.y -= player.speed;
@@ -334,21 +338,26 @@ public class CollisionChecker {
           break;
       }
 
-      // Apply the effect if there is a collision
-      if (player.solidArea.intersects(effect.solidArea)) {
-        player.activeEffects.add(effect);
-        game.effects.remove(effect);
-        effect.applyEffect(player);
-        System.out.println(
-            "Effect " + effect.effectType() + " applied: " + effect.getClass().getSimpleName());
-//        System.out.println("ghostDuration: " + player.ghostDuration);
-        System.out.println("\n\ninvincibilityDuration: " + player.invincibilityDuration + "\n\n");
-//        System.out.println("hasDetonator: " + player.hasDetonator);
-//        System.out.println("speed: " + player.speed);
-//        System.out.println("blastRange: " + player.blastRange);
-//        System.out.println("bombsNum: " + player.bombsNum);
+      // Check if the effect already exists in the player's active effects
+      boolean effectAlreadyActive = player.activeEffects.stream()
+              .anyMatch(activeEffect -> activeEffect.getClass().equals(effect.getClass()));
 
-        break; // Assuming only one effect can be applied at a time.
+      // Apply the effect if there's a collision and the effect isn't already active
+      if (player.solidArea.intersects(effect.solidArea)) {
+        if (!effectAlreadyActive) {
+          player.addPowerUp(effect);
+        }
+        effect.applyEffect(player);
+        effectIterator.remove(); // Remove effect from game list
+        System.out.println("Effect " + effect.effectType() + " applied: " + effect.getClass().getSimpleName());
+        System.out.println("\n\ninvincibilityDuration: " + player.invincibilityDuration + "\n\n");
+
+        for (Effect activeEffect : player.activeEffects) {
+          System.out.println("Active effect: " + activeEffect.effectType());
+        }
+
+        // Break after applying effect, assuming only one effect can be applied at a time
+        break;
       }
 
       // Reset the areas after checking
@@ -358,4 +367,5 @@ public class CollisionChecker {
       effect.solidArea.y = effect.solidAreaDefaultY;
     }
   }
+
 }

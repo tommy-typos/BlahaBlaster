@@ -20,5 +20,11 @@ public class BombSlotIncreasePowerUp extends Effect {
 
   public void applyEffect(Player player) {
     player.bombsNum += bombSlotIncrease;
+    player.notifyAttributeChange();
+  }
+
+  @Override
+  protected String getPowerUpType() {
+    return "bomb_slot";
   }
 }

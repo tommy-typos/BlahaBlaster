@@ -4,6 +4,9 @@ import entity.Player;
 import entity.Point;
 import gui.Game;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public abstract class Effect {
@@ -12,6 +15,7 @@ public abstract class Effect {
   public Game game;
   public Player player;
   public ImageIcon image;
+  public BufferedImage icon;
 
   public final int solidAreaDefaultX = 10;
   public final int solidAreaDefaultY = 20;
@@ -43,6 +47,23 @@ public abstract class Effect {
   public void applyEffect(Player player) {
 
   }
+
+  // get icon method
+  public BufferedImage getPowerupIcon() {
+    String basePath = "/powerups/" + getPowerUpType() + ".png";
+    try {
+      return icon = ImageIO.read(getClass().getResourceAsStream(basePath));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+      return icon;
+  }
+
+  // get status
+
+
+  protected abstract String getPowerUpType();
+
 
   public boolean isGhostPowerUp() {
     return false;

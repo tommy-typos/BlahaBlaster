@@ -162,12 +162,16 @@ public class ScreenNavigator {
 
     // ==== right side
     gbc.gridx = 2;
-    gbc.weightx = 0; // 3rd column width
-    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.insets = new Insets(0, 20, 0, 0); // margin left
+    gbc.weightx = 0;
+    gbc.weighty = 1; // Take all vertical space
+    gbc.fill = GridBagConstraints.BOTH; // Fill both horizontally and vertically
+    gbc.anchor = GridBagConstraints.NORTH;
 
-//    TimerAndActivePowerUpsPreview rightSide = new TimerAndActivePowerUpsPreview();
-//    rightSide.setPreferredSize(new Dimension(237, 575));
-//    gameWrapper.add(rightSide, gbc);
+
+    TimerAndActivePowerUpsPreview rightSide = new TimerAndActivePowerUpsPreview(game);
+    rightSide.setPreferredSize(new Dimension(237, 575));
+    gameWrapper.add(rightSide, gbc);
 
     mainPanel.add(gameWrapper, BorderLayout.CENTER);
 

@@ -19,7 +19,12 @@ public class RollerSkatePowerUp extends Effect {
   }
 
   public void applyEffect(Player player) {
-    //        player.speed += speedIncrease;
     player.activateRollerSkatePowerUp();
+    player.notifyAttributeChange();
+  }
+
+  @Override
+  protected String getPowerUpType() {
+    return "roller_skate";
   }
 }

@@ -24,4 +24,9 @@ public class InvincibilityPowerUp extends Effect {
     player.invincibilityDuration = invincibilityModeDuration;
     player.activateInvincibilityPowerUp(player.invincibilityDuration);
   }
+
+  @Override
+  protected String getPowerUpType() {
+    return "invincibility_mode";
+  }
 }

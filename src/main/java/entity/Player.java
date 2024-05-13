@@ -1,7 +1,7 @@
 package entity;
 
 import entity.effects.Effect;
-import entity.effects.powerUps.GhostPowerUp;
+import entity.effects.powerUps.*;
 import entity.objects.BombObject;
 import entity.objects.BrickObject;
 import entity.objects.SuperObject;
@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.function.Consumer;
 import javax.imageio.ImageIO;
 
 public class Player extends Entity {
@@ -32,13 +33,18 @@ public class Player extends Entity {
 
   public int blastRange = 1;
   public boolean speedBoosted = false;
-  public int bombFreezeTime = 0;
-  public int nextBombCanBePlaced = 0;
-  public int bombPlacmentDelay = 0;
+
 
   public long invincibilityDuration = 60;
   private long invincibilityEffectStartTime = 0;
   public ArrayList<Effect> activeEffects = new ArrayList<>();
+  private ArrayList<Consumer<ArrayList<Effect>>> effectChangeListeners = new ArrayList<>();
+  private ArrayList<PowerUpChangeListener> listeners = new ArrayList<>();
+  private ArrayList<AttributeChangeListener> attributeListeners = new ArrayList<>();
+
+
+
+
 
   public Player(Game gp, KeyHandler keyHandler, Point position, String name, int playerNumber) {
     super(gp);
@@ -50,6 +56,14 @@ public class Player extends Entity {
     this.position = position;
     this.direction = "down";
     getPlayerImage();
+//    activeEffects.add(new GhostPowerUp(position, gp));
+//    activeEffects.add(new RollerSkatePowerUp(position, gp));
+//    activeEffects.add(new BlastRangePowerUp(position, gp));
+//    activeEffects.add(new BombSlotIncreasePowerUp(position, gp));
+//    activeEffects.add(new ObstaclePowerUp(position, gp));
+//    activeEffects.add(new InvincibilityPowerUp(position, gp));
+//    activeEffects.add(new DetonatorPowerUp(position, gp));
+
   }
 
   public void getPlayerImage() {
@@ -181,12 +195,16 @@ public class Player extends Entity {
         // remove the effect ghostPowerUp from the activeEffects array if ghostDuration is over
         if (this.hasGhostPowerUp && this.ghostDuration <= 0) {
           this.hasGhostPowerUp = false;
-          activeEffects.remove(GhostPowerUp.class);
+          activeEffects.removeIf(e -> e instanceof GhostPowerUp);
+          notifyPowerUpChange();
         }
 
         if (invincibilityDuration <= 0) {
           int npcIndex = gp.collisionChecker.checkEntityToMonsters(this, gp.monsters);
           interactWithMonster(npcIndex);
+          activeEffects.removeIf(e -> e instanceof InvincibilityPowerUp);
+          notifyPowerUpChange();
+
         }
       }
 
@@ -383,11 +401,6 @@ public class Player extends Entity {
   // PowerUp and Curse related methods
 
   // activateGhostPowerUp method
-  public void activateGhostPowerUp(long duration) {
-    this.ghostDuration = duration;
-    this.ghostEffectStartTime = System.currentTimeMillis(); // Set start time
-    this.hasGhostPowerUp = true;
-  }
 
   // activateInvincibilityPowerUp method
   public void activateInvincibilityPowerUp(long duration) {
@@ -405,4 +418,79 @@ public class Player extends Entity {
   public ArrayList<Effect> getPowerUps() {
     return activeEffects;
   }
+
+
+  // Method to add a listener
+  public void addEffectChangeListener(Consumer<ArrayList<Effect>> listener) {
+    effectChangeListeners.add(listener);
+  }
+
+  // Method to notify listeners
+  private void notifyEffectChange() {
+    effectChangeListeners.forEach(listener -> listener.accept(new ArrayList<>(activeEffects)));
+  }
+
+  public void addPowerUp(Effect effect) {
+    activeEffects.add(effect);
+    notifyPowerUpChange();
+  }
+
+  public void removePowerUp(Effect effect) {
+    activeEffects.remove(effect);
+    notifyPowerUpChange();
+  }
+
+
+  // Example method that might modify activeEffects
+  public void activateGhostPowerUp(long duration) {
+    this.ghostDuration = duration;
+    this.ghostEffectStartTime = System.currentTimeMillis(); // Set start time
+    this.hasGhostPowerUp = true;
+
+  }
+
+  public int getIndex() {
+    return playerNumber - 1;
+  }
+
+
+  public interface PowerUpChangeListener {
+    void onPowerUpChange(ArrayList<Effect> newPowerUps);
+  }
+
+
+  public void addPowerUpChangeListener(PowerUpChangeListener listener) {
+    listeners.add(listener);
+  }
+
+  public void removePowerUpChangeListener(PowerUpChangeListener listener) {
+    listeners.remove(listener);
+  }
+
+  private void notifyPowerUpChange() {
+    for (PowerUpChangeListener listener : listeners) {
+      listener.onPowerUpChange(new ArrayList<>(activeEffects));
+    }
+  }
+
+  public interface AttributeChangeListener {
+    void onAttributeChange();
+  }
+
+
+  public void addAttributeChangeListener(AttributeChangeListener listener) {
+    attributeListeners.add(listener);
+  }
+
+  public void removeAttributeChangeListener(AttributeChangeListener listener) {
+    attributeListeners.remove(listener);
+  }
+
+  public void notifyAttributeChange() {
+    for (AttributeChangeListener listener : attributeListeners) {
+      listener.onAttributeChange();
+    }
+  }
+
+
 }

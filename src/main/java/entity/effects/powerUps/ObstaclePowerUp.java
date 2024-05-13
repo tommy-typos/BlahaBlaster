@@ -19,4 +19,9 @@ public class ObstaclePowerUp extends Effect {
   public void applyEffect(Player player) {
     player.canPutObstacles = true;
   }
+
+  @Override
+  protected String getPowerUpType() {
+    return "obstacle";
+  }
 }

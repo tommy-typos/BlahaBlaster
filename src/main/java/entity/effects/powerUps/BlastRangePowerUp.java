@@ -20,5 +20,11 @@ public class BlastRangePowerUp extends Effect {
   @Override
   public void applyEffect(Player player) {
     player.blastRange += 1;
+    player.notifyAttributeChange();
+  }
+
+  @Override
+  protected String getPowerUpType() {
+    return "blast_range";
   }
 }

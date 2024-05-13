@@ -12,6 +12,7 @@ public class GhostPowerUp extends Effect {
     super(position, game);
   }
 
+
   @Override
   public boolean isGhostPowerUp() {
     return true;
@@ -21,5 +22,10 @@ public class GhostPowerUp extends Effect {
   public void applyEffect(Player player) {
     player.ghostDuration = ghostModeDuration;
     player.activateGhostPowerUp(player.ghostDuration);
+  }
+
+  @Override
+  protected String getPowerUpType() {
+    return "ghost_mode";
   }
 }

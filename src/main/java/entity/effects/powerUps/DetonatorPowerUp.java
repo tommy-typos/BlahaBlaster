@@ -20,4 +20,9 @@ public class DetonatorPowerUp extends Effect {
   public void applyEffect(Player player) {
     player.hasDetonator = true;
   }
+
+  @Override
+  protected String getPowerUpType() {
+    return "detonator";
+  }
 }
