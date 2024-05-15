@@ -110,13 +110,13 @@ public class Player extends Entity {
     }
   }
 
-  private void interactWithMonster(int npcIndex) {
+  protected void interactWithMonster(int npcIndex) {
     if (npcIndex != 999) {
       shouldBeRemoved = true;
     }
   }
 
-  private void plantBomb() {
+  protected void plantBomb() {
     // check if user can plant more bombs
     int bombsPlanted = 0;
     for (SuperObject superObject : gp.obj) {
