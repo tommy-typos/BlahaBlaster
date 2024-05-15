@@ -157,18 +157,18 @@ public class NewGameScreen extends JPanel {
 
     /*** HINDERING CURSES */
 
-    JPanel hindering_flow = new JPanel();
-    hindering_flow.setLayout(new FlowLayout(FlowLayout.LEFT, 25, 0));
-    hindering_flow.setOpaque(true);
-    hindering_flow.setAlignmentY(CENTER_ALIGNMENT);
-    hindering_flow.setBackground(Slate._950);
-
-    JCheckBox hinderingcurse_checkbox = new JCheckBox("Hindering Curses");
-    hinderingcurse_checkbox.setForeground(Slate._300);
-    hinderingcurse_checkbox.setOpaque(true);
-    hinderingcurse_checkbox.setBackground(Slate._950);
-
-    hindering_flow.add(hinderingcurse_checkbox);
+//    JPanel hindering_flow = new JPanel();
+//    hindering_flow.setLayout(new FlowLayout(FlowLayout.LEFT, 25, 0));
+//    hindering_flow.setOpaque(true);
+//    hindering_flow.setAlignmentY(CENTER_ALIGNMENT);
+//    hindering_flow.setBackground(Slate._950);
+//
+//    JCheckBox hinderingcurse_checkbox = new JCheckBox("Hindering Curses");
+//    hinderingcurse_checkbox.setForeground(Slate._300);
+//    hinderingcurse_checkbox.setOpaque(true);
+//    hinderingcurse_checkbox.setBackground(Slate._950);
+//
+//    hindering_flow.add(hinderingcurse_checkbox);
 
     /*** MAIN MENU & START GAME */
     JPanel buttons_flow = new JPanel();
@@ -194,7 +194,7 @@ public class NewGameScreen extends JPanel {
           String selected_map_id = gameMaps[map_combobox.getSelectedIndex()].id;
           boolean intelligent_monsters = intelligentmonster_checkbox.isSelected();
           boolean advanced_powerups = advancedpowerups_checkbox.isSelected();
-          boolean hindering_curses = hinderingcurse_checkbox.isSelected();
+//          boolean hindering_curses = hinderingcurse_checkbox.isSelected();
 
 
           if (p1_name.length() < 1 || p2_name.length() < 1) {
@@ -247,7 +247,7 @@ public class NewGameScreen extends JPanel {
     grid.add(map_labelcombo);
     grid.add(intelligent_flow);
     grid.add(advanced_flow);
-    grid.add(hindering_flow);
+//    grid.add(hindering_flow);
     grid.add(buttons_flow);
 
     MapPreviewWrapper previewWrapper = new MapPreviewWrapper();
