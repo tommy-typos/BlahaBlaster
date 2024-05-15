@@ -15,9 +15,7 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 import javax.imageio.ImageIO;
 
-/**
- * Represents a player entity in the game.
- */
+/** Represents a player entity in the game. */
 public class Player extends Entity {
   KeyHandler keyHandler;
   public int bombsNum = 1;
@@ -47,10 +45,6 @@ public class Player extends Entity {
   private ArrayList<AttributeChangeListener> attributeListeners = new ArrayList<>();
   private ArrayList<DeathListener> deathListeners = new ArrayList<>();
 
-
-
-
-
     /**
      * Constructs a player object.
      * @param gp The game instance.
@@ -71,52 +65,51 @@ public class Player extends Entity {
         getPlayerImage();
     }
 
-    /**
-     * Loads the player's image based on the player number.
-     */
-    public void getPlayerImage() {
-        String basePath = "/player" + playerNumber + "/player_";
-        try {
-            up1 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_2.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+  /** Loads the player's image based on the player number. */
+  public void getPlayerImage() {
+    String basePath = "/player" + playerNumber + "/player_";
+    try {
+      up1 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_1.png"));
+      up2 = ImageIO.read(getClass().getResourceAsStream(basePath + "up_2.png"));
+      down1 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_1.png"));
+      down2 = ImageIO.read(getClass().getResourceAsStream(basePath + "down_2.png"));
+      left1 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_1.png"));
+      left2 = ImageIO.read(getClass().getResourceAsStream(basePath + "left_2.png"));
+      right1 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_1.png"));
+      right2 = ImageIO.read(getClass().getResourceAsStream(basePath + "right_2.png"));
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+  }
 
-    /**
-     * Gets the position of the player.
-     * @return The position of the player.
-     */
-    public Point getPosition() {
-        return position;
-    }
+  /**
+   * Gets the position of the player.
+   *
+   * @return The position of the player.
+   */
+  public Point getPosition() {
+    return position;
+  }
 
-    /**
-     * Gets the key handler associated with the player.
-     * @return The key handler.
-     */
-    public KeyHandler getKeyHandler() {
-        return keyHandler;
-    }
+  /**
+   * Gets the key handler associated with the player.
+   *
+   * @return The key handler.
+   */
+  public KeyHandler getKeyHandler() {
+    return keyHandler;
+  }
 
-    /**
-     * Sets the position of the player.
-     * @param position The new position of the player.
-     */
-    public void setPosition(Point position) {
-        this.position = position;
-    }
+  /**
+   * Sets the position of the player.
+   *
+   * @param position The new position of the player.
+   */
+  public void setPosition(Point position) {
+    this.position = position;
+  }
 
-    /**
-     * Updates the player's state based on player input and game logic.
-     */
+    /** Updates the player's state based on player input and game logic. */
   public void update() {
     if (playerNumber == 1) {
       if (keyHandler.e) {
@@ -185,35 +178,34 @@ public class Player extends Entity {
     }
   }
 
-
-    /**
-     * Moves the player based on input from the key handler.
-     * @param up Whether the up arrow key is pressed.
-     * @param down Whether the down arrow key is pressed.
-     * @param left Whether the left arrow key is pressed.
-     * @param right Whether the right arrow key is pressed.
-     */
-    private void movePlayer(boolean up, boolean down, boolean left, boolean right) {
-        if (up || down || left || right) {
-            if (up) {
-                direction = "up";
-            }
-            if (down) {
-                direction = "down";
-            }
-            if (left) {
-                direction = "left";
-            }
-            if (right) {
-                direction = "right";
-            }
+  /**
+   * Moves the player based on input from the key handler.
+   *
+   * @param up Whether the up arrow key is pressed.
+   * @param down Whether the down arrow key is pressed.
+   * @param left Whether the left arrow key is pressed.
+   * @param right Whether the right arrow key is pressed.
+   */
+  private void movePlayer(boolean up, boolean down, boolean left, boolean right) {
+    if (up || down || left || right) {
+      if (up) {
+        direction = "up";
+      }
+      if (down) {
+        direction = "down";
+      }
+      if (left) {
+        direction = "left";
+      }
+      if (right) {
+        direction = "right";
+      }
 
       if (ghostDuration > 0) {
         if (invincibilityDuration <= 0) {
           collisionOn = false;
         }
       }
-
 
         // Check for collisions during ghost mode
       if (ghostDuration <= 0) {
@@ -289,9 +281,10 @@ public class Player extends Entity {
   }
     /**
      * Handles interaction with a monster.
+     *
      * @param npcIndex The index of the monster in the list of monsters.
      */
-  private void interactWithMonster(int npcIndex) {
+    protected void interactWithMonster(int npcIndex) {
     if (npcIndex != 999) {
       shouldBeRemoved = true;
     }
@@ -317,11 +310,12 @@ public class Player extends Entity {
       return;
     }
 
-    int posX = (position.getX() + solidArea.x) / gp.tileSize;
+      // check if there is already a bomb in the same position
+      int posX = (position.getX() + solidArea.x) / gp.tileSize;
     int posY = (position.getY() + solidArea.y) / gp.tileSize;
+
     int coordX = posX * gp.tileSize;
     int coordY = posY * gp.tileSize;
-
     if (gp.positionOccupied(coordX, coordY)) {
       return;
     }
