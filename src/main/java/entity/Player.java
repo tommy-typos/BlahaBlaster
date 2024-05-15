@@ -530,6 +530,4 @@ public class Player extends Entity {
       listener.playerDied(this);
     }
   }
-
-
 }
