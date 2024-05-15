@@ -23,7 +23,7 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     this.game = game;
     setBackground(Slate._950);
     ArrayList<Player> players = game.getPlayers();
-    initializeComponents(players);
+    updatePlayers(players);
     startTimer();
   }
 
@@ -32,8 +32,10 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
       throw new IllegalStateException("Game object must be initialized before initializing components.");
     }
 
+    resetTimer();
+
     long elapsed = System.currentTimeMillis() - game.getStartTime();
-    long timeLeft = Math.max(game.gameDuration - elapsed, 0); // Ensure timeLeft is not negative
+    long timeLeft = Math.max(game.gameDuration - elapsed, 0); // Ensuring timeLeft is not negative
 
     timerLabel = new JLabel(formatTime(timeLeft), SwingConstants.LEFT);
     timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -46,8 +48,7 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     for (Player player : players) {
       JPanel panel = createPlayerPanel(player);
       playersPanel.add(panel);
-      playerPanels.add(panel); // Store the panel for dynamic updates
-
+      playerPanels.add(panel); // Storing the panel for dynamic updates
 
       player.addDeathListener(deceasedPlayer -> {
         SwingUtilities.invokeLater(() -> removePlayerPanel(panel));
@@ -56,12 +57,11 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
       if (!player.isAlive) {
         removePlayerPanel(panel);
       }
-
-
     }
 
     add(playersPanel, BorderLayout.LINE_START);
   }
+
   private JPanel createPlayerPanel(Player player) {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -80,7 +80,6 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     separator.setForeground(Color.GRAY);
     panel.add(separator);
 
-
     player.addPowerUpChangeListener(newPowerUps -> {
       SwingUtilities.invokeLater(() -> updatePlayerPowerUps(panel, newPowerUps));
     });
@@ -88,9 +87,6 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     player.addDeathListener(deceasedPlayer -> {
       SwingUtilities.invokeLater(() -> removePlayerPanel(panel));
     });
-//    player.removePowerUpChangeListener(removedPowerUps -> {
-//      SwingUtilities.invokeLater(() -> updatePlayerPowerUps(panel, removedPowerUps));
-//    });
 
     JLabel speedLabel = addStatusLabel(panel, "SPEED", player.speed);
     JLabel blastRangeLabel = addStatusLabel(panel, "BLAST RANGE", player.blastRange);
@@ -107,9 +103,7 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     return panel;
   }
 
-
   private void removePlayerPanel(JPanel panel) {
-    // Remove panel from UI
     playerPanels.remove(panel);
     this.remove(panel);
     this.revalidate();
@@ -124,11 +118,8 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     return label;
   }
 
-  // Dynamically update power-ups displayed for a player
-
   private void updatePlayerPowerUps(JPanel panel, ArrayList<Effect> powerUps) {
     SwingUtilities.invokeLater(() -> {
-      // Locate the existing icon panel to update or create a new one if it doesn't exist
       JPanel iconPanel = null;
       if (panel.getComponentCount() > 2) {
         Component possibleIconPanel = panel.getComponent(2);
@@ -137,24 +128,21 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
         }
       }
 
-      // Calculate the number of rows needed based on the number of powerups, allowing up to 4 icons per row
       int rows = (int) Math.ceil(powerUps.size() / 4.0);
 
-      // If no existing icon panel found, create a new one with the appropriate layout
       if (iconPanel == null) {
-        iconPanel = new JPanel(new GridLayout(rows, 4, 5, 5)); // 5 pixels padding for better spacing
+        iconPanel = new JPanel(new GridLayout(rows, 4, 5, 5));
         iconPanel.setBackground(panel.getBackground());
         if (panel.getComponentCount() > 2) {
-          panel.add(iconPanel, 2); // Add in the correct position
+          panel.add(iconPanel, 2);
         } else {
           panel.add(iconPanel);
         }
       } else {
-        iconPanel.removeAll(); // Clear existing icons for refresh
-        iconPanel.setLayout(new GridLayout(rows, 4, 5, 5)); // Reset the grid layout with updated rows
+        iconPanel.removeAll();
+        iconPanel.setLayout(new GridLayout(rows, 4, 5, 5));
       }
 
-      // Populate the icon panel with new icons
       for (int i = 0; i < powerUps.size(); i++) {
         Effect effect = powerUps.get(i);
         ImageIcon icon = new ImageIcon(effect.getPowerupIcon().getScaledInstance(36, 36, Image.SCALE_SMOOTH));
@@ -162,10 +150,9 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
         iconPanel.add(label);
       }
 
-      // If there are fewer icons than the capacity of the last row, fill in the gaps with empty labels
       int totalCells = rows * 4;
       for (int i = powerUps.size(); i < totalCells; i++) {
-        iconPanel.add(new JLabel()); // Add empty labels to maintain grid structure
+        iconPanel.add(new JLabel());
       }
 
       panel.revalidate();
@@ -174,24 +161,23 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
   }
 
   public void resetTimer() {
-    // Stop the current timer if running
     if (timer != null) {
       timer.stop();
     }
-    startTimer(); // Restart the timer with updated game start time
+    startTimer();
   }
 
   private void startTimer() {
-    int delay = 1000; // milliseconds
+    int delay = 1000;
     ActionListener taskPerformer = new ActionListener() {
       public void actionPerformed(ActionEvent evt) {
-        long elapsed = System.currentTimeMillis() - game.getStartTime(); // Use updated start time
+        long elapsed = System.currentTimeMillis() - game.getStartTime();
         long timeLeft = game.gameDuration - elapsed;
         if (timeLeft < 0) {
-          timeLeft = 0; // Prevent negative display
-          ((Timer) evt.getSource()).stop(); // Stop timer when time runs out
+          timeLeft = 0;
+          ((Timer) evt.getSource()).stop();
         }
-        updateTimer(formatTime(timeLeft));
+        updateTimer(formatTime(timeLeft), timeLeft);
       }
     };
     timer = new Timer(delay, taskPerformer);
@@ -202,21 +188,41 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     long seconds = (millis / 1000) % 60;
     long minutes = (millis / (1000 * 60)) % 60;
     long hours = (millis / (1000 * 60 * 60)) % 24;
-    // show hours only if it's greater than 0
+
     if (hours > 0) {
       return String.format("Time: %02d:%02d:%02d", hours, minutes, seconds);
     } else {
       return String.format("Time: %02d:%02d", minutes, seconds);
     }
-
   }
 
-//  public void resetTimer() {
-//    startTimer(); // Restart the timer
-//  }
 
-
-  public void updateTimer(String time) {
+  public void updateTimer(String time, long timeLeft) {
+    if (timeLeft <= 11000) { // less than or equal to 10 seconds
+      long secondsLeft = (timeLeft / 1000) % 60;
+      if (secondsLeft % 2 == 0) {
+        timerLabel.setForeground(Color.RED);
+      } else {
+        timerLabel.setForeground(Color.WHITE);
+      }
+    } else {
+      timerLabel.setForeground(Color.WHITE);
+    }
     timerLabel.setText("Time: " + time);
+  }
+
+
+  public void clearPlayerPanels() {
+    for (JPanel panel : playerPanels) {
+      this.remove(panel);
+    }
+    playerPanels.clear();
+    this.revalidate();
+    this.repaint();
+  }
+
+  public void updatePlayers(ArrayList<Player> players) {
+    clearPlayerPanels();
+    initializeComponents(players);
   }
 }

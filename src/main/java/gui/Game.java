@@ -67,10 +67,8 @@ public class Game extends JPanel implements Runnable {
   public ScreenNavigator screenNavigator;
   public long timeToFinish;
   private long gameStartTime;
-  public final long gameDuration = 5000; // 350,000 milliseconds = 5 minutes and 5 seconds
-  private boolean gameRunning = true;
-  TimerAndActivePowerUpsPreview timerAndActivePowerUpsPreview = new TimerAndActivePowerUpsPreview(this);
-  private boolean intelligent_monsters, advanced_powerups, hindering_curses;
+  public final long gameDuration = 320000; // 320,000 milliseconds = 5 minutes and 2 seconds
+  private boolean intelligent_monsters, advanced_powerups;
 
   public Game(
       ScreenNavigator screenNavigator,
@@ -81,7 +79,6 @@ public class Game extends JPanel implements Runnable {
       String mapID,
       boolean intelligent_monsters,
       boolean advanced_powerups
-//      boolean hindering_curses
   ) {
     this.screenNavigator = screenNavigator;
     this.gameMap = MapsController.getMapById(mapID);
@@ -135,9 +132,6 @@ public class Game extends JPanel implements Runnable {
     }
 
     gameState = playState;
-
-//    obj.add(new BrickObject(new Point(tileSize, tileSize), this));
-//    obj.add(new BrickObject(new Point(3 * tileSize, 3 * tileSize), this));
 
     monsters.add(new BasicMonster(this, 1, new Point(11 * tileSize, tileSize)));
     if (intelligent_monsters) {
@@ -568,6 +562,11 @@ public class Game extends JPanel implements Runnable {
   public void restart() {
     obj.clear();
     monsters.clear();
+
+    for (Player player : players) {
+      player.activeEffects.clear();
+    }
+
     players.clear();
     effects.clear();
     activeExplosions.clear();
@@ -579,16 +578,23 @@ public class Game extends JPanel implements Runnable {
     gameState = playState;
     setUpGame();
 
-    // Reset the timer in TimerAndActivePowerUpsPreview
-    if (timerAndActivePowerUpsPreview != null) {
-      timerAndActivePowerUpsPreview.resetTimer();
-    } else {
-        timerAndActivePowerUpsPreview = new TimerAndActivePowerUpsPreview(this);
-    }
 
+    // restart the ui by recreating in ScreenNavigator.goto_screen_ACTUAL_GAME
+    screenNavigator.goto_screen_ACTUAL_GAME(
+        playerNames.get(players.get(0).name),
+        playerNames.get(players.get(1).name),
+        playerNames.size() == 3,
+        playerNames.get(players.get(2).name),
+        gameMap.id,
+        intelligent_monsters,
+        advanced_powerups
+    );
     if (gameThread == null || !gameThread.isAlive()) {
       startGameThread();
     }
+
+    revalidate();
+    repaint();
   }
 
 

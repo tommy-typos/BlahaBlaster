@@ -438,11 +438,6 @@ public class Player extends Entity {
     return gp.isPlantable(tileX, tileY);
   }
 
-  // PowerUp and Curse related methods
-
-  // activateGhostPowerUp method
-
-  // activateInvincibilityPowerUp method
   public void activateInvincibilityPowerUp(long duration) {
     this.invincibilityDuration = duration;
     this.invincibilityEffectStartTime = System.currentTimeMillis(); // Set start time
@@ -453,22 +448,11 @@ public class Player extends Entity {
     this.speedBoosted = true;
   }
 
-
-  // get Powerups
   public ArrayList<Effect> getPowerUps() {
     return activeEffects;
   }
 
 
-  // Method to add a listener
-  public void addEffectChangeListener(Consumer<ArrayList<Effect>> listener) {
-    effectChangeListeners.add(listener);
-  }
-
-  // Method to notify listeners
-  private void notifyEffectChange() {
-    effectChangeListeners.forEach(listener -> listener.accept(new ArrayList<>(activeEffects)));
-  }
 
   public void addPowerUp(Effect effect) {
     activeEffects.add(effect);
@@ -481,7 +465,6 @@ public class Player extends Entity {
   }
 
 
-  // Example method that might modify activeEffects
   public void activateGhostPowerUp(long duration) {
     this.ghostDuration = duration;
     this.ghostEffectStartTime = System.currentTimeMillis(); // Set start time
@@ -518,13 +501,8 @@ public class Player extends Entity {
   }
 
 
-
   public void addAttributeChangeListener(AttributeChangeListener listener) {
     attributeListeners.add(listener);
-  }
-
-  public void removeAttributeChangeListener(AttributeChangeListener listener) {
-    attributeListeners.remove(listener);
   }
 
   public void notifyAttributeChange() {
@@ -545,10 +523,6 @@ public class Player extends Entity {
 
   public void addDeathListener(DeathListener listener) {
     deathListeners.add(listener);
-  }
-
-  public void removeDeathListener(DeathListener listener) {
-    deathListeners.remove(listener);
   }
 
   private void notifyDeath() {
