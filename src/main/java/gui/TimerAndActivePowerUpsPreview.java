@@ -11,6 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * The TimerAndActivePowerUpsPreview class provides a panel to display the game timer
+ * and active power-ups of players during gameplay.
+ */
 public class TimerAndActivePowerUpsPreview extends JPanel {
 
   Game game;
@@ -18,6 +22,10 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
   private ArrayList<JPanel> playerPanels = new ArrayList<>();
   private Timer timer;
 
+/**
+   * Constructs a TimerAndActivePowerUpsPreview object with the specified game.
+   * @param game The game object.
+   */
   public TimerAndActivePowerUpsPreview(Game game) {
     super(new BorderLayout());
     this.game = game;
@@ -27,6 +35,10 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     startTimer();
   }
 
+ /**
+   * Initializes the components of the panel based on the provided list of players.
+   * @param players The list of players.
+   */
   private void initializeComponents(ArrayList<Player> players) {
     if (game == null) {
       throw new IllegalStateException("Game object must be initialized before initializing components.");
@@ -62,6 +74,11 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     add(playersPanel, BorderLayout.LINE_START);
   }
 
+/**
+   * Creates a panel to display player information and active power-ups.
+   * @param player The player object.
+   * @return The created panel.
+   */
   private JPanel createPlayerPanel(Player player) {
     JPanel panel = new JPanel();
     panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -103,6 +120,10 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     return panel;
   }
 
+/**
+   * Removes the specified player panel from the view.
+   * @param panel The player panel to be removed.
+   */
   private void removePlayerPanel(JPanel panel) {
     playerPanels.remove(panel);
     this.remove(panel);
@@ -110,6 +131,13 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     this.repaint();
   }
 
+/**
+   * Adds a status label to the player panel.
+   * @param panel The player panel.
+   * @param attribute The attribute name.
+   * @param value The attribute value.
+   * @return The added label.
+   */
   private JLabel addStatusLabel(JPanel panel, String attribute, int value) {
     JLabel label = new JLabel(attribute + ": " + value, SwingConstants.LEFT);
     label.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -118,6 +146,11 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     return label;
   }
 
+ /**
+   * Updates the power-ups displayed on the player panel.
+   * @param panel The player panel.
+   * @param powerUps The list of power-ups.
+   */
   private void updatePlayerPowerUps(JPanel panel, ArrayList<Effect> powerUps) {
     SwingUtilities.invokeLater(() -> {
       JPanel iconPanel = null;
@@ -160,6 +193,9 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     });
   }
 
+/**
+   * Resets the timer.
+   */
   public void resetTimer() {
     if (timer != null) {
       timer.stop();
@@ -167,6 +203,9 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     startTimer();
   }
 
+ /**
+   * Starts the timer to update the game time.
+   */
   private void startTimer() {
     int delay = 1000;
     ActionListener taskPerformer = new ActionListener() {

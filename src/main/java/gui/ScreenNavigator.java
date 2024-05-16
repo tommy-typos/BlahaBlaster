@@ -4,15 +4,26 @@ import custom.Slate;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * The ScreenNavigator class manages the navigation between different screens in the game GUI.
+ */
 public class ScreenNavigator {
   MainJFrame frame;
   MainJPanel mainPanel;
 
+ /**
+   * Constructs a new ScreenNavigator with the specified frame and main panel.
+   * @param frame The main frame of the application.
+   * @param mainPanel The main panel where screens are displayed.
+   */
   public ScreenNavigator(MainJFrame frame, MainJPanel mainPanel) {
     this.frame = frame;
     this.mainPanel = mainPanel;
   }
 
+ /**
+   * Navigates to the main menu screen.
+   */
   public void goto_screen_mainMenu() {
     mainPanel.removeAll();
     frame.headerPanel.changeHeaderText("Main Menu");
@@ -42,6 +53,9 @@ public class ScreenNavigator {
     mainPanel.repaint();
   }
 
+ /**
+   * Navigates to the game info screen.
+   */
   public void goto_screen_gameInfo() {
     mainPanel.removeAll();
     frame.headerPanel.changeHeaderText("Game Info");
@@ -59,6 +73,9 @@ public class ScreenNavigator {
     mainPanel.repaint();
   }
 
+/**
+   * Navigates to the maps menu screen.
+   */
   public void goto_screen_mapsMenu() {
     mainPanel.removeAll();
     frame.headerPanel.changeHeaderText("Maps Settings");
@@ -71,6 +88,10 @@ public class ScreenNavigator {
     mainPanel.repaint();
   }
 
+/**
+   * Navigates to the map editor screen.
+   * @param selectedMapIndex The index of the selected map.
+   */
   public void goto_screen_mapEditor(int selectedMapIndex) {
     mainPanel.removeAll();
     frame.headerPanel.changeHeaderText("Map Editor");
@@ -83,6 +104,9 @@ public class ScreenNavigator {
     mainPanel.repaint();
   }
 
+/**
+   * Navigates to the custom controls screen.
+   */
   public void goto_screen_customControls() {
     mainPanel.removeAll();
     frame.headerPanel.changeHeaderText("Custom Controls");
@@ -97,6 +121,9 @@ public class ScreenNavigator {
     mainPanel.transferFocus();
   }
 
+/**
+   * Navigates to the new game screen.
+   */
   public void goto_screen_new_game_screen() {
     mainPanel.removeAll();
     frame.headerPanel.changeHeaderText("New Game");
@@ -109,6 +136,16 @@ public class ScreenNavigator {
     mainPanel.repaint();
   }
 
+/**
+   * Navigates to the actual game screen.
+   * @param player1_name The name of player 1.
+   * @param player2_name The name of player 2.
+   * @param threePlayers Indicates whether there are three players in the game.
+   * @param player_name3 The name of player 3.
+   * @param selected_map_id The ID of the selected map.
+   * @param intelligent_monsters Indicates whether intelligent monsters are enabled.
+   * @param advanced_powerups Indicates whether advanced power-ups are enabled.
+   */
   public void goto_screen_ACTUAL_GAME(
       String player1_name,
       String player2_name,
