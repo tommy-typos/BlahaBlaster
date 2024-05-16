@@ -10,6 +10,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+/**
+ * Abstract class representing an effect in the game.
+ * This class provides common properties and methods for all effects.
+ */
 public abstract class Effect {
 
     public Point position;
@@ -29,11 +33,13 @@ public abstract class Effect {
     public int blastRangeChange = 0;
 
 
-    public String effectType() {
-        return this.getClass().getSimpleName();
-    }
 
-
+    /**
+     * Constructor to create an effect at a specified position in the game.
+     *
+     * @param position Position of the effect.
+     * @param game Reference to the game instance.
+     */
     protected Effect(Point position, Game game) {
         this.position = position;
         this.game = game;
@@ -44,11 +50,30 @@ public abstract class Effect {
         }
     }
 
+    /**
+     * Applies the effect to the specified player. Overriadable by subclasses.
+     *
+     * @param player The player to apply the effect to.
+     */
     public void applyEffect(Player player) {
 
     }
 
-    // get icon method
+    /**
+     * Returns the type of the effect as a string.
+     *
+     * @return The effect type.
+     */
+    public String effectType() {
+        return this.getClass().getSimpleName();
+    }
+
+
+    /**
+     * Gets the icon representing the power-up effect.
+     *
+     * @return The buffered image of the power-up icon.
+     */
     public BufferedImage getPowerupIcon() {
         String basePath = "/powerups/" + getPowerUpType() + ".png";
         try {
@@ -59,12 +84,21 @@ public abstract class Effect {
         return icon;
     }
 
-    // get status
 
 
+    /**
+     * Returns the type of the power-up effect.
+     *
+     * @return The power-up type.
+     */
     protected abstract String getPowerUpType();
 
 
+    /**
+     * Gets the type of the power-up effect.
+     *
+     * @return The boolean to confirm the type of the power-up effect.
+     */
     public boolean isGhostPowerUp() {
         return false;
     }
