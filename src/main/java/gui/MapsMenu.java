@@ -6,13 +6,12 @@ import entity.GameMap;
 import java.awt.*;
 import javax.swing.*;
 
-/**
- * The MapsMenu class represents the panel for displaying and managing game maps.
- */
+/** The MapsMenu class represents the panel for displaying and managing game maps. */
 class MapsMenu extends JPanel {
 
-/**
+  /**
    * Removes a map at the specified index from the given array and returns a new array.
+   *
    * @param gameMaps The array of GameMap objects.
    * @param indexToRemove The index of the map to remove.
    * @return A new array of GameMap objects with the specified map removed.
@@ -29,8 +28,9 @@ class MapsMenu extends JPanel {
     return newArray;
   }
 
-/**
+  /**
    * Constructs a new MapsMenu panel.
+   *
    * @param navigator The ScreenNavigator object for navigating between screens.
    */
   public MapsMenu(ScreenNavigator navigator) {

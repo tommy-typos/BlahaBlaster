@@ -12,7 +12,6 @@ public class GhostPowerUp extends Effect {
     super(position, game);
   }
 
-
   @Override
   public boolean isGhostPowerUp() {
     return true;

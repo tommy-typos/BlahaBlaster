@@ -5,13 +5,12 @@ import com.google.gson.GsonBuilder;
 import entity.GameMap;
 import java.io.*;
 
-/**
- * The MapsController class provides methods for reading, retrieving, and saving game maps.
- */
+/** The MapsController class provides methods for reading, retrieving, and saving game maps. */
 class MapsController {
 
   /**
    * Reads game maps from a JSON file.
+   *
    * @return An array of GameMap objects read from the JSON file.
    */
   public static GameMap[] readGameMapsFromJson() {
@@ -30,6 +29,7 @@ class MapsController {
 
   /**
    * Retrieves a game map by its ID.
+   *
    * @param mapId The ID of the map to retrieve.
    * @return The GameMap object with the specified ID, or null if not found.
    */
@@ -45,6 +45,7 @@ class MapsController {
 
   /**
    * Saves game maps to a JSON file.
+   *
    * @param gameMaps An array of GameMap objects to be saved.
    */
   public static void saveGameMapsToJson(GameMap[] gameMaps) {

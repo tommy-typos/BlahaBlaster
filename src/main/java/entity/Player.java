@@ -36,7 +36,6 @@ public class Player extends Entity {
   public int blastRange = 1;
   public boolean speedBoosted = false;
 
-
   public long invincibilityDuration = 60;
   private long invincibilityEffectStartTime = 0;
   public ArrayList<Effect> activeEffects = new ArrayList<>();
@@ -45,14 +44,15 @@ public class Player extends Entity {
   private ArrayList<AttributeChangeListener> attributeListeners = new ArrayList<>();
   private ArrayList<DeathListener> deathListeners = new ArrayList<>();
 
-    /**
-     * Constructs a player object.
-     * @param gp The game instance.
-     * @param keyHandler The key handler for player input.
-     * @param position The initial position of the player.
-     * @param name The name of the player.
-     * @param playerNumber The player number.
-     */
+  /**
+   * Constructs a player object.
+   *
+   * @param gp The game instance.
+   * @param keyHandler The key handler for player input.
+   * @param position The initial position of the player.
+   * @param name The name of the player.
+   * @param playerNumber The player number.
+   */
   public Player(Game gp, KeyHandler keyHandler, Point position, String name, int playerNumber) {
     super(gp);
     this.speed = 3;
@@ -60,10 +60,14 @@ public class Player extends Entity {
     this.name = name;
     this.playerNumber = playerNumber;
 
-        this.position = position;
-        this.direction = "down";
-        getPlayerImage();
-    }
+    this.position = position;
+    this.direction = "down";
+    getPlayerImage();
+  }
+
+  public String getName() {
+    return name;
+  }
 
   /** Loads the player's image based on the player number. */
   public void getPlayerImage() {
@@ -109,7 +113,7 @@ public class Player extends Entity {
     this.position = position;
   }
 
-    /** Updates the player's state based on player input and game logic. */
+  /** Updates the player's state based on player input and game logic. */
   public void update() {
     if (playerNumber == 1) {
       if (keyHandler.e) {
@@ -160,7 +164,7 @@ public class Player extends Entity {
       long currentTime = System.currentTimeMillis();
       long elapsedTimeInSeconds = (currentTime - ghostEffectStartTime) / 1000;
       ghostDuration = 15 - elapsedTimeInSeconds;
-//      System.out.println("Player ghostDuration: " + ghostDuration);
+      //      System.out.println("Player ghostDuration: " + ghostDuration);
     }
 
     // Invincibility check
@@ -168,9 +172,8 @@ public class Player extends Entity {
       long currentTime = System.currentTimeMillis();
       long elapsedTimeInSeconds = (currentTime - invincibilityEffectStartTime) / 1000;
       invincibilityDuration = 15 - elapsedTimeInSeconds;
-//        System.out.println("Invincibility duration: " + invincibilityDuration);
+      //        System.out.println("Invincibility duration: " + invincibilityDuration);
     }
-
 
     // Roller skate check
     if (speedBoosted) {
@@ -207,12 +210,12 @@ public class Player extends Entity {
         }
       }
 
-        // Check for collisions during ghost mode
+      // Check for collisions during ghost mode
       if (ghostDuration <= 0) {
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
         gp.collisionChecker.checkEntityToEntity(this);
-//        int objIndex = gp.collisionChecker.checkObject(this);
+        //        int objIndex = gp.collisionChecker.checkObject(this);
 
         // remove the effect ghostPowerUp from the activeEffects array if ghostDuration is over
         if (this.hasGhostPowerUp && this.ghostDuration <= 0) {
@@ -226,7 +229,6 @@ public class Player extends Entity {
           interactWithMonster(npcIndex);
           activeEffects.removeIf(e -> e instanceof InvincibilityPowerUp);
           notifyPowerUpChange();
-
         }
       }
 
@@ -279,23 +281,22 @@ public class Player extends Entity {
       position.setY(tileSize);
     }
   }
-    /**
-     * Handles interaction with a monster.
-     *
-     * @param npcIndex The index of the monster in the list of monsters.
-     */
-    protected void interactWithMonster(int npcIndex) {
+
+  /**
+   * Handles interaction with a monster.
+   *
+   * @param npcIndex The index of the monster in the list of monsters.
+   */
+  protected void interactWithMonster(int npcIndex) {
     if (npcIndex != 999) {
       shouldBeRemoved = true;
     }
   }
 
-    /**
-     * Plants a bomb at the player's current position.
-     */
-  private void plantBomb() {
-      // check if user can plant more bombs
-      int bombsPlanted = 0;
+  /** Plants a bomb at the player's current position. */
+  protected void plantBomb() {
+    // check if user can plant more bombs
+    int bombsPlanted = 0;
     for (SuperObject superObject : gp.obj) {
       if (superObject instanceof BombObject && ((BombObject) superObject).owner.equals(this.name)) {
         bombsPlanted++;
@@ -310,8 +311,8 @@ public class Player extends Entity {
       return;
     }
 
-      // check if there is already a bomb in the same position
-      int posX = (position.getX() + solidArea.x) / gp.tileSize;
+    // check if there is already a bomb in the same position
+    int posX = (position.getX() + solidArea.x) / gp.tileSize;
     int posY = (position.getY() + solidArea.y) / gp.tileSize;
 
     int coordX = posX * gp.tileSize;
@@ -389,10 +390,8 @@ public class Player extends Entity {
     gp.gameMap.mapCells[coordY / gp.tileSize][coordX / gp.tileSize] = "brick";
   }
 
-    /**
-     * Updates the player's sprite image for animation.
-     */
-    public void updateSpriteImage() {
+  /** Updates the player's sprite image for animation. */
+  public void updateSpriteImage() {
     spriteCounter++;
     if (spriteCounter > 12) {
       if (spriteNum == 1) spriteNum = 2;
@@ -446,8 +445,6 @@ public class Player extends Entity {
     return activeEffects;
   }
 
-
-
   public void addPowerUp(Effect effect) {
     activeEffects.add(effect);
     notifyPowerUpChange();
@@ -458,23 +455,19 @@ public class Player extends Entity {
     notifyPowerUpChange();
   }
 
-
   public void activateGhostPowerUp(long duration) {
     this.ghostDuration = duration;
     this.ghostEffectStartTime = System.currentTimeMillis(); // Set start time
     this.hasGhostPowerUp = true;
-
   }
 
   public int getIndex() {
     return playerNumber - 1;
   }
 
-
   public interface PowerUpChangeListener {
     void onPowerUpChange(ArrayList<Effect> newPowerUps);
   }
-
 
   public void addPowerUpChangeListener(PowerUpChangeListener listener) {
     listeners.add(listener);
@@ -493,7 +486,6 @@ public class Player extends Entity {
   public interface AttributeChangeListener {
     void onAttributeChange();
   }
-
 
   public void addAttributeChangeListener(AttributeChangeListener listener) {
     attributeListeners.add(listener);

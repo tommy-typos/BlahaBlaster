@@ -123,9 +123,9 @@ public abstract class Effect {
         return false;
     }
 
-    public boolean isBombSlotIncreasePowerUp() {
-        return false;
-    }
+  public boolean isBombSlotIncreasePowerUp() {
+    return false;
+  }
 
     public boolean isShortBlastCurse() {
         return false;
