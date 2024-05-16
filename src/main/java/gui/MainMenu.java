@@ -5,6 +5,10 @@ import custom.Slate;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * The MainMenu class represents the main menu panel of the application.
+ * It contains buttons for various functionalities and a title label.
+ */
 class MainMenu extends JPanel {
   CustomButton btn_newGame;
   CustomButton btn_mapsSettings;
@@ -13,6 +17,9 @@ class MainMenu extends JPanel {
 
   CustomButton btn_customControls;
 
+  /**
+   * Constructs a new MainMenu panel.
+   */
   public MainMenu() {
     super();
     this.setLayout(new GridLayout(1, 2, 25, 25));

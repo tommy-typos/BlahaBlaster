@@ -5,9 +5,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
 
+/**
+ * CustomButton class extends JButton to create a custom-styled button with additional functionalities.
+ */
 public class CustomButton extends JButton {
   String btnType = "";
 
+  /**
+   * Sets the button type and applies specific styles based on the type.
+   * 
+   * @param btnType the type of the button, e.g., "red_button" to apply red styling.
+   */
   public void setBtnType(String btnType) {
     this.btnType = btnType;
 
@@ -17,6 +25,11 @@ public class CustomButton extends JButton {
     }
   }
 
+  /**
+   * Constructor to create a CustomButton with specified text.
+   * 
+   * @param text the text to be displayed on the button.
+   */
   public CustomButton(String text) {
     super(text, null);
     this.setBorder(null);
@@ -26,6 +39,9 @@ public class CustomButton extends JButton {
     this.addListeners();
   }
 
+  /**
+   * Adds mouse listeners to the button to handle hover and click effects.
+   */
   private void addListeners() {
     CustomButton btnRef = this;
     Color color900 = Slate._900;

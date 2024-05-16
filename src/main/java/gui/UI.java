@@ -2,18 +2,29 @@ package gui;
 
 import java.awt.*;
 
+/**
+ * The UI class handles drawing UI elements for the game, such as pause and game over screens.
+ */	
 public class UI {
   Game game;
   Graphics2D g2d;
   Font arial_40, arial_80B;
   public int commandNum = 0;
 
+ /**
+   * Constructs a UI object with the specified game.
+   * @param game The game object.
+   */
   public UI(Game game) {
     this.game = game;
     arial_40 = new Font("Arial", Font.PLAIN, 40);
     arial_80B = new Font("Arial", Font.BOLD, 80);
   }
 
+/**
+   * Draws UI elements using the provided Graphics2D object.
+   * @param g2d The Graphics2D object.
+   */
   public void draw(Graphics2D g2d) {
     this.g2d = g2d;
     g2d.setFont(arial_40);
@@ -27,6 +38,9 @@ public class UI {
     }
   }
 
+/**
+   * Draws the game over screen.
+   */
   private void drawGameOverScreen() {
     g2d.setColor(new Color(0, 0, 0, 200));
     g2d.fillRect(0, 0, game.screenWidth, game.screenHeight);
@@ -85,6 +99,9 @@ public class UI {
     }
   }
 
+ /**
+   * Draws the pause screen.
+   */
   public void drawPauseScreen() {
     g2d.setColor(Color.WHITE);
     g2d.setFont(g2d.getFont().deriveFont(50F));
@@ -99,6 +116,11 @@ public class UI {
     game.keyHandler.enterPressed = false;
   }
 
+/**
+   * Draws the top options in the pause screen.
+   * @param frameX The x-coordinate of the frame.
+   * @param frameY The y-coordinate of the frame.
+   */
   public void optionsTop(int frameX, int frameY) {
 
     int textX;

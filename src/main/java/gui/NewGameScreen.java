@@ -7,7 +7,14 @@ import java.awt.*;
 import java.util.Arrays;
 import javax.swing.*;
 
+/**
+ * The NewGameScreen class represents the screen for starting a new game.
+ */
 public class NewGameScreen extends JPanel {
+	/**
+   * Constructs a NewGameScreen object with the specified navigator.
+   * @param navigator The ScreenNavigator object.
+   */
   public NewGameScreen(ScreenNavigator navigator) {
     super();
     this.setBackground(Slate._950);

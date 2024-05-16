@@ -6,8 +6,18 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
 
+/**
+ * The PlayerControlsPreviewInGame class represents a panel for displaying player controls during the game.
+ */
 public class PlayerControlsPreviewInGame extends JPanel {
 
+  /**
+   * Constructs a new PlayerControlsPreviewInGame panel.
+   * @param player1_name The name of player 1.
+   * @param player2_name The name of player 2.
+   * @param player_name3 The name of player 3 (if applicable).
+   * @param threePlayers Indicates whether there are three players in the game.
+   */
   public PlayerControlsPreviewInGame(
       String player1_name, String player2_name, String player_name3, boolean threePlayers) {
     super();
@@ -31,6 +41,9 @@ public class PlayerControlsPreviewInGame extends JPanel {
   }
 }
 
+/**
+ * The PlayerControl2 class represents the panel for displaying controls of a single player.
+ */
 class PlayerControl2 extends JPanel {
   public CustomLabel button_up;
   public CustomLabel button_left;
@@ -49,6 +62,12 @@ class PlayerControl2 extends JPanel {
 
   public GridBagConstraints gbc;
 
+  /**
+   * Constructs a new PlayerControl2 panel for a player.
+   * @param color The color associated with the player.
+   * @param playerName The name of the player.
+   * @param pControls The CustomControl object containing the player's controls.
+   */
   public PlayerControl2(Color color, String playerName, CustomControl pControls) {
     super();
     GridBagLayout gridlayout_p2 = new GridBagLayout();

@@ -5,7 +5,16 @@ import entity.GameMap;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * The MapPreview class represents a panel for previewing a game map.
+ * It displays the cells of the map with their respective materials.
+ */
 class MapPreview extends JPanel {
+  
+  /**
+   * Constructs a new MapPreview panel with the given GameMap.
+   * @param gameMap The GameMap object representing the map to be previewed.
+   */
   public MapPreview(GameMap gameMap) {
     super();
     this.setLayout(new GridLayout(12, 13, 1, 1));
@@ -19,7 +28,6 @@ class MapPreview extends JPanel {
         tempbtn.setHorizontalAlignment(SwingConstants.CENTER);
         tempbtn.setOpaque(true);
         tempbtn.setSize(new Dimension(10, 10));
-        //                tempbtn.setBorder(BorderFactory.createLineBorder(custom.Slate._950, 1));
 
         String value = gameMap.mapCells[i][j];
         switch (value) {
