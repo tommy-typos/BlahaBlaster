@@ -19,17 +19,30 @@ import java.util.List;
 import java.util.Random;
 import javax.swing.*;
 
+/**
+ * The Game class represents the main game panel where the gameplay occurs.
+ * It manages game objects, players, monsters, effects, and game logic.
+ */
 public class Game extends JPanel implements Runnable {
   /**
    * navigator.goto_screen_ACTUAL_GAME("player1 name", "player2 name", "blaha_map_unique_id",true,
    * true, true);
    */
+   /** List of all game objects in the current game session. */
   private List<SuperObject> gameObjects = new ArrayList<>();
 
+ /**
+   * Retrieves the list of game objects.
+   * @return List of game objects.
+   */
   public List<SuperObject> getObjects() {
     return gameObjects;
   }
 
+ /**
+   * Adds a game object to the list of game objects.
+   * @param object The game object to add.
+   */
   public void addGameObject(SuperObject object) {
     gameObjects.add(object);
   }
@@ -70,6 +83,17 @@ public class Game extends JPanel implements Runnable {
   public final long gameDuration = 320000; // 320,000 milliseconds = 5 minutes and 2 seconds
   private boolean intelligent_monsters, advanced_powerups;
 
+ /**
+   * Constructs a new Game object with the specified parameters.
+   * @param screenNavigator The screen navigator for managing screen transitions.
+   * @param player_name1 Name of the first player.
+   * @param player_name2 Name of the second player.
+   * @param threePlayers Indicates whether there are three players.
+   * @param player_name3 Name of the third player.
+   * @param mapID ID of the game map.
+   * @param intelligent_monsters Flag indicating whether intelligent monsters are enabled.
+   * @param advanced_powerups Flag indicating whether advanced power-ups are enabled.
+   */
   public Game(
       ScreenNavigator screenNavigator,
       String player_name1,
@@ -112,6 +136,9 @@ public class Game extends JPanel implements Runnable {
     this.setUpGame();
   }
 
+/**
+   * Sets up the initial configuration of the game.
+   */
   public void setUpGame() {
 
     timeToFinish = 0;
@@ -141,10 +168,17 @@ public class Game extends JPanel implements Runnable {
     }
   }
 
+/**
+   * Retrieves the start time of the game.
+   * @return The start time of the game.
+   */
   public long getStartTime() {
     return gameStartTime;
   }
 
+ /**
+   * Starts the game thread.
+   */
   public void startGameThread() {
     gameStartTime = System.currentTimeMillis();
     gameThread = new Thread(this);
@@ -174,6 +208,9 @@ public class Game extends JPanel implements Runnable {
     }
   }
 
+/**
+   * Updates the game state.
+   */
   public void update() {
     blowUpBombs();
     Iterator<Player> playerIterator = players.iterator();
@@ -213,6 +250,9 @@ public class Game extends JPanel implements Runnable {
 
   }
 
+/**
+   * Triggers the explosion of bombs in the game.
+   */
   private void blowUpBombs() {
     // Instead of modifying the list directly, use an iterator
     for (Iterator<SuperObject> iterator = obj.iterator(); iterator.hasNext(); ) {
@@ -227,6 +267,10 @@ public class Game extends JPanel implements Runnable {
     }
   }
 
+/**
+   * Blows up entities affected by a bomb explosion.
+   * @param bomb The bomb object causing the explosion.
+   */
   public void blowEntities(BombObject bomb) {
     HashMap<Integer, ArrayList<Rectangle>> tilesToBlow = new HashMap<>();
 
@@ -442,6 +486,10 @@ public class Game extends JPanel implements Runnable {
     return gameMap.mapCells[y][x].equals(material);
   }
 
+/**
+   * Draws the game graphics on the panel.
+   * @param g The graphics object.
+   */
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g;
@@ -484,6 +532,12 @@ public class Game extends JPanel implements Runnable {
     g2d.dispose();
   }
 
+ /**
+   * Checks if a position on the game grid is occupied by an object.
+   * @param posX X-coordinate of the position.
+   * @param posY Y-coordinate of the position.
+   * @return True if the position is occupied; otherwise, false.
+   */
   public boolean positionOccupied(int posX, int posY) {
     for (SuperObject superObject : obj) {
       if (!isPlantable(posX, posY)
@@ -494,10 +548,20 @@ public class Game extends JPanel implements Runnable {
     return false;
   }
 
+/**
+   * Checks if a position on the game grid is suitable for planting an object.
+   * @param posX X-coordinate of the position.
+   * @param posY Y-coordinate of the position.
+   * @return True if the position is suitable for planting; otherwise, false.
+   */
   public boolean isPlantable(int posX, int posY) {
     return gameMap.mapCells[posY / tileSize][posX / tileSize].equals("grass");
   }
 
+/**
+   * Replaces a ChestObject with an Effect (PowerUp or Curse).
+   * @param position The position where the object is replaced.
+   */
   // Method to replace a ChestObject with an Effect (PowerUp or Curse)
   public void replaceObjectWithEffect(Point position) {
     // Ensure not to exceed the maximum number of power-ups
