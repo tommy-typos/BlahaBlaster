@@ -3,13 +3,12 @@ package entity.objects;
 import entity.Player;
 import entity.Point;
 import gui.Game;
-
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * The BombObject class represents a bomb object in the game.
- * It extends the SuperObject class and initializes bomb properties.
+ * The BombObject class represents a bomb object in the game. It extends the SuperObject class and
+ * initializes bomb properties.
  */
 public class BombObject extends SuperObject {
 
@@ -19,15 +18,14 @@ public class BombObject extends SuperObject {
 
   public int blowRadius = 1;
 
-    /**
-     * Constructs a BombObject object.
-     *
-     * @param position   The position of the bomb.
-     * @param game       The Game object associated with the bomb.
-     * @param owner      The owner of the bomb.
-     * @param blowRadius The blow-up radius of the bomb
-     */
-
+  /**
+   * Constructs a BombObject object.
+   *
+   * @param position The position of the bomb.
+   * @param game The Game object associated with the bomb.
+   * @param owner The owner of the bomb.
+   * @param blowRadius The blow-up radius of the bomb
+   */
   public BombObject(Point position, Game game, Player owner, int blowRadius) {
     super(position, game);
     this.name = "bomb";

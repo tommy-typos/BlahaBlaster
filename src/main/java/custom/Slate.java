@@ -3,8 +3,8 @@ package custom;
 import java.awt.*;
 
 /**
- * Slate class provides a palette of predefined colors.
- * These colors are defined as public static final fields.
+ * Slate class provides a palette of predefined colors. These colors are defined as public static
+ * final fields.
  */
 public class Slate {
   /** Slate color with a shade value of 50 */

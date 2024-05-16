@@ -20,27 +20,29 @@ import java.util.Random;
 import javax.swing.*;
 
 /**
- * The Game class represents the main game panel where the gameplay occurs.
- * It manages game objects, players, monsters, effects, and game logic.
+ * The Game class represents the main game panel where the gameplay occurs. It manages game objects,
+ * players, monsters, effects, and game logic.
  */
 public class Game extends JPanel implements Runnable {
   /**
    * navigator.goto_screen_ACTUAL_GAME("player1 name", "player2 name", "blaha_map_unique_id",true,
    * true, true);
    */
-   /** List of all game objects in the current game session. */
+  /** List of all game objects in the current game session. */
   private List<SuperObject> gameObjects = new ArrayList<>();
 
- /**
+  /**
    * Retrieves the list of game objects.
+   *
    * @return List of game objects.
    */
   public List<SuperObject> getObjects() {
     return gameObjects;
   }
 
- /**
+  /**
    * Adds a game object to the list of game objects.
+   *
    * @param object The game object to add.
    */
   public void addGameObject(SuperObject object) {
@@ -83,8 +85,9 @@ public class Game extends JPanel implements Runnable {
   public final long gameDuration = 320000; // 320,000 milliseconds = 5 minutes and 2 seconds
   private boolean intelligent_monsters, advanced_powerups;
 
- /**
+  /**
    * Constructs a new Game object with the specified parameters.
+   *
    * @param screenNavigator The screen navigator for managing screen transitions.
    * @param player_name1 Name of the first player.
    * @param player_name2 Name of the second player.
@@ -102,8 +105,7 @@ public class Game extends JPanel implements Runnable {
       String player_name3,
       String mapID,
       boolean intelligent_monsters,
-      boolean advanced_powerups
-  ) {
+      boolean advanced_powerups) {
     this.screenNavigator = screenNavigator;
     this.gameMap = MapsController.getMapById(mapID);
 
@@ -124,7 +126,7 @@ public class Game extends JPanel implements Runnable {
 
     this.intelligent_monsters = intelligent_monsters;
     this.advanced_powerups = advanced_powerups;
-//    this.hindering_curses = hindering_curses;
+    //    this.hindering_curses = hindering_curses;
 
     this.playerNames.put("player1", player_name1);
     this.playerNames.put("player2", player_name2);
@@ -136,9 +138,7 @@ public class Game extends JPanel implements Runnable {
     this.setUpGame();
   }
 
-/**
-   * Sets up the initial configuration of the game.
-   */
+  /** Sets up the initial configuration of the game. */
   public void setUpGame() {
 
     timeToFinish = 0;
@@ -168,17 +168,16 @@ public class Game extends JPanel implements Runnable {
     }
   }
 
-/**
+  /**
    * Retrieves the start time of the game.
+   *
    * @return The start time of the game.
    */
   public long getStartTime() {
     return gameStartTime;
   }
 
- /**
-   * Starts the game thread.
-   */
+  /** Starts the game thread. */
   public void startGameThread() {
     gameStartTime = System.currentTimeMillis();
     gameThread = new Thread(this);
@@ -208,9 +207,7 @@ public class Game extends JPanel implements Runnable {
     }
   }
 
-/**
-   * Updates the game state.
-   */
+  /** Updates the game state. */
   public void update() {
     blowUpBombs();
     Iterator<Player> playerIterator = players.iterator();
@@ -227,7 +224,6 @@ public class Game extends JPanel implements Runnable {
     }
 
     checkGameOver();
-
 
     Iterator<Monster> monsterIterator = monsters.iterator();
     while (monsterIterator.hasNext()) {
@@ -246,13 +242,9 @@ public class Game extends JPanel implements Runnable {
         it.remove(); // This includes bombs after explosion
       }
     }
-
-
   }
 
-/**
-   * Triggers the explosion of bombs in the game.
-   */
+  /** Triggers the explosion of bombs in the game. */
   private void blowUpBombs() {
     // Instead of modifying the list directly, use an iterator
     for (Iterator<SuperObject> iterator = obj.iterator(); iterator.hasNext(); ) {
@@ -261,14 +253,16 @@ public class Game extends JPanel implements Runnable {
         BombObject bomb = (BombObject) superObject;
         if (bomb.blowTime <= System.currentTimeMillis()) {
           blowEntities(bomb);
-          iterator.remove(); // Use iterator's remove method to avoid ConcurrentModificationException
+          iterator
+              .remove(); // Use iterator's remove method to avoid ConcurrentModificationException
         }
       }
     }
   }
 
-/**
+  /**
    * Blows up entities affected by a bomb explosion.
+   *
    * @param bomb The bomb object causing the explosion.
    */
   public void blowEntities(BombObject bomb) {
@@ -486,8 +480,9 @@ public class Game extends JPanel implements Runnable {
     return gameMap.mapCells[y][x].equals(material);
   }
 
-/**
+  /**
    * Draws the game graphics on the panel.
+   *
    * @param g The graphics object.
    */
   public void paintComponent(Graphics g) {
@@ -532,8 +527,9 @@ public class Game extends JPanel implements Runnable {
     g2d.dispose();
   }
 
- /**
+  /**
    * Checks if a position on the game grid is occupied by an object.
+   *
    * @param posX X-coordinate of the position.
    * @param posY Y-coordinate of the position.
    * @return True if the position is occupied; otherwise, false.
@@ -548,8 +544,9 @@ public class Game extends JPanel implements Runnable {
     return false;
   }
 
-/**
+  /**
    * Checks if a position on the game grid is suitable for planting an object.
+   *
    * @param posX X-coordinate of the position.
    * @param posY Y-coordinate of the position.
    * @return True if the position is suitable for planting; otherwise, false.
@@ -558,8 +555,9 @@ public class Game extends JPanel implements Runnable {
     return gameMap.mapCells[posY / tileSize][posX / tileSize].equals("grass");
   }
 
-/**
+  /**
    * Replaces a ChestObject with an Effect (PowerUp or Curse).
+   *
    * @param position The position where the object is replaced.
    */
   // Method to replace a ChestObject with an Effect (PowerUp or Curse)
@@ -618,9 +616,8 @@ public class Game extends JPanel implements Runnable {
     if (!advanced_powerups) {
       return false;
     }
-//    return random.nextInt(100) < 30; // 30% chance to place a power-up
+    //    return random.nextInt(100) < 30; // 30% chance to place a power-up
     return random.nextBoolean(); // 50% chance to place a power-up
-
   }
 
   public void restart() {
@@ -637,11 +634,10 @@ public class Game extends JPanel implements Runnable {
 
     gameMap = MapsController.getMapById(gameMap.id);
     tileManager = new TileManager(this, gameMap);
-    gameStartTime = System.currentTimeMillis();  // Reset the start time
+    gameStartTime = System.currentTimeMillis(); // Reset the start time
 
     gameState = playState;
     setUpGame();
-
 
     // restart the ui by recreating in ScreenNavigator.goto_screen_ACTUAL_GAME
     screenNavigator.goto_screen_ACTUAL_GAME(
@@ -651,8 +647,7 @@ public class Game extends JPanel implements Runnable {
         playerNames.get(players.get(2).name),
         gameMap.id,
         intelligent_monsters,
-        advanced_powerups
-    );
+        advanced_powerups);
     if (gameThread == null || !gameThread.isAlive()) {
       startGameThread();
     }
@@ -661,10 +656,8 @@ public class Game extends JPanel implements Runnable {
     repaint();
   }
 
-
   public void checkGameOver() {
     long currentTime = System.currentTimeMillis();
-
 
     if (currentTime - gameStartTime > gameDuration) {
       gameState = gameOverState;

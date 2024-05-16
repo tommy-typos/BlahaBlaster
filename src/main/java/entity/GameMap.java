@@ -1,8 +1,6 @@
 package entity;
 
-/**
- * The GameMap class represents a game map with various properties.
- */
+/** The GameMap class represents a game map with various properties. */
 public class GameMap {
   public String id;
   public String name;
@@ -14,12 +12,12 @@ public class GameMap {
   /**
    * Constructs a GameMap object.
    *
-   * @param id            The unique identifier of the map.
-   * @param name          The name of the map.
-   * @param description   The description of the map.
-   * @param difficulty    The difficulty level of the map (e.g., Easy, Medium, Hard).
+   * @param id The unique identifier of the map.
+   * @param name The name of the map.
+   * @param description The description of the map.
+   * @param difficulty The difficulty level of the map (e.g., Easy, Medium, Hard).
    * @param mapDimensions An array representing the dimensions of the map.
-   * @param mapCells      A 2D array representing the cells of the map (e.g., grass, box, wall).
+   * @param mapCells A 2D array representing the cells of the map (e.g., grass, box, wall).
    */
   public GameMap(
       String id,

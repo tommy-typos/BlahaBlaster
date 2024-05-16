@@ -6,10 +6,9 @@ import gui.Game;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-
 /**
- * The KeyHandler class manages keyboard input for the game.
- * It handles key presses and releases, and controls player actions.
+ * The KeyHandler class manages keyboard input for the game. It handles key presses and releases,
+ * and controls player actions.
  */
 public class KeyHandler implements KeyListener {
   public CustomControl p1Controls;
@@ -37,8 +36,9 @@ public class KeyHandler implements KeyListener {
       num_brick,
       enterPressed;
 
- /**
+  /**
    * Constructs a new KeyHandler object.
+   *
    * @param game The game instance.
    */
   public KeyHandler(Game game) {
@@ -170,8 +170,9 @@ public class KeyHandler implements KeyListener {
     }
   }
 
-/**
+  /**
    * Handles key presses in the pause state.
+   *
    * @param key The pressed key code.
    */
   public void pauseState(int key) {
@@ -187,8 +188,9 @@ public class KeyHandler implements KeyListener {
     navigateChoices(maxCommandNum, key);
   }
 
-/**
+  /**
    * Handles key presses in the game over state.
+   *
    * @param key The pressed key code.
    */
   private void gameOverState(int key) {

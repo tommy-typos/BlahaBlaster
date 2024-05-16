@@ -7,12 +7,14 @@ import java.awt.event.KeyEvent;
 import javax.swing.*;
 
 /**
- * The PlayerControlsPreviewInGame class represents a panel for displaying player controls during the game.
+ * The PlayerControlsPreviewInGame class represents a panel for displaying player controls during
+ * the game.
  */
 public class PlayerControlsPreviewInGame extends JPanel {
 
   /**
    * Constructs a new PlayerControlsPreviewInGame panel.
+   *
    * @param player1_name The name of player 1.
    * @param player2_name The name of player 2.
    * @param player_name3 The name of player 3 (if applicable).
@@ -41,9 +43,7 @@ public class PlayerControlsPreviewInGame extends JPanel {
   }
 }
 
-/**
- * The PlayerControl2 class represents the panel for displaying controls of a single player.
- */
+/** The PlayerControl2 class represents the panel for displaying controls of a single player. */
 class PlayerControl2 extends JPanel {
   public CustomLabel button_up;
   public CustomLabel button_left;
@@ -64,6 +64,7 @@ class PlayerControl2 extends JPanel {
 
   /**
    * Constructs a new PlayerControl2 panel for a player.
+   *
    * @param color The color associated with the player.
    * @param playerName The name of the player.
    * @param pControls The CustomControl object containing the player's controls.

@@ -3,17 +3,16 @@ package gui;
 import custom.Slate;
 import entity.Player;
 import entity.effects.Effect;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
- * The TimerAndActivePowerUpsPreview class provides a panel to display the game timer
- * and active power-ups of players during gameplay.
+ * The TimerAndActivePowerUpsPreview class provides a panel to display the game timer and active
+ * power-ups of players during gameplay.
  */
 public class TimerAndActivePowerUpsPreview extends JPanel {
 
@@ -22,8 +21,9 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
   private ArrayList<JPanel> playerPanels = new ArrayList<>();
   private Timer timer;
 
-/**
+  /**
    * Constructs a TimerAndActivePowerUpsPreview object with the specified game.
+   *
    * @param game The game object.
    */
   public TimerAndActivePowerUpsPreview(Game game) {
@@ -35,13 +35,15 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     startTimer();
   }
 
- /**
+  /**
    * Initializes the components of the panel based on the provided list of players.
+   *
    * @param players The list of players.
    */
   private void initializeComponents(ArrayList<Player> players) {
     if (game == null) {
-      throw new IllegalStateException("Game object must be initialized before initializing components.");
+      throw new IllegalStateException(
+          "Game object must be initialized before initializing components.");
     }
 
     resetTimer();
@@ -62,9 +64,10 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
       playersPanel.add(panel);
       playerPanels.add(panel); // Storing the panel for dynamic updates
 
-      player.addDeathListener(deceasedPlayer -> {
-        SwingUtilities.invokeLater(() -> removePlayerPanel(panel));
-      });
+      player.addDeathListener(
+          deceasedPlayer -> {
+            SwingUtilities.invokeLater(() -> removePlayerPanel(panel));
+          });
 
       if (!player.isAlive) {
         removePlayerPanel(panel);
@@ -74,8 +77,9 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     add(playersPanel, BorderLayout.LINE_START);
   }
 
-/**
+  /**
    * Creates a panel to display player information and active power-ups.
+   *
    * @param player The player object.
    * @return The created panel.
    */
@@ -97,31 +101,36 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     separator.setForeground(Color.GRAY);
     panel.add(separator);
 
-    player.addPowerUpChangeListener(newPowerUps -> {
-      SwingUtilities.invokeLater(() -> updatePlayerPowerUps(panel, newPowerUps));
-    });
+    player.addPowerUpChangeListener(
+        newPowerUps -> {
+          SwingUtilities.invokeLater(() -> updatePlayerPowerUps(panel, newPowerUps));
+        });
 
-    player.addDeathListener(deceasedPlayer -> {
-      SwingUtilities.invokeLater(() -> removePlayerPanel(panel));
-    });
+    player.addDeathListener(
+        deceasedPlayer -> {
+          SwingUtilities.invokeLater(() -> removePlayerPanel(panel));
+        });
 
     JLabel speedLabel = addStatusLabel(panel, "SPEED", player.speed);
     JLabel blastRangeLabel = addStatusLabel(panel, "BLAST RANGE", player.blastRange);
     JLabel bombsNumLabel = addStatusLabel(panel, "SLOT", player.bombsNum);
 
-    player.addAttributeChangeListener(() -> {
-      SwingUtilities.invokeLater(() -> {
-        speedLabel.setText("SPEED: " + player.speed);
-        blastRangeLabel.setText("BLAST RANGE: " + player.blastRange);
-        bombsNumLabel.setText("SLOT: " + player.bombsNum);
-      });
-    });
+    player.addAttributeChangeListener(
+        () -> {
+          SwingUtilities.invokeLater(
+              () -> {
+                speedLabel.setText("SPEED: " + player.speed);
+                blastRangeLabel.setText("BLAST RANGE: " + player.blastRange);
+                bombsNumLabel.setText("SLOT: " + player.bombsNum);
+              });
+        });
 
     return panel;
   }
 
-/**
+  /**
    * Removes the specified player panel from the view.
+   *
    * @param panel The player panel to be removed.
    */
   private void removePlayerPanel(JPanel panel) {
@@ -131,8 +140,9 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     this.repaint();
   }
 
-/**
+  /**
    * Adds a status label to the player panel.
+   *
    * @param panel The player panel.
    * @param attribute The attribute name.
    * @param value The attribute value.
@@ -146,56 +156,58 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     return label;
   }
 
- /**
+  /**
    * Updates the power-ups displayed on the player panel.
+   *
    * @param panel The player panel.
    * @param powerUps The list of power-ups.
    */
   private void updatePlayerPowerUps(JPanel panel, ArrayList<Effect> powerUps) {
-    SwingUtilities.invokeLater(() -> {
-      JPanel iconPanel = null;
-      if (panel.getComponentCount() > 2) {
-        Component possibleIconPanel = panel.getComponent(2);
-        if (possibleIconPanel instanceof JPanel) {
-          iconPanel = (JPanel) possibleIconPanel;
-        }
-      }
+    SwingUtilities.invokeLater(
+        () -> {
+          JPanel iconPanel = null;
+          if (panel.getComponentCount() > 2) {
+            Component possibleIconPanel = panel.getComponent(2);
+            if (possibleIconPanel instanceof JPanel) {
+              iconPanel = (JPanel) possibleIconPanel;
+            }
+          }
 
-      int rows = (int) Math.ceil(powerUps.size() / 4.0);
+          int rows = (int) Math.ceil(powerUps.size() / 4.0);
 
-      if (iconPanel == null) {
-        iconPanel = new JPanel(new GridLayout(rows, 4, 5, 5));
-        iconPanel.setBackground(panel.getBackground());
-        if (panel.getComponentCount() > 2) {
-          panel.add(iconPanel, 2);
-        } else {
-          panel.add(iconPanel);
-        }
-      } else {
-        iconPanel.removeAll();
-        iconPanel.setLayout(new GridLayout(rows, 4, 5, 5));
-      }
+          if (iconPanel == null) {
+            iconPanel = new JPanel(new GridLayout(rows, 4, 5, 5));
+            iconPanel.setBackground(panel.getBackground());
+            if (panel.getComponentCount() > 2) {
+              panel.add(iconPanel, 2);
+            } else {
+              panel.add(iconPanel);
+            }
+          } else {
+            iconPanel.removeAll();
+            iconPanel.setLayout(new GridLayout(rows, 4, 5, 5));
+          }
 
-      for (int i = 0; i < powerUps.size(); i++) {
-        Effect effect = powerUps.get(i);
-        ImageIcon icon = new ImageIcon(effect.getPowerupIcon().getScaledInstance(36, 36, Image.SCALE_SMOOTH));
-        JLabel label = new JLabel(icon);
-        iconPanel.add(label);
-      }
+          for (int i = 0; i < powerUps.size(); i++) {
+            Effect effect = powerUps.get(i);
+            ImageIcon icon =
+                new ImageIcon(
+                    effect.getPowerupIcon().getScaledInstance(36, 36, Image.SCALE_SMOOTH));
+            JLabel label = new JLabel(icon);
+            iconPanel.add(label);
+          }
 
-      int totalCells = rows * 4;
-      for (int i = powerUps.size(); i < totalCells; i++) {
-        iconPanel.add(new JLabel());
-      }
+          int totalCells = rows * 4;
+          for (int i = powerUps.size(); i < totalCells; i++) {
+            iconPanel.add(new JLabel());
+          }
 
-      panel.revalidate();
-      panel.repaint();
-    });
+          panel.revalidate();
+          panel.repaint();
+        });
   }
 
-/**
-   * Resets the timer.
-   */
+  /** Resets the timer. */
   public void resetTimer() {
     if (timer != null) {
       timer.stop();
@@ -203,22 +215,21 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     startTimer();
   }
 
- /**
-   * Starts the timer to update the game time.
-   */
+  /** Starts the timer to update the game time. */
   private void startTimer() {
     int delay = 1000;
-    ActionListener taskPerformer = new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
-        long elapsed = System.currentTimeMillis() - game.getStartTime();
-        long timeLeft = game.gameDuration - elapsed;
-        if (timeLeft < 0) {
-          timeLeft = 0;
-          ((Timer) evt.getSource()).stop();
-        }
-        updateTimer(formatTime(timeLeft), timeLeft);
-      }
-    };
+    ActionListener taskPerformer =
+        new ActionListener() {
+          public void actionPerformed(ActionEvent evt) {
+            long elapsed = System.currentTimeMillis() - game.getStartTime();
+            long timeLeft = game.gameDuration - elapsed;
+            if (timeLeft < 0) {
+              timeLeft = 0;
+              ((Timer) evt.getSource()).stop();
+            }
+            updateTimer(formatTime(timeLeft), timeLeft);
+          }
+        };
     timer = new Timer(delay, taskPerformer);
     timer.start();
   }
@@ -235,7 +246,6 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     }
   }
 
-
   public void updateTimer(String time, long timeLeft) {
     if (timeLeft <= 11000) { // less than or equal to 10 seconds
       long secondsLeft = (timeLeft / 1000) % 60;
@@ -249,7 +259,6 @@ public class TimerAndActivePowerUpsPreview extends JPanel {
     }
     timerLabel.setText("Time: " + time);
   }
-
 
   public void clearPlayerPanels() {
     for (JPanel panel : playerPanels) {

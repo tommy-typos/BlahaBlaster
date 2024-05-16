@@ -13,8 +13,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 /**
- * The MapEditor class represents the panel for editing game maps.
- * It allows users to create new maps or modify existing ones.
+ * The MapEditor class represents the panel for editing game maps. It allows users to create new
+ * maps or modify existing ones.
  */
 class MapEditor extends JPanel {
   GameMap gameMap;
@@ -22,8 +22,9 @@ class MapEditor extends JPanel {
 
   String currentMaterialType = "grass";
 
-/**
+  /**
    * Creates a new game map.
+   *
    * @return The newly created game map.
    */
   private GameMap createNewMap() {
@@ -39,8 +40,10 @@ class MapEditor extends JPanel {
     }
     return new GameMap(map_id, map_name, "", "Easy", map_dimensions, map_cells);
   }
-/**
+
+  /**
    * Constructs a new MapEditor panel.
+   *
    * @param navigator The ScreenNavigator object for navigating between screens.
    * @param selectedMapIndex The index of the selected map for editing, or -1 to create a new map.
    */
