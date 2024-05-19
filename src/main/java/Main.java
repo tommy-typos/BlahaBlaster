@@ -16,7 +16,7 @@ public class Main {
     ScreenNavigator navigator = new ScreenNavigator(frame, mainPanel);
 
     // ********************* Main Menu Screen *************************
-    //       navigator.goto_screen_mainMenu();
+           navigator.goto_screen_mainMenu();
 
     // *********************** Game Info Screen **********************
     //        navigator.goto_screen_gameInfo();
@@ -39,8 +39,8 @@ public class Main {
     //    navigator.goto_screen_ACTUAL_GAME("player1", "player2", false, "",
     //            "default_map_unique_id",true, true, true);
     // 3 players
-    navigator.goto_screen_ACTUAL_GAME(
-        "player1", "player2", true, "player3", "default_map_unique_id", true, true);
+//    navigator.goto_screen_ACTUAL_GAME(
+//        "player1", "player2", true, "player3", "default_map_unique_id", true, true);
 
     frame.setVisible(true);
   }
